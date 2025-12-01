@@ -1,0 +1,71 @@
+# ---------------------------------------------------------
+# AeroSpace (macOS) — Professional Minimal Config
+# Inspired by your Hyprland setup but rewritten for macOS
+# ---------------------------------------------------------
+
+[general]
+gaps-inner = 12
+gaps-outer = 25
+border-width = 2
+window-corner-radius = 6
+
+# ---------------------------------------------------------
+# Keybindings
+# ---------------------------------------------------------
+[keybindings]
+
+# === Launch Apps ===
+alt-enter = 'exec-and-forget open -a "Terminal"'
+alt-b = 'exec-and-forget open -a "Brave Browser"'
+alt-a = 'exec-and-forget open -a "Brave Browser" --args --app="https://chat.openai.com"'
+alt-y = 'exec-and-forget open -a "Brave Browser" --args --app="https://youtube.com"'
+alt-m = 'exec-and-forget open -a "Brave Browser" --args --app="https://music.youtube.com"'
+alt-shift-m = 'exec-and-forget open -a "Brave Browser" --args --app="https://monkeytype.com"'
+alt-shift-f = 'exec-and-forget open -a "Finder"'
+
+# Menu / Command palette
+alt-space = 'exec-and-forget open -a "Raycast"'
+
+# === Window management ===
+alt-w = "close"
+alt-o = "fullscreen"
+
+# === Focus movement (Vim-style) ===
+alt-h = "focus left"
+alt-j = "focus down"
+alt-k = "focus up"
+alt-l = "focus right"
+
+# === Move windows ===
+alt-shift-h = "move left"
+alt-shift-j = "move down"
+alt-shift-k = "move up"
+alt-shift-l = "move right"
+
+# === Resize windows ===
+alt-equal = "resize width +50"
+alt-minus = "resize width -50"
+alt-shift-equal = "resize height +50"
+alt-shift-minus = "resize height -50"
+
+# === Workspaces 1–8 ===
+alt-1 = "workspace 1"
+alt-2 = "workspace 2"
+alt-3 = "workspace 3"
+alt-4 = "workspace 4"
+alt-5 = "workspace 5"
+alt-6 = "workspace 6"
+alt-7 = "workspace 7"
+alt-8 = "workspace 8"
+
+# === Move window to workspace ===
+alt-shift-1 = "move-node-to-workspace 1"
+alt-shift-2 = "move-node-to-workspace 2"
+alt-shift-3 = "move-node-to-workspace 3"
+alt-shift-4 = "move-node-to-workspace 4"
+alt-shift-5 = "move-node-to-workspace 5"
+alt-shift-6 = "move-node-to-workspace 6"
+alt-shift-7 = "move-node-to-workspace 7"
+alt-shift-8 = "move-node-to-workspace 8"
+
+
