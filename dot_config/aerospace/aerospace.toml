@@ -1,5 +1,10 @@
-automatically-unhide-macos-hidden-apps = false
+automatically-unhide-macos-hidden-apps = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+start-at-login = true
+
+after-startup-command = [
+  'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x64ffcb6b width=5.0'
+]
 
 [gaps]
   inner.horizontal = 32
@@ -20,7 +25,9 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
   alt-w = "close"
   alt-o = "fullscreen"
-  alt-f = ['layout floating tiling', 'mode main']
+  # alt-f = "layout floating tiling"
+  # Float and center the window. If it's already floating, return it back into the tiles.
+  alt-f = """exec-and-forget aerospace layout floating && open -g 'raycast://extensions/raycast/window-management/center-half' || aerospace layout tiling"""
 
   alt-h = "focus left"
   alt-j = "focus down"

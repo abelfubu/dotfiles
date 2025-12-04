@@ -1,0 +1,50 @@
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
+source <(fzf --zsh)
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/abelfubu/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+export BAT_THEME=ansi
+export FZF_DEFAULT_OPTS="\
+--preview='bat --color=always {}' \
+--bind ctrl-u:preview-up,ctrl-d:preview-down,ctrl-p:toggle-preview \
+--multi"
+
+setopt NO_BEEP
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt EXTENDED_HISTORY
+
+# zsh-users
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "marlonrichert/zsh-autocomplete"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search", defer:3
+
+
+if ! zplug check; then
+    zplug install
+fi
+
+zplug load
+
+alias la='eza -la --icons'
+alias ll='eza -l --icons'
+alias ls='eza --icons'
+alias lt='eza --icons -TL'
+alias vim='nvim'
+alias gs='git status'
+alias gsc='git switch -c'
+alias gb='git switch -'
+alias fzed='zed $(fzf)'
