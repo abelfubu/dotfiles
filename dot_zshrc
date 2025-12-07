@@ -7,6 +7,7 @@ source <(fzf --zsh)
 export PATH="/Users/abelfubu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
+export PATH="/Users/abelfubu/.local/share/bin/:$PATH"
 export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 

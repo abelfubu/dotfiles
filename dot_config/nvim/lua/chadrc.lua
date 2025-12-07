@@ -14,7 +14,7 @@ M.ui = {
 	lsp = { signature = false },
 	tabufline = {
 		enabled = true,
-		lazyload = true,
+		lazyload = false,
 		tabufline_style = "default",
 	},
 }

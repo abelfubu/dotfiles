@@ -83,5 +83,7 @@ after-startup-command = [
   j = 'resize height +50'
   k = 'resize height -50'
   l = 'resize width +50'
+  shift-h = 'resize width -750'
+  shift-l = 'resize width +750'
   enter = 'mode main'
   esc = 'mode main'
