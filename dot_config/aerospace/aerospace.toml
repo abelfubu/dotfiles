@@ -7,12 +7,12 @@ after-startup-command = [
 ]
 
 [gaps]
-  inner.horizontal = 32
-  inner.vertical =   32
-  outer.left =       32
-  outer.bottom =     32
-  outer.top =        24
-  outer.right =      32
+  inner.horizontal = [{ monitor."Built-in" = 4 }, 24]
+  inner.vertical =   [{ monitor."Built-in" = 4 }, 24]
+  outer.left =       [{ monitor."Built-in" = 4 }, 32]
+  outer.bottom =     [{ monitor."Built-in" = 4 }, 32]
+  outer.top =        [{ monitor."Built-in" = 4 }, 24]
+  outer.right =      [{ monitor."Built-in" = 4 }, 32]
 
 [mode.main.binding]
   alt-enter = 'exec-and-forget open -n -a "ghostty"'
@@ -58,6 +58,9 @@ after-startup-command = [
   alt-shift-7 = ["move-node-to-workspace 7", "workspace 7"]
   alt-shift-8 = ["move-node-to-workspace 8", "workspace 8"]
   alt-shift-9 = ["move-node-to-workspace 9", "workspace 9"]
+
+  alt-slash = 'layout tiles horizontal vertical'
+  alt-comma = 'layout accordion horizontal vertical'
 
   alt-r = 'mode resize'
   alt-s = 'mode service'

@@ -1,7 +1,7 @@
 local M = {}
 
 M.base46 = {
-	theme = "github_light",
+	theme = "pastelbeans",
 	transparency = true,
 	theme_toggle = { "pastelbeans", "github_light" },
 }
