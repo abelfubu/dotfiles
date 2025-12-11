@@ -9,10 +9,10 @@ after-startup-command = [
 [gaps]
   inner.horizontal = [{ monitor."Built-in" = 4 }, 24]
   inner.vertical =   [{ monitor."Built-in" = 4 }, 24]
-  outer.left =       [{ monitor."Built-in" = 4 }, 32]
-  outer.bottom =     [{ monitor."Built-in" = 4 }, 32]
-  outer.top =        [{ monitor."Built-in" = 4 }, 24]
-  outer.right =      [{ monitor."Built-in" = 4 }, 32]
+  outer.left =       [{ monitor."Built-in" = 4 }, 24]
+  outer.bottom =     [{ monitor."Built-in" = 4 }, 24]
+  outer.top =        [{ monitor."Built-in" = 4 }, 16]
+  outer.right =      [{ monitor."Built-in" = 4 }, 24]
 
 [mode.main.binding]
   alt-enter = 'exec-and-forget open -n -a "ghostty"'
@@ -22,12 +22,13 @@ after-startup-command = [
   alt-m = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://music.youtube.com"'
   alt-shift-m = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://monkeytype.com"'
   alt-shift-w = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://web.whatsapp.com"'
+  alt-e = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://excalidraw.com"'
 
   alt-w = "close"
   alt-o = "fullscreen"
-  # alt-f = "layout floating tiling"
+  alt-f = "layout floating tiling"
   # Float and center the window. If it's already floating, return it back into the tiles.
-  alt-f = """exec-and-forget aerospace layout floating && open -g 'raycast://extensions/raycast/window-management/center-half' || aerospace layout tiling"""
+  # alt-f = """exec-and-forget aerospace layout floating && open -g 'raycast://extensions/raycast/window-management/center-half' || aerospace layout tiling"""
 
   alt-h = "focus left"
   alt-j = "focus down"
