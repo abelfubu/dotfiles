@@ -3,32 +3,36 @@
     "context": "Workspace",
     "bindings": {
       "ctrl-1": ["workspace::ActivatePane", 0],
-      "ctrl-2": ["workspace::ActivatePane", 1]
-    }
+      "ctrl-2": ["workspace::ActivatePane", 1],
+    },
   },
   {
     "context": "ProjectPanel",
     "bindings": {
       // "z": "project_panel::CollapseAllEntries"
-    }
+    },
   },
   {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       "cmd-a": "editor::AcceptEditPrediction",
-      "ctrl-s": "workspace::Save"
-    }
+      "ctrl-s": "workspace::Save",
+    },
   },
   {
     "context": "(Editor && vim_mode == visual) || (Editor && vim_mode == normal)",
     "bindings": {
       "<": "editor::Outdent",
-      ">": "editor::Indent"
-    }
+      ">": "editor::Indent",
+    },
   },
   {
     "context": "VimControl",
     "bindings": {
+      "space right": "pane::SplitAndMoveRight",
+      "space left": "pane::SplitAndMoveLeft",
+      "space down": "pane::JoinIntoNext",
+      "space up": "pane::JoinAll",
       // Debugging
       "space d c": "debugger::FocusConsole",
 
@@ -54,32 +58,37 @@
       // Tasks
       "space t t": [
         "task::Spawn",
-        { "task_name": "Jest: Run Current File with coverage" }
-      ]
-    }
+        { "task_name": "Jest: Run Current File with coverage" },
+      ],
+    },
   },
   {
     "context": "Terminal && !Dock",
     "bindings": {
       "m": "terminal::ToggleViMode",
-      "q": "pane::CloseActiveItem"
-    }
+      "q": "pane::CloseActiveItem",
+    },
+  },
+  {
+    "context": "CollabPanel || OutlinePanel || ChatPanel || VimControl || EmptyPane || SharedScreen || MarkdownPreview || KeyContextView || GitPanel || Terminal",
+    "bindings": {
+      "shift-l": "pane::ActivateNextItem",
+      "shift-h": "pane::ActivatePreviousItem",
+    },
   },
   {
     "context": "ProjectPanel || CollabPanel || OutlinePanel || ChatPanel || VimControl || EmptyPane || SharedScreen || MarkdownPreview || KeyContextView || GitPanel || Terminal",
     "bindings": {
-      "shift-l": "pane::ActivateNextItem",
-      "shift-h": "pane::ActivatePreviousItem",
       "cmd-h": "workspace::ActivatePaneLeft",
       "cmd-l": "workspace::ActivatePaneRight",
       "cmd-k": "workspace::ActivatePaneUp",
-      "cmd-j": "workspace::ActivatePaneDown"
-    }
+      "cmd-j": "workspace::ActivatePaneDown",
+    },
   },
   {
     "context": "Editor",
     "bindings": {
-      "cmd-space": "editor::ShowCompletions"
-    }
-  }
+      "cmd-space": "editor::ShowCompletions",
+    },
+  },
 ]

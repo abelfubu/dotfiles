@@ -4,7 +4,7 @@ eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abelfubu/.rd/bin:$PATH"
+export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="/Users/abelfubu/.local/share/bin/:$PATH"
@@ -16,6 +16,8 @@ export FZF_DEFAULT_OPTS="\
 --preview='bat --color=always {}' \
 --bind ctrl-u:preview-up,ctrl-d:preview-down,ctrl-p:toggle-preview \
 --multi"
+
+export EDITOR=nvim
 
 setopt NO_BEEP
 setopt APPEND_HISTORY
@@ -49,3 +51,7 @@ alias gs='git status'
 alias gsc='git switch -c'
 alias gb='git switch -'
 alias fzed='zed $(fzf)'
+
+alias gg='lazygit'
+alias dd='lazydocker'
+alias ss='lazysql'

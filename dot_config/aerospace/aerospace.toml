@@ -1,18 +1,25 @@
-automatically-unhide-macos-hidden-apps = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = true
 start-at-login = true
 
 after-startup-command = [
-  'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x64ffcb6b width=5.0'
+  'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x64ffcb6b width=5.0',
+  'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar',
+]
+
+exec-on-workspace-change = [
+    '/bin/bash',
+    '-c',
+    '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
 ]
 
 [gaps]
-  inner.horizontal = [{ monitor."Built-in" = 4 }, 24]
-  inner.vertical =   [{ monitor."Built-in" = 4 }, 24]
-  outer.left =       [{ monitor."Built-in" = 4 }, 24]
-  outer.bottom =     [{ monitor."Built-in" = 4 }, 24]
-  outer.top =        [{ monitor."Built-in" = 4 }, 16]
-  outer.right =      [{ monitor."Built-in" = 4 }, 24]
+  inner.horizontal = [{ monitor."Built-in" = 8 }, 18]
+  inner.vertical =   [{ monitor."Built-in" = 8 }, 18]
+  outer.left =       [{ monitor."Built-in" = 8 }, 18]
+  outer.bottom =     [{ monitor."Built-in" = 8 }, 18]
+  outer.top =        [{ monitor."Built-in" = 8 }, 50]
+  outer.right =      [{ monitor."Built-in" = 8 }, 18]
 
 [mode.main.binding]
   alt-enter = 'exec-and-forget open -n -a "ghostty"'
