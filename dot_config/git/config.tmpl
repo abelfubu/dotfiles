@@ -5,12 +5,14 @@
 	br = branch
 	ci = commit
 	st = status
+	cm = commit --allow-empty
 [init]
 	defaultBranch = main
 [pull]
 	rebase = true 			 # Rebase (instead of merge) on pull
 [push]
 	autoSetupRemote = true   # Automatically set upstream branch on push
+	autoSetupRemote = true
 [diff]
 	algorithm = histogram    # Clearer diffs on moved/edited lines
 	colorMoved = plain       # Highlight moved blocks in diffs
