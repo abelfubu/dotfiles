@@ -3,9 +3,9 @@ local utils = require("nvchad.stl.utils").separators.round
 local M = {}
 
 M.base46 = {
-  theme = "github_light",
+  theme = "everforest_light",
   transparency = true,
-  theme_toggle = { "monochrome", "github_light" },
+  theme_toggle = { "everforest_light", "everforest" },
   hl_override = {
     ["@keyword"] = { italic = true },
     ["@keyword.return"] = { italic = true },
@@ -25,9 +25,14 @@ M.base46 = {
     DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
     DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
     DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
-    RecordingSp = { bg = "grey", fg = "blue" },
+    RecordingSp = { bg = "lightbg", fg = "blue" },
     RecordingBg = { bg = "blue", fg = "black2" },
-    RecordingFg = { bg = "black2", fg = "fg" },
+    StatusItemDisabled = { fg = "grey", bg = "black" },
+    StatusItemDisabledSp = { bg = "lightbg", fg = "black" },
+    FormatEnabled = { bg = "green", fg = "black2" },
+    FormatEnabledSp = { fg = "green", bg = "lightbg" },
+    OrganizeImportsEnabled = { bg = "orange", fg = "black2" },
+    OrganizeImportsEnabledSp = { fg = "orange", bg = "lightbg" },
   },
 }
 
@@ -40,10 +45,11 @@ M.ui = {
       "%=",
       "lsp_msg",
       "%=",
-      "fubuDiagnostics",
+      "diagnostics",
       "lsp",
       "cwd",
-      "cursor",
+      "format",
+      "organizeImports",
       "recording",
     },
     modules = {
@@ -51,46 +57,30 @@ M.ui = {
         local rec = vim.fn.reg_recording()
         if rec ~= "" then
           local icon = "%#RecordingBg#" .. "󰄀 "
-          local name = "%#RecordingFg#" .. " Register @" .. rec .. " "
+          local name = "%#St_cwd_text#" .. " Register @" .. rec .. " "
           return ("%#RecordingSp#" .. utils.left .. icon .. name)
         end
         return ""
       end,
-      fubuDiagnostics = function()
-        if not rawget(vim, "lsp") then
-          return ""
-        end
-
-        local err = #vim.diagnostic.get(
-          vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0),
-          { severity = vim.diagnostic.severity.ERROR }
-        )
-        local warn = #vim.diagnostic.get(
-          vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0),
-          { severity = vim.diagnostic.severity.WARN }
-        )
-        local hints = #vim.diagnostic.get(
-          vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0),
-          { severity = vim.diagnostic.severity.HINT }
-        )
-        local info = #vim.diagnostic.get(
-          vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0),
-          { severity = vim.diagnostic.severity.INFO }
-        )
-
-        err = (err and err > 0) and ("%#St_lspError#" .. "" .. err .. " ")
-          or ""
-        warn = (warn and warn > 0)
-            and ("%#St_lspWarning#" .. "" .. warn .. " ")
-          or ""
-        hints = (hints and hints > 0)
-            and ("%#St_lspHints#" .. "󰛩 " .. hints .. " ")
-          or ""
-        info = (info and info > 0)
-            and ("%#St_lspInfo#" .. "󰙎" .. info .. " ")
-          or ""
-
-        return " " .. err .. warn .. hints .. info
+      format = function()
+        local color = _G.format_on_save and "%#FormatEnabled#"
+          or "%#StatusItemDisabled#"
+        local icon = color .. " "
+        local name = "%#St_cwd_text#" .. " format "
+        local separator_color = _G.format_on_save and "%#FormatEnabledSp#"
+          or "%#StatusItemDisabledSp#"
+        return (separator_color .. utils.left .. icon .. name)
+      end,
+      organizeImports = function()
+        local color = _G.organize_imports_on_save
+            and "%#OrganizeImportsEnabled#"
+          or "%#StatusItemDisabled#"
+        local icon = color .. " "
+        local name = "%#St_cwd_text#" .. " imports "
+        local separator_color = _G.organize_imports_on_save
+            and "%#OrganizeImportsEnabledSp#"
+          or "%#StatusItemDisabledSp#"
+        return (separator_color .. utils.left .. icon .. name)
       end,
     },
   },

@@ -9,8 +9,9 @@
       "src": "https://github.com/nvchad/base46"
     },
     "blink.cmp": {
-      "rev": "18712d9d292dd362067de74d3b54eb90ce860ba9",
-      "src": "https://github.com/saghen/blink.cmp"
+      "rev": "b19413d214068f316c78978b08264ed1c41830ec",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "1.0.0 - 2.0.0"
     },
     "conform.nvim": {
       "rev": "4b713b9da0061a54750bfed457e190459be28c7b",

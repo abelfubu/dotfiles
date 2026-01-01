@@ -1,11 +1,11 @@
-vim.pack.add({
+vim.pack.add {
   {
     src = "https://github.com/saghen/blink.cmp",
-    version = vim.version.range("1.*"),
+    version = vim.version.range "1.*",
   },
-})
+}
 
-require("blink.cmp").setup({
+require("blink.cmp").setup {
   cmdline = { enabled = true },
   appearance = { nerd_font_variant = "normal" },
   fuzzy = { implementation = "prefer_rust" },
@@ -29,4 +29,4 @@ require("blink.cmp").setup({
     -- helps non nvchad users
     menu = require("nvchad.blink").menu,
   },
-})
+}
