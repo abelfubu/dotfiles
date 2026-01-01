@@ -14,7 +14,7 @@
       "version": "1.0.0 - 2.0.0"
     },
     "conform.nvim": {
-      "rev": "4b713b9da0061a54750bfed457e190459be28c7b",
+      "rev": "8314f4c9e205e7f30b62147069729f9a1227d8bf",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot.vim": {
@@ -119,7 +119,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "ui": {
-      "rev": "46f00cf171f79302f23f8fcd8292a5dae01d4337",
+      "rev": "ebf58649bc5c759ee6c730c87d8d2d4dd4124c0d",
       "src": "https://github.com/nvchad/ui"
     },
     "volt": {

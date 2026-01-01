@@ -18,7 +18,7 @@ require("conform").setup {
     css = { "prettier" },
     typescriptreact = { "prettier" },
     htmlangular = { "prettier" },
-    cs = { "csharpier" },
+    -- cs = { "csharpier" },
   },
   format_on_save = nil,
   formatters = {
