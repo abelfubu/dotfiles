@@ -50,6 +50,15 @@ vim.keymap.set(
   MiniPick.builtin.grep_live,
   { desc = "Open pick files" }
 )
+
+vim.keymap.set("n", "<leader>sb", function()
+  local wipeout_cur = function()
+    vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
+  end
+  local buffer_mappings = { wipeout = { char = "<C-d>", func = wipeout_cur } }
+  MiniPick.builtin.buffers({}, { mappings = buffer_mappings })
+end, { desc = "Search buffers" })
+
 vim.keymap.set(
   "n",
   "<leader>sh",

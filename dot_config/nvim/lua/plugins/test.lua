@@ -27,4 +27,16 @@ end, { desc = "Run nearest test" })
 
 vim.keymap.set("n", "<leader>tt", function()
   require("neotest").run.run(vim.fn.expand "%")
-end, { desc = "Run nearest test" })
+end, { desc = "Run test file" })
+
+vim.keymap.set("n", "<leader>to", function()
+  require("neotest").output.open { enter = true }
+end, { desc = "Open test output" })
+
+vim.keymap.set("n", "<leader>tp", function()
+  require("neotest").output_panel.open()
+end, { desc = "Open test output panel" })
+
+vim.keymap.set("n", "<leader>ts", function()
+  require("neotest").summary.open()
+end, { desc = "Open test summary panel" })

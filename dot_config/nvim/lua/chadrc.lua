@@ -3,7 +3,7 @@ local utils = require("nvchad.stl.utils").separators.round
 local M = {}
 
 M.base46 = {
-  theme = "flexoki-light",
+  theme = "everforest",
   transparency = true,
   theme_toggle = { "flexoki-light", "everforest" },
   hl_override = {
@@ -17,6 +17,8 @@ M.base46 = {
     ["@comment"] = { italic = true },
     ["@boolean"] = { italic = true },
     ["@punctuation.bracket"] = { fg = "#777777" },
+    TbBufOff = { fg = "lightbg" },
+    TbBufOn = { fg = "blue" },
   },
   hl_add = {
     Keyword = { italic = true },

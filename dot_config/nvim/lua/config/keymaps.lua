@@ -1,9 +1,11 @@
-vim.keymap.set(
-  { "n", "v" },
-  "g.",
-  "gra",
-  { remap = true, desc = "Code actions" }
-)
+vim.keymap.set({ "n", "v" }, "g.", function()
+  vim.lsp.buf.code_action {
+    filter = function(action)
+      return action.disabled == nil
+    end,
+  }
+end, { remap = true, desc = "Code actions" })
+
 vim.keymap.set(
   { "n", "v" },
   "gd",
@@ -18,13 +20,13 @@ vim.keymap.set(
 )
 
 vim.keymap.set("n", "<D-s>", function()
-  vim.cmd([[:w]])
+  vim.cmd [[:w]]
 end, { desc = "write buffer" })
 vim.keymap.set("n", "L", function()
-  vim.cmd([[:bn]])
+  vim.cmd [[:bn]]
 end, { desc = "Next buffer" })
 vim.keymap.set("n", "H", function()
-  vim.cmd([[:bp]])
+  vim.cmd [[:bp]]
 end, { desc = "Previous buffer" })
 
 -- Window
@@ -55,7 +57,7 @@ vim.keymap.set(
 
 -- Better ESC
 vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
+  vim.cmd "noh"
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
@@ -70,21 +72,21 @@ vim.keymap.set("n", "<leader>bo", function()
 end, { desc = "Close all other buffers" })
 
 vim.keymap.set("n", "<leader>bn", function()
-  vim.cmd([[bn]])
+  vim.cmd [[bn]]
 end, { desc = "Toggle buffer" })
 
 vim.keymap.set("n", "<leader>bd", function()
-  vim.cmd([[bd]])
+  vim.cmd [[bd]]
 end, { desc = "Delete buffer" })
 
 -- Diagnostics
 local diagnostic_goto = function(count, severity)
   return function()
-    vim.diagnostic.jump({
+    vim.diagnostic.jump {
       count = count,
       severity = vim.diagnostic.severity[severity] or nil,
       on_jump = vim.diagnostic.open_float,
-    })
+    }
   end
 end
 
