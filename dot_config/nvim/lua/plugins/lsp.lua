@@ -7,7 +7,7 @@ vim.pack.add {
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "vtsls", "jsonls" },
+  ensure_installed = { "lua_ls", "vtsls", "jsonls", "postgres_lsp", "eslint" },
 }
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -81,5 +81,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         arguments = { vim.api.nvim_buf_get_name(params.buf) },
       }, 3000)
     end
+  end,
+})
+
+-- Disable grr mapping for LSP references
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+
+    -- remove default LSP reference mapping
+    pcall(vim.keymap.del, "n", "grr", { buffer = bufnr })
   end,
 })

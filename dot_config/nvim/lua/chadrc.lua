@@ -10,7 +10,7 @@ M.statusline_item_colors = {
 }
 
 M.base46 = {
-  theme = "flexoki-light",
+  theme = "aylin",
   transparency = true,
   theme_toggle = { "flexoki-light", "aylin" },
   hl_override = {

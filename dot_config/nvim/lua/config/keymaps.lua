@@ -12,6 +12,14 @@ vim.keymap.set(
   "<C-]>",
   { remap = true, desc = "Code go to definition" }
 )
+
+vim.keymap.set(
+  { "n", "v" },
+  "gd",
+  "<C-]>",
+  { remap = true, desc = "Code go to definition" }
+)
+
 vim.keymap.set(
   { "n", "v" },
   "gvd",
