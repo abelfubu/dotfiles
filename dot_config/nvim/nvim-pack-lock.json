@@ -30,7 +30,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "72acb69020c92d99cf388bfeb390481ccec50c04",
+      "rev": "42d6aed4e94e0f0bbced16bbdcc42f57673bd75e",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "kulala.nvim": {
@@ -94,7 +94,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-lspconfig": {
-      "rev": "5a82e10b2df0ed31bec642c1c0344baee7c458b6",
+      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -123,7 +123,7 @@
       "src": "https://github.com/nvchad/ui"
     },
     "yazi.nvim": {
-      "rev": "7c2a2c3511f8790b8de749a04d37563d77478c17",
+      "rev": "91a030de61e1f0299282927a7c3198e13c48df5a",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }

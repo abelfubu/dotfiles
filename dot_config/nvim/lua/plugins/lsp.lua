@@ -36,19 +36,19 @@ vim.diagnostic.config {
     },
   },
   underline = { severity = { min = vim.diagnostic.severity.HINT } },
-  virtual_text = {
-    source = "if_many",
-    spacing = 2,
-    format = function(diagnostic)
-      local diagnostic_message = {
-        [vim.diagnostic.severity.ERROR] = diagnostic.message,
-        [vim.diagnostic.severity.WARN] = diagnostic.message,
-        [vim.diagnostic.severity.INFO] = diagnostic.message,
-        [vim.diagnostic.severity.HINT] = diagnostic.message,
-      }
-      return diagnostic_message[diagnostic.severity]
-    end,
-  },
+  -- virtual_text = {
+  --   source = "if_many",
+  --   spacing = 2,
+  --   format = function(diagnostic)
+  --     local diagnostic_message = {
+  --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+  --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+  --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+  --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+  --     }
+  --     return diagnostic_message[diagnostic.severity]
+  --   end,
+  -- },
 }
 
 _G.organize_imports_on_save = _G.organize_imports_on_save == nil and true
@@ -81,15 +81,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         arguments = { vim.api.nvim_buf_get_name(params.buf) },
       }, 3000)
     end
-  end,
-})
-
--- Disable grr mapping for LSP references
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local bufnr = args.buf
-
-    -- remove default LSP reference mapping
-    pcall(vim.keymap.del, "n", "grr", { buffer = bufnr })
   end,
 })
