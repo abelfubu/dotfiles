@@ -35,14 +35,14 @@ local snacks = {
   {
     "<leader><space>",
     function()
-      Snacks.picker.smart()
+      Snacks.picker.files()
     end,
     desc = "Smart Find Files",
   },
   {
     "<D-p>",
     function()
-      Snacks.picker.smart()
+      Snacks.picker.files()
     end,
     desc = "Smart Find Files",
   },

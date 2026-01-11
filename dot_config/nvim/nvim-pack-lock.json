@@ -34,7 +34,7 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "kulala.nvim": {
-      "rev": "cd3eaa83b8d60533837202dede73238334d71832",
+      "rev": "ad51fbcfd674efb95a90d3b5f21271859416ea76",
       "src": "https://github.com/mistweaverco/kulala.nvim"
     },
     "lazydev.nvim": {
@@ -42,8 +42,12 @@
       "src": "https://github.com/folke/lazydev.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "e5f73a9e3d271d449685f1059eb1868f4ba276f6",
+      "rev": "fe661093f4b05136437b531e7f959af2a2ae66c8",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
+    "mason-nvim-dap.nvim": {
+      "rev": "9a10e096703966335bd5c46c8c875d5b0690dade",
+      "src": "https://github.com/jay-babu/mason-nvim-dap.nvim"
     },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
@@ -93,6 +97,14 @@
       "rev": "de740991c12411b663994b2860f1a4fd0937c130",
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
+    "nvim-dap": {
+      "rev": "cdfd55a133f63228c55f91378f12908cb2a78ded",
+      "src": "https://github.com/mfussenegger/nvim-dap"
+    },
+    "nvim-dap-virtual-text": {
+      "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
+      "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
+    },
     "nvim-lspconfig": {
       "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -123,7 +135,7 @@
       "src": "https://github.com/nvchad/ui"
     },
     "yazi.nvim": {
-      "rev": "91a030de61e1f0299282927a7c3198e13c48df5a",
+      "rev": "4a8bd3284708e11e48bcd865892902a46abdcce0",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }

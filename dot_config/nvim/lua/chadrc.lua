@@ -2,17 +2,10 @@ local ui_utils = require "utils.ui.statusline_item"
 
 local M = {}
 
-M.statusline_item_colors = {
-  green = { hl = "StatusLineIconGreen", sp = "StatusLineIconGreenSp" },
-  orange = { hl = "StatusLineIconOrange", sp = "StatusLineIconOrangeSp" },
-  blue = { hl = "StatusItemIconBlue", sp = "StatusItemIconBlueSp" },
-  disabled = { hl = "StatusItemDisabled", sp = "StatusItemDisabledSp" },
-}
-
 M.base46 = {
-  theme = "catppuccin",
+  theme = "onenord",
   transparency = true,
-  theme_toggle = { "flexoki-light", "catppuccin" },
+  theme_toggle = { "flexoki-light", "onenord" },
   hl_override = {
     ["@keyword"] = { italic = true },
     ["@keyword.return"] = { italic = true },
