@@ -1,99 +1,92 @@
-vim.pack.add {
-  { src = "https://github.com/mfussenegger/nvim-dap" },
-  { src = "https://github.com/jay-babu/mason-nvim-dap.nvim" },
-  { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
-}
+return {
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require "dap"
 
-require("mason-nvim-dap").setup {
-  automatic_installation = true,
-  ensure_installed = { "js" },
-}
+      for _, adapterType in ipairs { "node", "chrome", "msedge" } do
+        local pwaType = "pwa-" .. adapterType
 
-local dap = require "dap"
-require("nvim-dap-virtual-text").setup {}
+        if not dap.adapters[pwaType] then
+          dap.adapters[pwaType] = {
+            type = "server",
+            host = "localhost",
+            port = "${port}",
+            executable = {
+              command = "js-debug-adapter",
+              args = { "${port}" },
+            },
+          }
+        end
 
-for _, adapterType in ipairs { "node", "chrome", "msedge" } do
-  local pwaType = "pwa-" .. adapterType
+        -- Define adapters without the "pwa-" prefix for VSCode compatibility
+        if not dap.adapters[adapterType] then
+          dap.adapters[adapterType] = function(cb, config)
+            local nativeAdapter = dap.adapters[pwaType]
 
-  if not dap.adapters[pwaType] then
-    dap.adapters[pwaType] = {
-      type = "server",
-      host = "localhost",
-      port = "${port}",
-      executable = {
-        command = "js-debug-adapter",
-        args = { "${port}" },
-      },
-    }
-  end
+            config.type = pwaType
 
-  -- Define adapters without the "pwa-" prefix for VSCode compatibility
-  if not dap.adapters[adapterType] then
-    dap.adapters[adapterType] = function(cb, config)
-      local nativeAdapter = dap.adapters[pwaType]
-
-      config.type = pwaType
-
-      if type(nativeAdapter) == "function" then
-        nativeAdapter(cb, config)
-      else
-        cb(nativeAdapter)
+            if type(nativeAdapter) == "function" then
+              nativeAdapter(cb, config)
+            else
+              cb(nativeAdapter)
+            end
+          end
+        end
       end
-    end
-  end
-end
 
-local js_filetypes =
-  { "typescript", "javascript", "typescriptreact", "javascriptreact" }
+      local js_filetypes =
+        { "typescript", "javascript", "typescriptreact", "javascriptreact" }
 
-local vscode = require "dap.ext.vscode"
-vscode.type_to_filetypes["node"] = js_filetypes
-vscode.type_to_filetypes["pwa-node"] = js_filetypes
+      local vscode = require "dap.ext.vscode"
+      vscode.type_to_filetypes["node"] = js_filetypes
+      vscode.type_to_filetypes["pwa-node"] = js_filetypes
 
-for _, language in ipairs(js_filetypes) do
-  if not dap.configurations[language] then
-    local runtimeExecutable = nil
-    if language:find "typescript" then
-      runtimeExecutable = vim.fn.executable "tsx" == 1 and "tsx" or "ts-node"
-    end
-    dap.configurations[language] = {
-      {
-        type = "pwa-node",
-        request = "launch",
-        name = "Launch file",
-        program = "${file}",
-        cwd = "${workspaceFolder}",
-        sourceMaps = true,
-        runtimeExecutable = runtimeExecutable,
-        skipFiles = {
-          "<node_internals>/**",
-          "node_modules/**",
-        },
-        resolveSourceMapLocations = {
-          "${workspaceFolder}/**",
-          "!**/node_modules/**",
-        },
-      },
-      {
-        type = "pwa-node",
-        request = "attach",
-        name = "Attach",
-        processId = require("dap.utils").pick_process,
-        cwd = "${workspaceFolder}",
-        sourceMaps = true,
-        runtimeExecutable = runtimeExecutable,
-        skipFiles = {
-          "<node_internals>/**",
-          "node_modules/**",
-        },
-        resolveSourceMapLocations = {
-          "${workspaceFolder}/**",
-          "!**/node_modules/**",
-        },
-      },
-    }
-  end
-end
+      for _, language in ipairs(js_filetypes) do
+        if not dap.configurations[language] then
+          local runtimeExecutable = nil
+          if language:find "typescript" then
+            runtimeExecutable = vim.fn.executable "tsx" == 1 and "tsx"
+              or "ts-node"
+          end
+          dap.configurations[language] = {
+            {
+              type = "pwa-node",
+              request = "launch",
+              name = "Launch file",
+              program = "${file}",
+              cwd = "${workspaceFolder}",
+              sourceMaps = true,
+              runtimeExecutable = runtimeExecutable,
+              skipFiles = {
+                "<node_internals>/**",
+                "node_modules/**",
+              },
+              resolveSourceMapLocations = {
+                "${workspaceFolder}/**",
+                "!**/node_modules/**",
+              },
+            },
+            {
+              type = "pwa-node",
+              request = "attach",
+              name = "Attach",
+              processId = require("dap.utils").pick_process,
+              cwd = "${workspaceFolder}",
+              sourceMaps = true,
+              runtimeExecutable = runtimeExecutable,
+              skipFiles = {
+                "<node_internals>/**",
+                "node_modules/**",
+              },
+              resolveSourceMapLocations = {
+                "${workspaceFolder}/**",
+                "!**/node_modules/**",
+              },
+            },
+          }
+        end
+      end
 
 -- Set keymaps to control the debugger
 -- stylua: ignore
@@ -117,35 +110,48 @@ local keys = {
 	{ "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
 }
 
-for _, keymap in ipairs(keys) do
-  vim.keymap.set(
-    keymap.mode or "n",
-    keymap[1],
-    keymap[2],
-    { desc = keymap.desc, remap = true }
-  )
-end
+      for _, keymap in ipairs(keys) do
+        vim.keymap.set(
+          keymap.mode or "n",
+          keymap[1],
+          keymap[2],
+          { desc = keymap.desc, remap = true }
+        )
+      end
 
--- signs for breakpoints with nerd fonts
--- DapBreakpoint = ""
+      -- signs for breakpoints with nerd fonts
+      -- DapBreakpoint = ""
 
-vim.fn.sign_define(
-  "DapBreakpoint",
-  { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
-)
-vim.fn.sign_define(
-  "DapBreakpointCondition",
-  { text = " ", texthl = "GutterMarksGlobal", linehl = "", numhl = "" }
-)
-vim.fn.sign_define(
-  "DapLogPoint",
-  { text = " ", texthl = "GutterMarksSpecial", linehl = "", numhl = "" }
-)
-vim.fn.sign_define(
-  "DapStopped",
-  { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
-)
-vim.fn.sign_define(
-  "DapBreakpointRejected",
-  { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
-)
+      vim.fn.sign_define(
+        "DapBreakpoint",
+        { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define(
+        "DapBreakpointCondition",
+        { text = " ", texthl = "GutterMarksGlobal", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define("DapLogPoint", {
+        text = " ",
+        texthl = "GutterMarksSpecial",
+        linehl = "",
+        numhl = "",
+      })
+      vim.fn.sign_define(
+        "DapStopped",
+        { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define(
+        "DapBreakpointRejected",
+        { text = " ", texthl = "GutterMarksLocal", linehl = "", numhl = "" }
+      )
+    end,
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    opts = {
+      automatic_installation = true,
+      ensure_installed = { "js" },
+    },
+  },
+  { "theHamsta/nvim-dap-virtual-text", opts = {} },
+}

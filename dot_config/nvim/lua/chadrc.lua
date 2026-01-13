@@ -3,7 +3,7 @@ local ui_utils = require "utils.ui.statusline_item"
 local M = {}
 
 M.base46 = {
-  theme = "onenord",
+  theme = "flexoki-light",
   transparency = true,
   theme_toggle = { "flexoki-light", "onenord" },
   hl_override = {
@@ -98,6 +98,10 @@ M.ui = {
 
 M.lsp = { signature = false }
 
+-- M.plugins = {
+--   user_plugins = require "lua.plugins",
+-- }
+
 M.nvdash = {
   load_on_startup = true,
   header = {
@@ -115,7 +119,7 @@ M.nvdash = {
     {
       txt = "  Find File",
       keys = "[Ctrl] P",
-      cmd = ":lua MiniPick.builtin.files()",
+      cmd = ":lua require('snacks').picker.files()",
     },
 
     -- Footer

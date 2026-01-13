@@ -1,23 +1,3 @@
-vim.pack.add {
-  { src = "https://github.com/neovim/nvim-lspconfig" },
-  { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  { src = "https://github.com/folke/lazydev.nvim" },
-}
-
-require("mason").setup()
-require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "vtsls", "jsonls", "postgres_lsp", "eslint" },
-}
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
-  once = true,
-  callback = function()
-    require("lazydev").setup()
-  end,
-})
-
 vim.diagnostic.config {
   -- virtual_lines = { current_line = true },
   float = {
@@ -83,3 +63,27 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end
   end,
 })
+
+return {
+  {
+    "mason-org/mason-lspconfig.nvim",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      { "neovim/nvim-lspconfig" },
+    },
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "vtsls",
+        "jsonls",
+        "postgres_lsp",
+        "eslint",
+      },
+    },
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {},
+  },
+}

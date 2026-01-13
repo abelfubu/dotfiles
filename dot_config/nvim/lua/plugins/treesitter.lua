@@ -1,11 +1,9 @@
-vim.pack.add {
+return {
   {
-    src = "https://github.com/nvim-treesitter/nvim-treesitter",
-    version = "master",
-  },
-}
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    config = function()
 
----@diagnostic disable-next-line: missing-fields
 require("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
@@ -25,4 +23,7 @@ require("nvim-treesitter.configs").setup {
     "http",
   },
   autotag = { enable = true },
+}
+    end
+  },
 }

@@ -1,14 +1,38 @@
-vim.pack.add { "https://github.com/nvchad/ui" }
-vim.pack.add { "https://github.com/nvim-lua/plenary.nvim" }
-vim.pack.add { "https://github.com/nvchad/base46" }
+return {
 
-require("base46").load_all_highlights()
-require "nvchad"
+  "nvim-lua/plenary.nvim",
+  {
+    "nvchad/ui",
+    config = function()
+      require "nvchad"
+    end,
+  },
 
-vim.keymap.set("n", "gt", function()
-  require("base46").toggle_theme()
-end, { remap = true, desc = "Toggle theme" })
-
-vim.keymap.set("n", "<leader>th", function()
-  require("nvchad.themes").open()
-end, { remap = true, desc = "Toggle theme" })
+  {
+    "nvchad/base46",
+    build = function()
+      require("base46").load_all_highlights()
+    end,
+    keys = {
+      {
+        "-",
+        function()
+          local buf_name = vim.api.nvim_buf_get_name(0)
+          local path = vim.fn.filereadable(buf_name) == 1 and buf_name
+            or vim.fn.getcwd()
+          require("mini.files").open(path)
+          require("mini.files").reveal_cwd()
+        end,
+        desc = "Open Mini Files",
+      },
+      {
+        "gt",
+        function()
+          require("base46").toggle_theme()
+        end,
+        remap = true,
+        desc = "Toggle theme",
+      },
+    },
+  },
+}
