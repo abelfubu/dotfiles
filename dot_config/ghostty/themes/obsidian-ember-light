@@ -1,0 +1,39 @@
+# Obsidian Ember Light Theme for Ghostty
+
+background = f5f5f5
+foreground = 1e1e1e
+cursor-color = ff8548
+selection-background = d8d8d8
+selection-foreground = 1e1e1e
+
+# Black
+palette = 0=#2e2e2e
+palette = 8=#989898
+
+# Red
+palette = 1=#d93d3d
+palette = 9=#c96b73
+
+# Green
+palette = 2=#5ba871
+palette = 10=#4d7acc
+
+# Yellow
+palette = 3=#d9a800
+palette = 11=#c4a62f
+
+# Blue
+palette = 4=#4d7acc
+palette = 12=#2e2e2e
+
+# Magenta
+palette = 5=#9d3e71
+palette = 13=#b85865
+
+# Cyan
+palette = 6=#00a388
+palette = 14=#00a388
+
+# White
+palette = 7=#e0e0e0
+palette = 15=#f5f5f5

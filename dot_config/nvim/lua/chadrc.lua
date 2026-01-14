@@ -2,42 +2,18 @@ local ui_utils = require "utils.ui.statusline_item"
 
 local M = {}
 
+M.italics = false
+
+-- This is a comment
 M.base46 = {
-  theme = "flexoki-light",
-  transparency = true,
-  theme_toggle = { "flexoki-light", "onenord" },
-  hl_override = {
-    ["@keyword"] = { italic = true },
-    ["@keyword.return"] = { italic = true },
-    ["@keyword.conditional"] = { italic = true },
-    ["@keyword.function"] = { italic = true },
-    ["@keyword.type"] = { italic = true },
-    ["@keyword.modifier"] = { italic = true },
-    ["@keyword.exception"] = { italic = true },
-    ["@comment"] = { italic = true },
-    ["@boolean"] = { italic = true },
-    ["@punctuation.bracket"] = { fg = "#777777" },
-    TbBufOff = { fg = "grey" },
-    TbBufOn = { fg = "blue" },
+  theme = "obsidian-ember",
+  transparency = false,
+  theme_toggle = { "obsidian-ember-light", "obsidian-ember" },
+  hl_override = require("utils.ui.theme").get_highlight_overrides {
+    italics = M.italics,
   },
-  hl_add = {
-    Keyword = { italic = true },
-    MiniPickMatchCurrent = { bg = "red", fg = "black" },
-    DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
-    DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
-    DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
-    DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
-    StatusItemIconBlueSp = { bg = "lightbg", fg = "blue" },
-    StatusItemIconBlue = { bg = "blue", fg = "black2" },
-    StatusItemDisabled = { fg = "grey", bg = "black" },
-    StatusItemDisabledSp = { bg = "lightbg", fg = "black" },
-    StatusLineIconGreen = { bg = "green", fg = "black2" },
-    StatusLineIconGreenSp = { fg = "green", bg = "lightbg" },
-    StatusLineIconOrange = { bg = "orange", fg = "black2" },
-    StatusLineIconOrangeSp = { fg = "orange", bg = "lightbg" },
-    GutterMarksLocal = { fg = "red" },
-    GutterMarksGlobal = { fg = "green" },
-    GutterMarksSpecial = { fg = "orange" },
+  hl_add = require("utils.ui.theme").get_highlight_adds {
+    italics = M.italics,
   },
 }
 
@@ -121,8 +97,6 @@ M.nvdash = {
       keys = "[Ctrl] P",
       cmd = ":lua require('snacks').picker.files()",
     },
-
-    -- Footer
     { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
     {
       txt = "  " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t"),

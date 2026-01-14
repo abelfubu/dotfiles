@@ -6,8 +6,8 @@ vim.keymap.set({ "n", "v" }, "g.", function()
   }
 end, { remap = true, desc = "Code actions" })
 
-vim.keymap.set("n", ";", ":", { noremap = true })
-vim.keymap.set("n", ":", ";", { noremap = true })
+vim.keymap.set({ "n", "v" }, ";", ":", { noremap = true })
+vim.keymap.set({ "n", "v" }, ":", ";", { noremap = true })
 
 vim.keymap.set(
   { "n", "v" },

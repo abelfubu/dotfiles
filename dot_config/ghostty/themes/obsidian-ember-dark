@@ -1,0 +1,39 @@
+# Obsidian Ember Dark Theme for Ghostty
+
+background = 1e1e1e
+foreground = d3d3d3
+cursor-color = ff8548
+selection-background = 3a3a3a
+selection-foreground = d3d3d3
+
+# Black
+palette = 0=#1e1e1e
+palette = 8=#565656
+
+# Red
+palette = 1=#ff6464
+palette = 9=#de878f
+
+# Green
+palette = 2=#76c793
+palette = 10=#729cff
+
+# Yellow
+palette = 3=#ffcc00
+palette = 11=#e0c247
+
+# Blue
+palette = 4=#729cff
+palette = 12=#eeeeee
+
+# Magenta
+palette = 5=#bd5e91
+palette = 13=#d57780
+
+# Cyan
+palette = 6=#00c3a5
+palette = 14=#00c3a5
+
+# White
+palette = 7=#aaaaaa
+palette = 15=#ffffff
