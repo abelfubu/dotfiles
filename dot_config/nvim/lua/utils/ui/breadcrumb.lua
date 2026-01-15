@@ -2,6 +2,11 @@ local M = {}
 
 M.show_breadcrumbs = false
 
+M.filter_filetypes = {
+  "oil",
+  "help",
+}
+
 M.toggle = function()
   M.show_breadcrumbs = not M.show_breadcrumbs
 
@@ -50,6 +55,7 @@ M.setup = function()
     group = vim.api.nvim_create_augroup("breadcrumb_winbar", { clear = true }),
     callback = function(args)
       if not M.show_breadcrumbs then
+        vim.wo.winbar = ""
         return
       end
       -- Filter filetypes
@@ -59,6 +65,11 @@ M.setup = function()
       end
       -- Do not show winbar for single file in cwd
       local filepath = vim.fn.fnamemodify(vim.fn.expand "%", ":.")
+      if not filepath or filepath == "" then
+        vim.wo.winbar = ""
+        return
+      end
+
       local parts = vim.split(filepath, "/", { plain = true })
       if #parts == 1 then
         vim.wo.winbar = ""

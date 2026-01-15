@@ -16,7 +16,7 @@ M.hl_overrides = {
   ["@punctuation.bracket"] = { fg = "#777777" },
   TbBufOff = { fg = "grey" },
   TbBufOn = { fg = "blue" },
-  FloatTitle = { fg = "orange", bg = "darker_black", bold = true },
+  FloatTitle = { fg = "white", bg = "darker_black", bold = true },
   NormalFloat = { bg = "darker_black" },
   FloatBorder = { bg = "darker_black", fg = "darker_black" },
 }
@@ -35,16 +35,20 @@ M.hl_adds = {
   StatusItemIconBlue = { bg = "blue", fg = "black2" },
   StatusItemDisabled = { fg = "grey", bg = "black" },
   StatusItemDisabledSp = { bg = "lightbg", fg = "black" },
+  StatusLineIconYellow = { bg = "yellow", fg = "black2" },
+  StatusLineIconYellowSp = { fg = "yellow", bg = "lightbg" },
   StatusLineIconGreen = { bg = "green", fg = "black2" },
   StatusLineIconGreenSp = { fg = "green", bg = "lightbg" },
-  StatusLineIconOrange = { bg = "orange", fg = "black2" },
-  StatusLineIconOrangeSp = { fg = "orange", bg = "lightbg" },
+  StatusLineIconOrange = { bg = "base0A", fg = "black2" },
+  StatusLineIconOrangeSp = { fg = "base0A", bg = "lightbg" },
   NoiceCmdlinePopupBorder = { bg = "black", fg = "black" },
+  NoiceCmdlinePopup = { bg = "black2" },
   NoiceCmdlinePopupBorderSearch = { bg = "black", fg = "black" },
 }
 
 --- @class HightlightOverridesOpts
 --- @field italics boolean
+--- @field transparency boolean
 --- @param opts HightlightOverridesOpts
 --- @return table
 M.get_highlight_overrides = function(opts)
@@ -63,6 +67,16 @@ M.get_highlight_adds = function(opts)
     opts.italics and M.italic_adds or {},
     M.hl_adds
   )
+end
+
+--- @param opts HightlightOverridesOpts
+--- @return table
+M.get_theme = function(base_config, opts)
+  return vim.tbl_extend("force", base_config, {
+    transparency = false,
+    hl_override = M.get_highlight_overrides(opts),
+    hl_add = M.get_highlight_adds(opts),
+  })
 end
 
 return M

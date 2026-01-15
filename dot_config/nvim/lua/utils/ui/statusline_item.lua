@@ -4,6 +4,7 @@ local statusline_item_colors = {
   green = { hl = "%#StatusLineIconGreen#", sp = "%#StatusLineIconGreenSp#" },
   orange = { hl = "%#StatusLineIconOrange#", sp = "%#StatusLineIconOrangeSp#" },
   blue = { hl = "%#StatusItemIconBlue#", sp = "%#StatusItemIconBlueSp#" },
+  yellow = { hl = "%#StatusLineIconYellow#", sp = "%#StatusLineIconYellowSp#" },
   disabled = { hl = "%#StatusItemDisabled#", sp = "%#StatusItemDisabledSp#" },
 }
 

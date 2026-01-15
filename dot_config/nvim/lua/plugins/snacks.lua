@@ -3,7 +3,14 @@ return {
   opts = {
     statuscolumn = { enabled = true },
     explorer = { replace_netrw = true },
-    zen = { toggles = { dim = false } },
+    zen = {
+      win = {
+        backdrop = { transparent = false, blend = 95 },
+      },
+      toggles = {
+        dim = false,
+      },
+    },
     picker = {
       ui_select = true,
       formatters = {

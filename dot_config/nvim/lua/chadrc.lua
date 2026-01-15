@@ -1,21 +1,12 @@
 local ui_utils = require "utils.ui.statusline_item"
+local theme = require "utils.ui.theme"
 
 local M = {}
 
-M.italics = false
-
--- This is a comment
-M.base46 = {
+M.base46 = theme.get_theme({
   theme = "obsidian-ember",
-  transparency = false,
   theme_toggle = { "obsidian-ember-light", "obsidian-ember" },
-  hl_override = require("utils.ui.theme").get_highlight_overrides {
-    italics = M.italics,
-  },
-  hl_add = require("utils.ui.theme").get_highlight_adds {
-    italics = M.italics,
-  },
-}
+}, { italics = false, transparency = false })
 
 M.ui = {
   statusline = {
@@ -47,7 +38,7 @@ M.ui = {
       end,
       format = function()
         return ui_utils.create_statusline_item {
-          color = "green",
+          color = "yellow",
           icon = " ",
           text = "format",
           enabled = _G.format_on_save,
@@ -65,6 +56,7 @@ M.ui = {
   },
   cmp = { style = "atom" },
   tabufline = {
+    bufwidth = 21,
     order = { "buffers", "tabs" },
     enabled = true,
     lazyload = false,
@@ -74,10 +66,6 @@ M.ui = {
 
 M.lsp = { signature = false }
 
--- M.plugins = {
---   user_plugins = require "lua.plugins",
--- }
-
 M.nvdash = {
   load_on_startup = true,
   header = {
@@ -85,7 +73,6 @@ M.nvdash = {
     "         abelfubu           ",
     "                            ",
   },
-
   buttons = {
     {
       txt = "  Restore Session",

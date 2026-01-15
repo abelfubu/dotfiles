@@ -37,14 +37,27 @@ return {
     "stevearc/oil.nvim",
     ---@module 'oil'
     ---@type oil.SetupOpts
-    opts = {},
+    opts = {
+      skip_confirm_for_simple_edits = true,
+      view_options = {
+        show_hidden = true,
+      },
+      float = {
+        preview_split = "right",
+      },
+      keymaps = {
+        ["q"] = { "actions.close", mode = "n" },
+        ["l"] = { "actions.select", mode = "n" },
+        ["<D-p>"] = {
+          "actions.preview",
+          opts = { vertical = true, split = "belowright" },
+        },
+      },
+    },
     keys = {
       { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
     },
-    -- Optional dependencies
     dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
   },
 }
