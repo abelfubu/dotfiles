@@ -12,6 +12,7 @@ return {
       },
     },
     picker = {
+      layout = { layout = { backdrop = false } },
       ui_select = true,
       formatters = {
         file = {

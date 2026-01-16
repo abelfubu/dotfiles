@@ -14,9 +14,7 @@ M.italic_overrides = {
 
 M.hl_overrides = {
   ["@punctuation.bracket"] = { fg = "#777777" },
-  TbBufOff = { fg = "grey" },
-  TbBufOn = { fg = "blue" },
-  FloatTitle = { fg = "white", bg = "darker_black", bold = true },
+  FloatTitle = { fg = "base0A", bg = "darker_black" },
   NormalFloat = { bg = "darker_black" },
   FloatBorder = { bg = "darker_black", fg = "darker_black" },
 }
@@ -26,7 +24,6 @@ M.hl_add_italics = {
 }
 
 M.hl_adds = {
-  MiniPickMatchCurrent = { bg = "red", fg = "black" },
   DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
   DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
   DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
@@ -44,6 +41,9 @@ M.hl_adds = {
   NoiceCmdlinePopupBorder = { bg = "black", fg = "black" },
   NoiceCmdlinePopup = { bg = "black2" },
   NoiceCmdlinePopupBorderSearch = { bg = "black", fg = "black" },
+  MiniFilesBorderModified = { fg = "darker_black", bg = "darker_black" },
+  NoiceConfirmBorder = { bg = "darker_black", fg = "darker_black" },
+  NoiceConfirm = { bg = "darker_black", fg = "darker_black" },
 }
 
 --- @class HightlightOverridesOpts

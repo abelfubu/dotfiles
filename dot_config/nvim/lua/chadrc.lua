@@ -38,7 +38,7 @@ M.ui = {
       end,
       format = function()
         return ui_utils.create_statusline_item {
-          color = "yellow",
+          color = "orange",
           icon = " ",
           text = "format",
           enabled = _G.format_on_save,

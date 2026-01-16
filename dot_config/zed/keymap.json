@@ -60,6 +60,8 @@
         "task::Spawn",
         { "task_name": "Jest: Run Current File with coverage" },
       ],
+
+      ";": ["workspace::SendKeystrokes", ":"],
     },
   },
   {

@@ -148,10 +148,7 @@ local keys = {
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
-    opts = {
-      automatic_installation = true,
-      ensure_installed = { "js" },
-    },
+    opts = {},
   },
   { "theHamsta/nvim-dap-virtual-text", opts = {} },
 }
