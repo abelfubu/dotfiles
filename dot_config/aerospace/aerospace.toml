@@ -23,6 +23,7 @@ after-startup-command = [
   alt-shift-m = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://monkeytype.com"'
   alt-shift-w = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://web.whatsapp.com"'
   alt-e = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://excalidraw.com"'
+	alt-n = 'exec-and-forget open -n -a Ghostty --args --window-padding-x=0 --window-padding-y=0 -e nvim'
 
   alt-w = "close"
   alt-o = "fullscreen"

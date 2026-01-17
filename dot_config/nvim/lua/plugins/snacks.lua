@@ -4,6 +4,10 @@ return {
     statuscolumn = { enabled = true },
     explorer = { replace_netrw = true },
     zen = {
+      show = {
+        statusline = false, -- can only be shown when using the global statusline
+        tabline = true,
+      },
       win = {
         backdrop = { transparent = false, blend = 95 },
       },
