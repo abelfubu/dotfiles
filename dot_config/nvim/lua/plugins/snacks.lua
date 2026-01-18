@@ -24,6 +24,26 @@ return {
         },
       },
       sources = {
+        lsp_symbols = {
+          filter = {
+            default = {
+              "Class",
+              "Constructor",
+              "Enum",
+              "Field",
+              "Function",
+              "Interface",
+              "Method",
+              "Module",
+              "Namespace",
+              "Package",
+              "Property",
+              "Struct",
+              "Trait",
+              "Variable",
+            },
+          },
+        },
         explorer = {
           layout = {
             preset = "vscode",
@@ -379,7 +399,9 @@ return {
     {
       "grr",
       function()
-        Snacks.picker.lsp_references()
+        Snacks.picker.lsp_references {
+          include_declaration = false,
+        }
       end,
       nowait = true,
       desc = "References",
