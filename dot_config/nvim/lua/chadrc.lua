@@ -12,7 +12,7 @@ M.ui = {
   statusline = {
     separator_style = "block",
     order = {
-      "mode",
+      -- "mode",
       "file",
       "git",
       "%=",

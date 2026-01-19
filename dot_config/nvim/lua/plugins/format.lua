@@ -18,32 +18,31 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 return {
-  { 
-		"stevearc/conform.nvim" ,
-		opts = {
-  default_format_opts = {
-    timeout_ms = 3000,
-    async = false,
-    quiet = false,
-    lsp_format = "fallback",
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      default_format_opts = {
+        timeout_ms = 3000,
+        async = false,
+        quiet = false,
+        lsp_format = "fallback",
+      },
+      formatters_by_ft = {
+        css = { "prettier" },
+        html = { "prettier" },
+        htmlangular = { "prettier" },
+        javascript = { "prettier" },
+        json = { "prettier" },
+        lua = { "stylua" },
+        sql = { "pg_format" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        -- cs = { "csharpier" },
+      },
+      format_on_save = nil,
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+      },
+    },
   },
-  formatters_by_ft = {
-    css = { "prettier" },
-    html = { "prettier" },
-    htmlangular = { "prettier" },
-    javascript = { "prettier" },
-    json = { "prettier" },
-    lua = { "stylua" },
-    sql = { "pg_format" },
-    typescript = { "prettier" },
-    typescriptreact = { "prettier" },
-    -- cs = { "csharpier" },
-  },
-  format_on_save = nil,
-  formatters = {
-    injected = { options = { ignore_errors = true } },
-  },
-		}
-	},
 }
-

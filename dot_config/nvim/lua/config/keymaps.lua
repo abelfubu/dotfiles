@@ -96,7 +96,7 @@ local diagnostic_goto = function(count, severity)
     vim.diagnostic.jump {
       count = count,
       severity = vim.diagnostic.severity[severity] or nil,
-      on_jump = vim.diagnostic.open_float,
+      -- on_jump = vim.diagnostic.open_float,
     }
   end
 end
