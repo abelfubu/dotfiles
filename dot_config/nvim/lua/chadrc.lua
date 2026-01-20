@@ -4,7 +4,7 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "obsidian-ember",
+  theme = "obsidian-ember-light",
   theme_toggle = { "obsidian-ember-light", "obsidian-ember" },
 }, { italics = false, transparency = false })
 
