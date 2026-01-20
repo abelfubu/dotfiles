@@ -9,6 +9,11 @@ end, { remap = true, desc = "Code actions" })
 vim.keymap.set({ "n", "v" }, ";", ":", { noremap = true })
 vim.keymap.set({ "n", "v" }, ":", ";", { noremap = true })
 
+-- sort only selection in visual mode
+vim.keymap.set("v", "<leader>so", ":sort<CR>", {
+  desc = "Sort lines",
+})
+
 vim.keymap.set(
   { "n", "v" },
   "gd",
@@ -96,7 +101,7 @@ local diagnostic_goto = function(count, severity)
     vim.diagnostic.jump {
       count = count,
       severity = vim.diagnostic.severity[severity] or nil,
-      -- on_jump = vim.diagnostic.open_float,
+      on_jump = vim.diagnostic.open_float,
     }
   end
 end

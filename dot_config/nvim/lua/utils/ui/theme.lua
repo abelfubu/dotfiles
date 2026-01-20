@@ -73,7 +73,7 @@ end
 --- @return table
 M.get_theme = function(base_config, opts)
   return vim.tbl_extend("force", base_config, {
-    transparency = false,
+    transparency = opts.transparency,
     hl_override = M.get_highlight_overrides(opts),
     hl_add = M.get_highlight_adds(opts),
   })

@@ -24,6 +24,45 @@ return {
         },
       },
       sources = {
+        lsp_references = {
+          format = function(item, picker)
+            local ret = {}
+
+            -- Include tree indentation if needed
+            if item.parent then
+              vim.list_extend(
+                ret,
+                require("snacks.picker.format").tree(item, picker)
+              )
+            end
+
+            -- Include git status if present
+            if item.status then
+              vim.list_extend(
+                ret,
+                require("snacks.picker.format").file_git_status(item, picker)
+              )
+            end
+
+            -- Include severity if present
+            if item.severity then
+              vim.list_extend(
+                ret,
+                require("snacks.picker.format").severity(item, picker)
+              )
+            end
+
+            -- Include filename (this is what you want to keep)
+            vim.list_extend(
+              ret,
+              require("snacks.picker.format").filename(item, picker)
+            )
+
+            return ret
+          end,
+        },
+      },
+      rces = {
         lsp_symbols = {
           filter = {
             default = {
@@ -401,6 +440,7 @@ return {
       function()
         Snacks.picker.lsp_references {
           include_declaration = false,
+          include_current = false,
         }
       end,
       nowait = true,
