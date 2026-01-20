@@ -120,5 +120,17 @@ local function add_tilde_string()
   vim.api.nvim_buf_set_text(0, end_row, end_col - 1, end_row, end_col, { "`" })
 end
 
+vim.keymap.set(
+  "v",
+  "<leader>cl",
+  "yoconsole.log('[<Esc>pa]', <Esc>pa)<Esc>",
+  { buffer = true }
+)
+vim.keymap.set(
+  "n",
+  "<leader>cl",
+  "viwyoconsole.log('[<Esc>pa]', <Esc>pa)<Esc>",
+  { buffer = true }
+)
 vim.keymap.set("i", "t", add_async, { buffer = true })
 vim.keymap.set("i", "{", add_tilde_string, { buffer = true })

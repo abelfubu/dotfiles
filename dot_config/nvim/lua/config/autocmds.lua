@@ -83,3 +83,16 @@ vim.api.nvim_create_autocmd("FileType", {
     end)
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup "right_help",
+  pattern = { "help" },
+  command = "wincmd L",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup "no_auto_comment",
+  callback = function()
+    vim.opt_local.formatoptions:remove { "c", "r", "o" }
+  end,
+})
