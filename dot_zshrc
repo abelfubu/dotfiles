@@ -42,6 +42,7 @@ fi
 
 zplug load
 
+alias vi='nvim'
 alias la='eza -la --icons'
 alias ll='eza -l --icons'
 alias ls='eza --icons'

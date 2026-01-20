@@ -1,127 +1,84 @@
-vim.keymap.set({ "n", "v" }, "g.", function()
-  vim.lsp.buf.code_action {
-    filter = function(action)
-      return action.disabled == nil
-    end,
-  }
-end, { remap = true, desc = "Code actions" })
+local map = vim.keymap.set
+local helpers = require "utils.nvim.helpers"
 
-vim.keymap.set({ "n", "v" }, ";", ":", { noremap = true })
-vim.keymap.set({ "n", "v" }, ":", ";", { noremap = true })
+-- Center screen when jumping
+map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
+map("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
+map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
+
+-- Remappings
+map({ "n", "v" }, ";", ":", { noremap = true })
+map({ "n", "v" }, ":", ";", { noremap = true })
+
+-- Toggle relative number
+map(
+  "n",
+  "<leader>ur",
+  helpers.toggle_relative_number,
+  { desc = "Toggle relative number" }
+)
 
 -- sort only selection in visual mode
-vim.keymap.set("v", "<leader>so", ":sort<CR>", {
+map("v", "<leader>so", ":sort<CR>", {
   desc = "Sort lines",
 })
 
-vim.keymap.set(
+map(
   { "n", "v" },
   "gd",
   "<C-]>",
   { remap = true, desc = "Code go to definition" }
 )
 
-vim.keymap.set(
+map(
   { "n", "v" },
   "gd",
   "<C-]>",
   { remap = true, desc = "Code go to definition" }
 )
 
-vim.keymap.set(
+map(
   { "n", "v" },
   "gvd",
   ":vsplit<CR><C-w>l<C-]>",
   { remap = true, desc = "Code go to definition" }
 )
 
-vim.keymap.set("n", "<D-s>", function()
-  vim.cmd [[:w]]
-end, { desc = "write buffer" })
-vim.keymap.set("n", "L", function()
-  vim.cmd [[:bn]]
-end, { desc = "Next buffer" })
-vim.keymap.set("n", "H", function()
-  vim.cmd [[:bp]]
-end, { desc = "Previous buffer" })
+map("n", "<D-s>", helpers.write, { desc = "write buffer" })
+map("n", "L", helpers.next_buffer, { desc = "Next buffer" })
+map("n", "H", helpers.previous_buffer, { desc = "Previous buffer" })
 
 -- Window
-vim.keymap.set(
-  "n",
-  "<C-h>",
-  "<C-w>h",
-  { desc = "Move window left", remap = true }
-)
-vim.keymap.set(
-  "n",
-  "<D-l>",
-  "<C-w>l",
-  { desc = "Move window right", remap = true }
-)
-vim.keymap.set(
-  "n",
-  "<D-j>",
-  "<C-w>j",
-  { desc = "Move window down", remap = true }
-)
-vim.keymap.set(
-  "n",
-  "<D-k>",
-  "<C-w>k",
-  { desc = "Move window up", remap = true }
-)
+map("n", "<C-h>", "<C-w>h", { desc = "Move window left", remap = true })
+map("n", "<D-l>", "<C-w>l", { desc = "Move window right", remap = true })
+map("n", "<D-j>", "<C-w>j", { desc = "Move window down", remap = true })
+map("n", "<D-k>", "<C-w>k", { desc = "Move window up", remap = true })
 
 -- Better ESC
-vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd "noh"
-  return "<esc>"
-end, { expr = true, desc = "Escape and Clear hlsearch" })
+map(
+  { "i", "n", "s" },
+  "<esc>",
+  helpers.better_escape,
+  { expr = true, desc = "Escape and Clear hlsearch" }
+)
 
 -- Buffers
-vim.keymap.set("n", "<leader>bo", function()
-  local current_buf = vim.api.nvim_get_current_buf()
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if buf ~= current_buf then
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end
-  end
-end, { desc = "Close all other buffers" })
-
-vim.keymap.set("n", "<leader>bn", function()
-  vim.cmd [[bn]]
-end, { desc = "Toggle buffer" })
-
-vim.keymap.set("n", "<leader>bd", function()
-  vim.cmd [[bd]]
-end, { desc = "Delete buffer" })
-
--- Diagnostics
-local diagnostic_goto = function(count, severity)
-  return function()
-    vim.diagnostic.jump {
-      count = count,
-      severity = vim.diagnostic.severity[severity] or nil,
-      on_jump = vim.diagnostic.open_float,
-    }
-  end
-end
-
-vim.keymap.set(
+map(
   "n",
-  "<leader>cd",
-  vim.diagnostic.open_float,
-  { desc = "Line Diagnostics" }
+  "<leader>bo",
+  helpers.close_other_buffers,
+  { desc = "Close all other buffers" }
 )
-vim.keymap.set("n", "]d", diagnostic_goto(1), { desc = "Next Diagnostic" })
-vim.keymap.set("n", "[d", diagnostic_goto(-1), { desc = "Prev Diagnostic" })
-vim.keymap.set("n", "]e", diagnostic_goto(1, "ERROR"), { desc = "Next Error" })
-vim.keymap.set("n", "[e", diagnostic_goto(-1, "ERROR"), { desc = "Prev Error" })
-vim.keymap.set("n", "]w", diagnostic_goto(1, "WARN"), { desc = "Next Warning" })
-vim.keymap.set(
-  "n",
-  "[w",
-  diagnostic_goto(-1, "WARN"),
-  { desc = "Prev Warning" }
-)
-vim.keymap.set("n", "H", "<cmd>bprev<CR>", { desc = "Previous Buffer" })
-vim.keymap.set("n", "L", "<cmd>bnext<CR>", { desc = "Next Buffer" })
+
+map("n", "<leader>bd", helpers.delete_buffer, { desc = "Delete buffer" })
+
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "]d", helpers.diagnostic_goto(1), { desc = "Next Diagnostic" })
+map("n", "[d", helpers.diagnostic_goto(-1), { desc = "Prev Diagnostic" })
+map("n", "]e", helpers.diagnostic_goto(1, "ERROR"), { desc = "Next Error" })
+map("n", "[e", helpers.diagnostic_goto(-1, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", helpers.diagnostic_goto(1, "WARN"), { desc = "Next Warning" })
+map("n", "[w", helpers.diagnostic_goto(-1, "WARN"), { desc = "Prev Warning" })
+map("n", "H", "<cmd>bprev<CR>", { desc = "Previous Buffer" })
+map("n", "L", "<cmd>bnext<CR>", { desc = "Next Buffer" })

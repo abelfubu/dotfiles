@@ -7,12 +7,18 @@ vim.o.wrap = false
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
 vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
 vim.o.clipboard = "unnamedplus"
+vim.o.incsearch = true
 vim.opt.cmdheight = 1
 vim.opt.laststatus = 3
+vim.opt.undofile = true
+vim.opt.autoread = true
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
 
 vim.g.have_nerd_font = true
 

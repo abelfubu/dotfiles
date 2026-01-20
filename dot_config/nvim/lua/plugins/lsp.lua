@@ -17,19 +17,6 @@ vim.diagnostic.config {
   },
   underline = { severity = { min = vim.diagnostic.severity.HINT } },
   virtual_text = false,
-  -- virtual_text = {
-  --   source = "if_many",
-  --   spacing = 2,
-  --   format = function(diagnostic)
-  --     local diagnostic_message = {
-  --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
-  --       [vim.diagnostic.severity.WARN] = diagnostic.message,
-  --       [vim.diagnostic.severity.INFO] = diagnostic.message,
-  --       [vim.diagnostic.severity.HINT] = diagnostic.message,
-  --     }
-  --     return diagnostic_message[diagnostic.severity]
-  --   end,
-  -- },
 }
 
 _G.organize_imports_on_save = _G.organize_imports_on_save == nil and true
@@ -79,6 +66,21 @@ return {
         "jsonls",
         "postgres_lsp",
         "eslint",
+      },
+    },
+    keys = {
+      {
+        "g.",
+        mode = { "n", "v" },
+        function()
+          vim.lsp.buf.code_action {
+            filter = function(action)
+              return action.disabled == nil
+            end,
+          }
+        end,
+        remap = true,
+        desc = "Code actions",
       },
     },
   },

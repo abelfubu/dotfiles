@@ -1,5 +1,6 @@
 return {
   "folke/snacks.nvim",
+  lazy = false,
   opts = {
     statuscolumn = { enabled = true },
     explorer = { replace_netrw = true },

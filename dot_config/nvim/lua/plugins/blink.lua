@@ -6,7 +6,6 @@ return {
     appearance = { nerd_font_variant = "normal" },
     fuzzy = { implementation = "prefer_rust" },
     sources = { default = { "lsp", "snippets", "buffer", "path" } },
-
     keymap = {
       preset = "enter",
       ["<D-Space>"] = { "show" },
@@ -21,15 +20,14 @@ return {
         "fallback",
       },
     },
-
     completion = {
+      accept = { auto_brackets = { enabled = false } },
       ghost_text = { enabled = true },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 200,
         window = { border = "single" },
       },
-
       menu = {
         scrollbar = false,
         border = "none",
@@ -45,7 +43,6 @@ return {
                 return icon
               end,
             },
-
             kind = {
               highlight = function()
                 return "comment"
