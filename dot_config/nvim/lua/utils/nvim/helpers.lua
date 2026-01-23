@@ -24,6 +24,10 @@ M.delete_buffer = function()
   vim.cmd [[bd]]
 end
 
+M.stop_insert = function()
+  vim.cmd.stopinsert()
+end
+
 M.better_escape = function()
   vim.cmd "noh"
   return "<esc>"

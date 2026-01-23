@@ -1,3 +1,14 @@
+vim.keymap.set({ "n", "v" }, "g.", function()
+  vim.lsp.buf.code_action {
+    filter = function(action)
+      return action.disabled == nil
+    end,
+  }
+end, {
+  remap = true,
+  desc = "Code actions",
+})
+
 vim.diagnostic.config {
   -- virtual_lines = { current_line = true },
   float = {
@@ -66,21 +77,6 @@ return {
         "jsonls",
         "postgres_lsp",
         "eslint",
-      },
-    },
-    keys = {
-      {
-        "g.",
-        mode = { "n", "v" },
-        function()
-          vim.lsp.buf.code_action {
-            filter = function(action)
-              return action.disabled == nil
-            end,
-          }
-        end,
-        remap = true,
-        desc = "Code actions",
       },
     },
   },

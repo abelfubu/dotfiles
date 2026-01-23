@@ -6,7 +6,7 @@ return {
     explorer = { replace_netrw = true },
     zen = {
       show = {
-        statusline = false, -- can only be shown when using the global statusline
+        statusline = true,
         tabline = true,
       },
       win = {
@@ -62,8 +62,6 @@ return {
             return ret
           end,
         },
-      },
-      rces = {
         lsp_symbols = {
           filter = {
             default = {
@@ -103,11 +101,12 @@ return {
       desc = "Change Theme",
     },
     {
-      "<leader><space>",
+      "<leader><leader>",
       function()
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },
           ignored = false,
+          layout = { preview = false, layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
@@ -118,14 +117,27 @@ return {
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },
           ignored = false,
+          layout = { preview = false, layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
     },
     {
-      "<leader>,",
+      ",",
       function()
-        Snacks.picker.buffers()
+        Snacks.picker.buffers {
+          on_show = require("utils.nvim.helpers").stop_insert,
+          layout = { preview = false, layout = { max_width = 77 } },
+          win = {
+            input = {
+              keys = {
+                ["<c-x>"] = { "bufdelete", mode = { "i" } },
+                ["D"] = { "bufdelete", mode = { "n" } },
+              },
+            },
+            list = { keys = { ["dd"] = "bufdelete" } },
+          },
+        }
       end,
       desc = "Buffers",
     },
@@ -442,6 +454,7 @@ return {
         Snacks.picker.lsp_references {
           include_declaration = false,
           include_current = false,
+          on_show = require("utils.nvim.helpers").stop_insert,
         }
       end,
       nowait = true,

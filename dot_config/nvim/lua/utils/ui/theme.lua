@@ -44,6 +44,9 @@ M.hl_adds = {
   MiniFilesBorderModified = { fg = "darker_black", bg = "darker_black" },
   NoiceConfirmBorder = { bg = "darker_black", fg = "darker_black" },
   NoiceConfirm = { bg = "darker_black", fg = "darker_black" },
+  SnacksPickerPreview = { bg = "black2" },
+  SnacksPickerPreviewTitle = { bg = "black2" },
+  SnacksPickerPreviewBorder = { bg = "black2", fg = "black2" },
 }
 
 --- @class HightlightOverridesOpts
