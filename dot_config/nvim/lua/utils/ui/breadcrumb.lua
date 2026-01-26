@@ -1,6 +1,6 @@
 local M = {}
 
-M.show_breadcrumbs = false
+M.show_breadcrumbs = true
 
 M.filter_filetypes = {
   "oil",

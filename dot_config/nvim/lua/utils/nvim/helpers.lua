@@ -34,11 +34,22 @@ M.better_escape = function()
 end
 
 M.close_other_buffers = function()
+  local zen = require "snacks.zen"
+  local open = not zen.win.closed
+
+  if open then
+    zen.win:close { buf = true }
+  end
+
   local current_buf = vim.api.nvim_get_current_buf()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if buf ~= current_buf then
-      vim.api.nvim_buf_delete(buf, { force = true })
+      vim.api.nvim_buf_delete(buf, {})
     end
+  end
+
+  if open then
+    zen.zen()
   end
 end
 
@@ -47,7 +58,7 @@ M.diagnostic_goto = function(count, severity)
     vim.diagnostic.jump {
       count = count,
       severity = vim.diagnostic.severity[severity] or nil,
-      on_jump = vim.diagnostic.open_float,
+      -- on_jump = vim.diagnostic.open_float,
     }
   end
 end

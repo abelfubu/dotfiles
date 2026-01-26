@@ -4,13 +4,13 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "obsidian-ember",
-  theme_toggle = { "obsidian-ember", "obsidian-ember" },
+  theme = "onedark",
+  theme_toggle = { "onedark", "onedark" },
 }, { italics = false, transparency = false })
 
 M.ui = {
   statusline = {
-    separator_style = "block",
+    separator_style = "default",
     order = {
       "mode",
       "file",

@@ -21,7 +21,6 @@ M.harpoon_picker = function()
             original = item,
           })
         else
-          -- 👇 placeholder row (keeps index)
           table.insert(items, {
             idx = i,
             text = "",
@@ -82,13 +81,13 @@ M.harpoon_picker = function()
           return
         end
         local list = harpoon:list()
-        -- Swap with next item
+
         local next = list:get(item.idx + 1)
         list:replace_at(item.idx + 1, item.original)
 
         list:replace_at(item.idx, next)
         picker:refresh()
-        -- Move cursor to follow the item
+
         picker.list:move(1)
       end,
       clean = function(picker)

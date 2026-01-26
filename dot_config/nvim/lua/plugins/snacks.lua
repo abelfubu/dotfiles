@@ -3,7 +3,9 @@ return {
   lazy = false,
   opts = {
     statuscolumn = { enabled = true },
-    explorer = { replace_netrw = true },
+    explorer = {
+      replace_netrw = true,
+    },
     zen = {
       show = {
         statusline = true,
@@ -83,7 +85,22 @@ return {
           },
         },
         explorer = {
+          icons = {
+            folder = {
+              default = " ",
+              open = " ",
+              empty = " ",
+              empty_open = " ",
+              symlink = " ",
+            },
+            tree = {
+              vertical = "  ",
+              middle = "  ",
+              last = "  ",
+            },
+          },
           layout = {
+            auto_hide = { "input" },
             preset = "vscode",
             cycle = false,
             layout = { position = "left", width = 0.33 },
