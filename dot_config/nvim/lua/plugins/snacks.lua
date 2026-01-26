@@ -233,42 +233,54 @@ return {
     {
       "<leader>gb",
       function()
-        Snacks.picker.git_branches()
+        Snacks.picker.git_branches {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Branches",
     },
     {
       "<leader>gl",
       function()
-        Snacks.picker.git_log()
+        Snacks.picker.git_log {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Log",
     },
     {
       "<leader>gL",
       function()
-        Snacks.picker.git_log_line()
+        Snacks.picker.git_log_line {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Log Line",
     },
     {
       "<leader>gs",
       function()
-        Snacks.picker.git_status()
+        Snacks.picker.git_status {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Status",
     },
     {
       "<leader>gS",
       function()
-        Snacks.picker.git_stash()
+        Snacks.picker.git_stash {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Stash",
     },
     {
       "<leader>gd",
       function()
-        Snacks.picker.git_diff()
+        Snacks.picker.git_diff {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
       desc = "Git Diff (Hunks)",
     },

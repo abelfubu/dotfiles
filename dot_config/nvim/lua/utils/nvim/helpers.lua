@@ -35,7 +35,7 @@ end
 
 M.close_other_buffers = function()
   local zen = require "snacks.zen"
-  local open = not zen.win.closed
+  local open = zen.win and not zen.win.closed
 
   if open then
     zen.win:close { buf = true }
