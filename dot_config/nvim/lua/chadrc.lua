@@ -4,9 +4,9 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "onedark",
-  theme_toggle = { "onedark", "onedark" },
-}, { italics = false, transparency = false })
+  theme = "poimandres",
+  theme_toggle = { "poimandres", "poimandres" },
+}, { italics = false, transparency = true })
 
 M.ui = {
   statusline = {
