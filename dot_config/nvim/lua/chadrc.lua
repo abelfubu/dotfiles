@@ -6,7 +6,7 @@ local M = {}
 M.base46 = theme.get_theme({
   theme = "poimandres",
   theme_toggle = { "poimandres", "poimandres" },
-}, { italics = false, transparency = true })
+}, { italics = false, transparency = false })
 
 M.ui = {
   statusline = {
