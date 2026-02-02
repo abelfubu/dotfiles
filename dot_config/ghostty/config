@@ -15,6 +15,7 @@ gtk-toolbar-style = flat
 cursor-style = "block"
 cursor-style-blink = false
 custom-shader = "./shaders/cursor_smear_dynamic.glsl"
+# custom-shader = "./shaders/cursor.glsl"
 
 keybind = cmd+h=text:\x08
 keybind = cmd+w=text:\x17
