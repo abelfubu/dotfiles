@@ -1,5 +1,4 @@
 -- stylua: ignore 
-
 return {
   "folke/persistence.nvim",
   opts = {},

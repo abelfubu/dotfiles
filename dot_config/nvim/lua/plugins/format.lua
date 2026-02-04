@@ -1,22 +1,3 @@
-_G.format_on_save = _G.format_on_save == nil and true or _G.format_on_save
-vim.keymap.set("n", "<leader>fm", function()
-  _G.format_on_save = not _G.format_on_save
-  if _G.format_on_save then
-    vim.notify "Enabled format on save"
-  else
-    vim.notify "Disabled format on save"
-  end
-end, { desc = "Toggle format on save" })
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*" },
-  callback = function(params)
-    if _G.format_on_save then
-      require("conform").format { bufnr = params.buf }
-    end
-  end,
-})
-
 return {
   {
     "stevearc/conform.nvim",
@@ -39,7 +20,23 @@ return {
         typescriptreact = { "prettier" },
         -- cs = { "csharpier" },
       },
-      format_on_save = nil,
+      format_on_save = function(bufnr)
+        local editor = require "plugin.editor"
+
+        if editor.opts.organize then
+          local ft = vim.bo[bufnr].filetype:gsub("react$", "")
+          if vim.tbl_contains({ "javascript", "typescript" }, ft) then
+            vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", {
+              command = (ft .. ".organizeImports"),
+              arguments = { vim.api.nvim_buf_get_name(bufnr) },
+            }, 3000)
+          end
+        end
+
+        if editor.opts.format then
+          return { timeout_ms = 500, lsp_fallback = true }
+        end
+      end,
       formatters = {
         injected = { options = { ignore_errors = true } },
       },

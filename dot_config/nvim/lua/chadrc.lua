@@ -4,8 +4,8 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "poimandres",
-  theme_toggle = { "poimandres", "poimandres" },
+  theme = "aylin",
+  theme_toggle = { "aylin", "aylin" },
 }, { italics = false, transparency = false })
 
 M.ui = {
@@ -41,7 +41,7 @@ M.ui = {
           color = "orange",
           icon = " ",
           text = "format",
-          enabled = _G.format_on_save,
+          enabled = require("plugin.editor").opts.format,
         }
       end,
       organizeImports = function()
@@ -49,7 +49,7 @@ M.ui = {
           color = "orange",
           icon = " ",
           text = "imports",
-          enabled = _G.organize_imports_on_save,
+          enabled = require("plugin.editor").opts.organize,
         }
       end,
     },
