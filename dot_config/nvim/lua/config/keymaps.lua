@@ -82,3 +82,29 @@ map("n", "]w", helpers.diagnostic_goto(1, "WARN"), { desc = "Next Warning" })
 map("n", "[w", helpers.diagnostic_goto(-1, "WARN"), { desc = "Prev Warning" })
 map("n", "H", "<cmd>bprev<CR>", { desc = "Previous Buffer" })
 map("n", "L", "<cmd>bnext<CR>", { desc = "Next Buffer" })
+
+-- Editor
+vim.keymap.set(
+  "n",
+  "<leader>fo",
+  require("utils.editor.core").toggle_organize,
+  { desc = "Toggle organizeImports on save" }
+)
+
+vim.keymap.set(
+  "n",
+  "<leader>fm",
+  require("utils.editor.core").toggle_format,
+  { desc = "Toggle format on save" }
+)
+
+vim.keymap.set({ "n", "v" }, "g.", function()
+  vim.lsp.buf.code_action {
+    filter = function(action)
+      return action.disabled == nil
+    end,
+  }
+end, {
+  remap = true,
+  desc = "Code actions",
+})

@@ -23,14 +23,6 @@ return {
         end,
         desc = "Open Mini Files",
       },
-      {
-        "<leader>gt",
-        function()
-          require("base46").toggle_theme()
-        end,
-        remap = true,
-        desc = "Toggle theme",
-      },
     },
   },
   {

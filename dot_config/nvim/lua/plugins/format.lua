@@ -21,7 +21,7 @@ return {
         -- cs = { "csharpier" },
       },
       format_on_save = function(bufnr)
-        local editor = require "plugin.editor"
+        local editor = require "utils.editor.core"
 
         if editor.opts.organize then
           local ft = vim.bo[bufnr].filetype:gsub("react$", "")

@@ -4,8 +4,8 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "aylin",
-  theme_toggle = { "aylin", "aylin" },
+  theme = "obsidian-ember-light",
+  theme_toggle = { "obsidian-ember-light", "obsidian-ember-light" },
 }, { italics = false, transparency = false })
 
 M.ui = {
@@ -41,7 +41,7 @@ M.ui = {
           color = "orange",
           icon = " ",
           text = "format",
-          enabled = require("plugin.editor").opts.format,
+          enabled = require("utils.editor.core").opts.format,
         }
       end,
       organizeImports = function()
@@ -49,7 +49,7 @@ M.ui = {
           color = "orange",
           icon = " ",
           text = "imports",
-          enabled = require("plugin.editor").opts.organize,
+          enabled = require("utils.editor.core").opts.organize,
         }
       end,
     },

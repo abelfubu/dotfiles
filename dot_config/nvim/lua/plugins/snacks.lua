@@ -569,6 +569,73 @@ return {
       desc = "Rename File",
     },
     {
+      "<leader>gi",
+      function()
+        Snacks.picker.gh_issue {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
+      end,
+      desc = "GitHub Issues (open)",
+    },
+    {
+      "<leader>go",
+      function()
+        Snacks.gitbrowse()
+      end,
+      desc = "Git open repository",
+      mode = { "n", "v" },
+    },
+
+    {
+      "<leader>gy",
+      function()
+        Snacks.gitbrowse.open {
+          what = "permalink",
+          open = function(url)
+            vim.fn.setreg("+", url)
+            Snacks.notify(
+              string.format(
+                "Copied %s url ( %s ) to clipboard",
+                "permalink",
+                url
+              ),
+              { title = "Git Browse yank permalink" }
+            )
+          end,
+        }
+      end,
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>gI",
+      function()
+        Snacks.picker.gh_issue {
+          state = "all",
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
+      end,
+      desc = "GitHub Issues (all)",
+    },
+    {
+      "<leader>gp",
+      function()
+        Snacks.picker.gh_pr {
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
+      end,
+      desc = "GitHub Pull Requests (open)",
+    },
+    {
+      "<leader>gP",
+      function()
+        Snacks.picker.gh_pr {
+          state = "all",
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
+      end,
+      desc = "GitHub Pull Requests (all)",
+    },
+    {
       "<leader>gB",
       function()
         Snacks.git.blame_line()
