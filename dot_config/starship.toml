@@ -1,9 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](blue)\
+[](red)\
 $directory\
-[](fg:blue bg:green)\
+[](fg:red bg:green)\
 $c\
 $cpp\
 $rust\
@@ -71,7 +71,7 @@ style_root = "bg:color_orange fg:color_fg0"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:black bg:blue"
+style = "fg:black bg:red"
 format = "[   $path ]($style)"
 truncation_length = 3
 

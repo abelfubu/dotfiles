@@ -19,6 +19,7 @@ return {
           "json",
           "yaml",
           "css",
+          "scss",
           "http",
         },
       }

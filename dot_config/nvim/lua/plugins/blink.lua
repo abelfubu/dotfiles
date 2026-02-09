@@ -11,10 +11,10 @@ return {
       ["<D-Space>"] = { "show" },
       ["<Tab>"] = {
         "snippet_forward",
-        function() -- sidekick next edit suggestion
+        function()
           return require("sidekick").nes_jump_or_apply()
         end,
-        function() -- if you are using Neovim's native inline completions
+        function()
           return vim.lsp.inline_completion.get()
         end,
         "fallback",
