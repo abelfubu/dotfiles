@@ -594,16 +594,13 @@ return {
           open = function(url)
             vim.fn.setreg("+", url)
             Snacks.notify(
-              string.format(
-                "Copied %s url ( %s ) to clipboard",
-                "permalink",
-                url
-              ),
+              "Copied url to clipboard",
               { title = "Git Browse yank permalink" }
             )
           end,
         }
       end,
+      desc = "Git permalink",
       mode = { "n", "v" },
     },
     {
