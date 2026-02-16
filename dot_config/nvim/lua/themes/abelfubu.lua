@@ -56,18 +56,80 @@ M.base_16 = {
   base06 = "#d3c6aa",
   base07 = "#ffffff",
 
-  base08 = "#dbbc7f", -- yellow
+  base08 = "#e67e80", -- red
   base09 = "#e69875", -- orange
-  base0A = "#a7c080", -- green
-  base0B = "#e67e80", -- red
+  base0A = "#dbbc7f", -- yellow
+  base0B = "#a7c080", -- green
   base0C = "#7fbbb3", -- cyan
   base0D = "#7fbbb3", -- blue
-  base0E = "#e06c75", -- pink/red
-  base0F = "#d3c6aa", -- purple
+  base0E = "#d3c6aa", -- purple
+  base0F = "#e06c75", -- pink/red
 }
 
 -- Small targeted overrides
 M.polish_hl = {
+  treesitter = {
+    -- Comments
+    ["@comment"] = { fg = "#708072", italic = true },
+
+    -- Keywords / control
+    ["@keyword"] = { fg = "#7fbbb3" },
+    ["@keyword.control"] = { fg = "#a7c080", italic = true },
+    ["@keyword.operator"] = { fg = "#cad2c5" },
+    ["@operator"] = { fg = "#cad2c5" },
+
+    -- Types
+    ["@type"] = { fg = "#dbbc7f" },
+    ["@type.builtin"] = { fg = "#dbbc7f" },
+    ["@constructor"] = { fg = "#dbbc7f" },
+
+    -- Functions
+    ["@function"] = { fg = "#DCDCAA" },
+    ["@function.call"] = { fg = "#DCDCAA" },
+    ["@method"] = { fg = "#DCDCAA" },
+    ["@method.call"] = { fg = "#DCDCAA" },
+
+    -- Variables
+    ["@variable"] = { fg = "#d3c6aa" },
+    ["@variable.builtin"] = { fg = "#7fbbb3", italic = true },
+    ["@parameter"] = { fg = "#d3c6aa" },
+    ["@field"] = { fg = "#d3c6aa" },
+    ["@property"] = { fg = "#d3c6aa" },
+
+    -- Constants / literals
+    ["@constant"] = { fg = "#cad2c5" },
+    ["@constant.builtin"] = { fg = "#7fbbb3" },
+    ["@number"] = { fg = "#cad2c5" },
+    ["@boolean"] = { fg = "#7fbbb3" },
+    ["@character"] = { fg = "#7fbbb3" },
+
+    -- Strings
+    ["@string"] = { fg = "#e67e80" },
+    ["@string.escape"] = { fg = "#D7BA7D" },
+    ["@string.regex"] = { fg = "#D16969" },
+
+    -- Tags / markup (HTML / JSX / Markdown)
+    ["@tag"] = { fg = "#7fbbb3" },
+    ["@tag.attribute"] = { fg = "#cad2c5", italic = true },
+    ["@markup.heading"] = { fg = "#7fbbb3", bold = true },
+    ["@markup.bold"] = { fg = "#7fbbb3", bold = true },
+    ["@markup.italic"] = { italic = true },
+    ["@markup.raw"] = { fg = "#e67e80" },
+    ["@markup.deleted"] = { fg = "#e67e80" },
+    ["@markup.inserted"] = { fg = "#cad2c5" },
+    ["@markup.changed"] = { fg = "#7fbbb3" },
+
+    -- Punctuation
+    ["@punctuation"] = { fg = "#d3c6aa" },
+    ["@punctuation.bracket"] = { fg = "#d3c6aa" },
+    ["@punctuation.delimiter"] = { fg = "#d3c6aa" },
+
+    -- Diagnostics (from VS Code tokens)
+    ["@error"] = { fg = "#f14c4c" },
+    ["@warning"] = { fg = "#E5C07B" },
+    ["@info"] = { fg = "#7fbbb3" },
+    ["@hint"] = { fg = "#cad2c5" },
+  },
   defaults = {
     Cursor = {
       bg = M.base_30.blue,
@@ -99,6 +161,6 @@ M.polish_hl = {
 
 M.type = "dark"
 
-M = require("base46").override_theme(M, "abelfubu")
+M = require("base46").override_theme(M, "abelfubu_dark")
 
 return M

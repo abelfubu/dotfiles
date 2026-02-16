@@ -9,15 +9,15 @@ return {
         lsp_format = "fallback",
       },
       formatters_by_ft = {
-        css = { "prettier" },
-        html = { "prettier" },
-        htmlangular = { "prettier" },
-        javascript = { "prettier" },
-        json = { "prettier" },
+        css = { "oxfmt", "prettier" },
+        html = { "oxfmt", "prettier" },
+        htmlangular = { "oxfmt", "prettier" },
+        javascript = { "oxfmt", "prettier" },
+        json = { "oxfmt", "prettier" },
         lua = { "stylua" },
         sql = { "pg_format" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
+        typescript = { "oxfmt", "prettier" },
+        typescriptreact = { "oxfmt", "prettier" },
         -- cs = { "csharpier" },
       },
       format_on_save = function(bufnr)
@@ -39,6 +39,25 @@ return {
       end,
       formatters = {
         injected = { options = { ignore_errors = true } },
+        oxfmt = {
+          condition = function(ctx)
+            return vim.fs.find(
+              { ".oxfmtrc.json" },
+              { path = ctx.filename, upward = true }
+            )[1] ~= nil
+          end,
+        },
+        prettier = {
+          condition = function(ctx)
+            return vim.fs.find({
+              ".prettierrc",
+              ".prettierrc.json",
+              ".prettierrc.js",
+              "prettier.config.js",
+              "prettier.config.ts",
+            }, { path = ctx.filename, upward = true })[1] ~= nil
+          end,
+        },
       },
     },
   },
