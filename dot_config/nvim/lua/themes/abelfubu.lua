@@ -33,7 +33,7 @@ M.base_30 = {
   sun = "#e5c07b",
 
   purple = "#d3c6aa",
-  dark_purple = "#b180d7",
+  dark_purple = "#e67e80",
 
   teal = "#7fbbb3",
   orange = "#e69875",

@@ -51,6 +51,7 @@ alias vim='nvim'
 alias gs='git status'
 alias gsc='git switch -c'
 alias gb='git switch -'
+alias gsw='git switch'
 alias fzed='zed $(fzf)'
 
 alias gg='lazygit'

@@ -45,15 +45,15 @@ map(
   { remap = true, desc = "Code go to definition" }
 )
 
-map("n", "<D-s>", helpers.write, { desc = "write buffer" })
+map("n", "<C-s>", helpers.write, { desc = "write buffer" })
 map("n", "L", helpers.next_buffer, { desc = "Next buffer" })
 map("n", "H", helpers.previous_buffer, { desc = "Previous buffer" })
 
 -- Window
 map("n", "<C-h>", "<C-w>h", { desc = "Move window left", remap = true })
-map("n", "<D-l>", "<C-w>l", { desc = "Move window right", remap = true })
-map("n", "<D-j>", "<C-w>j", { desc = "Move window down", remap = true })
-map("n", "<D-k>", "<C-w>k", { desc = "Move window up", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Move window right", remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Move window down", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Move window up", remap = true })
 
 -- Better ESC
 map(

@@ -51,6 +51,13 @@ return {
           desc = "Harpoon File",
         },
         {
+          "<leader>hx",
+          function()
+            require("harpoon"):list():clear()
+          end,
+          desc = "Harpoon File",
+        },
+        {
           "<leader>ho",
           require("utils.ui.harpoon").harpoon_picker,
           desc = "Harpoon Quick Menu",

@@ -15,7 +15,7 @@ after-startup-command = [
   outer.right =      [{ monitor."Built-in" = 8 }, 18]
 
 [mode.main.binding]
-  alt-enter = 'exec-and-forget open -n -a "ghostty"'
+  alt-enter = 'exec-and-forget open -n -a "wezterm"'
   alt-b = 'exec-and-forget open -n -a "Brave Browser"'
   alt-a = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://chat.openai.com"'
   alt-y = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://youtube.com"'
@@ -23,7 +23,7 @@ after-startup-command = [
   alt-shift-m = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://monkeytype.com"'
   alt-shift-w = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://web.whatsapp.com"'
   alt-e = 'exec-and-forget open -n -a "Brave Browser" --args --app="https://excalidraw.com"'
-	alt-n = 'exec-and-forget open -n -a Ghostty --args --window-padding-x=0 --window-padding-y=0 -e zsh -i -c "nvim"'
+	alt-n = 'exec-and-forget open -n -a wezterm --args --window-padding-x=0 --window-padding-y=0 -e zsh -i -c "nvim"'
 
   alt-w = "close"
   alt-o = "fullscreen"
