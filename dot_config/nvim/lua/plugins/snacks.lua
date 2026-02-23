@@ -129,7 +129,7 @@ return {
       desc = "Smart Find Files",
     },
     {
-      "<D-p>",
+      "<C-p>",
       function()
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },

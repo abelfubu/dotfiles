@@ -11,7 +11,7 @@ after-startup-command = [
   inner.vertical =   [{ monitor."Built-in" = 8 }, 18]
   outer.left =       [{ monitor."Built-in" = 8 }, 18]
   outer.bottom =     [{ monitor."Built-in" = 8 }, 18]
-  outer.top =        [{ monitor."Built-in" = 8 }, 8]
+  outer.top =        [{ monitor."Built-in" = 8 }, 18]
   outer.right =      [{ monitor."Built-in" = 8 }, 18]
 
 [mode.main.binding]

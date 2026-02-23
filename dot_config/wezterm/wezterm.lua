@@ -1,30 +1,40 @@
 local wezterm = require("wezterm")
 
-local font_size = 18
+local font_size = 16
 local font = "JetBrainsMono Nerd Font"
 
 local starting_apps = {
-	{ name = "server", cwd = "/dev/nomo-server-app/" },
-	{ name = "web", cwd = "/dev/nomo-web-app/" },
+	{ name = "server", cwd = "/dev/nomo-server-app/", command = "nvim\n" },
+	{ name = "web", cwd = "/dev/nomo-web-app/", command = "nvim\n" },
+	{ name = "mobile", cwd = "/dev/nomo-mobile-app/", command = "nvim\n" },
 	{ name = "notes", cwd = "/Nextcloud/Brain/" },
 }
 
 wezterm.on("gui-startup", function()
 	local tab, pane, window = wezterm.mux.spawn_window({
-		cwd = wezterm.home_dir .. "/dev/nomo-core/",
+		cwd = wezterm.home_dir .. "/dev",
 	})
 
 	window:gui_window():maximize()
-	pane:send_text("nvim\n")
-	tab:set_title("core")
+	-- pane:send_text("nvim\n")
+	tab:set_title("shell")
 
-	for _, app in ipairs(starting_apps) do
-		local new_tab, new_pane = tab:window():spawn_tab({ cwd = wezterm.home_dir .. app.cwd })
-		new_tab:set_title(app.name)
-		new_pane:send_text("nvim\n")
-	end
+	-- for _, app in ipairs(starting_apps) do
+	-- 	local new_tab, new_pane = tab:window():spawn_tab({ cwd = wezterm.home_dir .. app.cwd })
+	-- 	new_tab:set_title(app.name)
+	-- 	new_pane:send_text(app.command)
+	-- end
 
 	window:gui_window():perform_action(wezterm.action.ActivateTab(0), pane)
+
+	local tab, pane, window = wezterm.mux.spawn_window({
+		cwd = wezterm.home_dir .. "/Nextcloud/Brain/",
+		args = { "nvim" },
+	})
+
+	window:gui_window():maximize()
+	-- pane:send_text("nvim\n")
+	tab:set_title("notes")
 end)
 
 local config = {}
@@ -155,6 +165,59 @@ config.keys = {
 		mods = "CMD",
 		action = wezterm.action.SendKey({ key = "w", mods = "CTRL" }),
 	},
+	{
+		key = "p",
+		mods = "CMD",
+		action = wezterm.action.SendKey({ key = "p", mods = "CTRL" }),
+	},
+	{
+		key = "z",
+		mods = "LEADER",
+		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
+	},
+	{
+		key = "S",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action_callback(function(window, pane)
+			-- Here you can dynamically construct a longer list if needed
+
+			local home = wezterm.home_dir
+			local workspaces = {
+				{ id = home, label = "Home" },
+				{ id = home .. "/work", label = "Work" },
+				{ id = home .. "/personal", label = "Personal" },
+				{ id = home .. "/.config", label = "Config" },
+			}
+
+			window:perform_action(
+				wezterm.action.InputSelector({
+					action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+						if not id and not label then
+							wezterm.log_info("cancelled")
+						else
+							wezterm.log_info("id = " .. id)
+							wezterm.log_info("label = " .. label)
+							inner_window:perform_action(
+								wezterm.action.SwitchToWorkspace({
+									name = label,
+									spawn = {
+										label = "Workspace: " .. label,
+										cwd = id,
+									},
+								}),
+								inner_pane
+							)
+						end
+					end),
+					title = "Choose Workspace",
+					choices = workspaces,
+					fuzzy = true,
+					fuzzy_description = "Fuzzy find and/or make a workspace",
+				}),
+				pane
+			)
+		end),
+	},
 }
 
 for i = 1, 9 do
@@ -167,8 +230,8 @@ end
 
 config.window_padding = {
 	top = 0,
-	right = 0,
-	left = 0,
+	right = 16,
+	left = 16,
 	bottom = 0,
 }
 
