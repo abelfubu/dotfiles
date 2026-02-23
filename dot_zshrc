@@ -58,6 +58,8 @@ alias gg='lazygit'
 alias dd='lazydocker'
 alias ss='lazysql'
 
+alias t='wezterm cli set-tab-title'
+
 # bun completions
 [ -s "/Users/abeldelafuente/.bun/_bun" ] && source "/Users/abeldelafuente/.bun/_bun"
 

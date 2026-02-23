@@ -3,38 +3,13 @@ local wezterm = require("wezterm")
 local font_size = 16
 local font = "JetBrainsMono Nerd Font"
 
-local starting_apps = {
-	{ name = "server", cwd = "/dev/nomo-server-app/", command = "nvim\n" },
-	{ name = "web", cwd = "/dev/nomo-web-app/", command = "nvim\n" },
-	{ name = "mobile", cwd = "/dev/nomo-mobile-app/", command = "nvim\n" },
-	{ name = "notes", cwd = "/Nextcloud/Brain/" },
-}
-
 wezterm.on("gui-startup", function()
 	local tab, pane, window = wezterm.mux.spawn_window({
 		cwd = wezterm.home_dir .. "/dev",
 	})
 
 	window:gui_window():maximize()
-	-- pane:send_text("nvim\n")
-	tab:set_title("shell")
-
-	-- for _, app in ipairs(starting_apps) do
-	-- 	local new_tab, new_pane = tab:window():spawn_tab({ cwd = wezterm.home_dir .. app.cwd })
-	-- 	new_tab:set_title(app.name)
-	-- 	new_pane:send_text(app.command)
-	-- end
-
-	window:gui_window():perform_action(wezterm.action.ActivateTab(0), pane)
-
-	local tab, pane, window = wezterm.mux.spawn_window({
-		cwd = wezterm.home_dir .. "/Nextcloud/Brain/",
-		args = { "nvim" },
-	})
-
-	window:gui_window():maximize()
-	-- pane:send_text("nvim\n")
-	tab:set_title("notes")
+	tab:set_title("dev")
 end)
 
 local config = {}
@@ -52,7 +27,7 @@ config.line_height = 1.6
 
 config.window_decorations = "RESIZE"
 
-config.leader = { key = "t", mods = "ALT", timeout_milliseconds = 5000 }
+config.leader = { key = "d", mods = "ALT", timeout_milliseconds = 5000 }
 
 config.keys = {
 	{
@@ -140,26 +115,26 @@ config.keys = {
 		mods = "CMD",
 		action = wezterm.action.SendKey({ key = "s", mods = "CTRL" }),
 	},
-	{
-		key = "j",
-		mods = "CMD",
-		action = wezterm.action.SendKey({ key = "j", mods = "CTRL" }),
-	},
-	{
-		key = "k",
-		mods = "CMD",
-		action = wezterm.action.SendKey({ key = "k", mods = "CTRL" }),
-	},
-	{
-		key = "l",
-		mods = "CMD",
-		action = wezterm.action.SendKey({ key = "l", mods = "CTRL" }),
-	},
-	{
-		key = "h",
-		mods = "CMD",
-		action = wezterm.action.SendKey({ key = "h", mods = "CTRL" }),
-	},
+	-- {
+	-- 	key = "j",
+	-- 	mods = "CMD",
+	-- 	action = wezterm.action.SendKey({ key = "j", mods = "CTRL" }),
+	-- },
+	-- {
+	-- 	key = "k",
+	-- 	mods = "CMD",
+	-- 	action = wezterm.action.SendKey({ key = "k", mods = "CTRL" }),
+	-- },
+	-- {
+	-- 	key = "l",
+	-- 	mods = "CMD",
+	-- 	action = wezterm.action.SendKey({ key = "l", mods = "CTRL" }),
+	-- },
+	-- {
+	-- 	key = "h",
+	-- 	mods = "CMD",
+	-- 	action = wezterm.action.SendKey({ key = "h", mods = "CTRL" }),
+	-- },
 	{
 		key = "w",
 		mods = "CMD",
@@ -175,55 +150,12 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
 	},
-	{
-		key = "S",
-		mods = "CTRL|SHIFT",
-		action = wezterm.action_callback(function(window, pane)
-			-- Here you can dynamically construct a longer list if needed
-
-			local home = wezterm.home_dir
-			local workspaces = {
-				{ id = home, label = "Home" },
-				{ id = home .. "/work", label = "Work" },
-				{ id = home .. "/personal", label = "Personal" },
-				{ id = home .. "/.config", label = "Config" },
-			}
-
-			window:perform_action(
-				wezterm.action.InputSelector({
-					action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-						if not id and not label then
-							wezterm.log_info("cancelled")
-						else
-							wezterm.log_info("id = " .. id)
-							wezterm.log_info("label = " .. label)
-							inner_window:perform_action(
-								wezterm.action.SwitchToWorkspace({
-									name = label,
-									spawn = {
-										label = "Workspace: " .. label,
-										cwd = id,
-									},
-								}),
-								inner_pane
-							)
-						end
-					end),
-					title = "Choose Workspace",
-					choices = workspaces,
-					fuzzy = true,
-					fuzzy_description = "Fuzzy find and/or make a workspace",
-				}),
-				pane
-			)
-		end),
-	},
 }
 
 for i = 1, 9 do
 	table.insert(config.keys, {
 		key = tostring(i),
-		mods = "LEADER",
+		mods = "CTRL",
 		action = wezterm.action.ActivateTab(i - 1),
 	})
 end
@@ -239,6 +171,29 @@ wezterm.plugin.require("https://github.com/abelfubu/wezmuxbar").add_mux_bar(conf
 	tab_bar_position = "top",
 })
 
-wezterm.plugin.update_all()
+local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
+-- you can put the rest of your Wezterm config here
+smart_splits.apply_to_config(config, {
+	-- the default config is here, if you'd like to use the default keys,
+	-- you can omit this configuration table parameter and just use
+	-- smart_splits.apply_to_config(config)
+
+	-- directional keys to use in order of: left, down, up, right
+	-- if you want to use separate direction keys for move vs. resize, you
+	-- can also do this:
+	direction_keys = {
+		move = { "h", "j", "k", "l" },
+		resize = { "LeftArrow", "DownArrow", "UpArrow", "RightArrow" },
+	},
+	-- modifier keys to combine with direction_keys
+	modifiers = {
+		move = "CTRL", -- modifier to use for pane movement, e.g. CTRL+h to move left
+		resize = "CTRL", -- modifier to use for pane resize, e.g. META+h to resize to the left
+	},
+	-- log level to use: info, warn, error
+	log_level = "info",
+})
+
+-- wezterm.plugin.update_all()
 
 return config

@@ -50,10 +50,23 @@ map("n", "L", helpers.next_buffer, { desc = "Next buffer" })
 map("n", "H", helpers.previous_buffer, { desc = "Previous buffer" })
 
 -- Window
-map("n", "<C-h>", "<C-w>h", { desc = "Move window left", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Move window right", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Move window down", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Move window up", remap = true })
+map("n", "<C-h>", function()
+  require("smart-splits").move_cursor_left()
+end, { desc = "Move window left", remap = true })
+map("n", "<C-j>", function()
+  require("smart-splits").move_cursor_down()
+end, { desc = "Move window down", remap = true })
+map("n", "<C-k>", function()
+  require("smart-splits").move_cursor_up()
+end, { desc = "Move window up", remap = true })
+map("n", "<C-l>", function()
+  require("smart-splits").move_cursor_right()
+end, { desc = "Move window right", remap = true })
+
+-- map("n", "<C-h>", "<C-w>h", { desc = "Move window left", remap = true })
+-- map("n", "<C-j>", "<C-w>j", { desc = "Move window down", remap = true })
+-- map("n", "<C-k>", "<C-w>k", { desc = "Move window up", remap = true })
+-- map("n", "<C-l>", "<C-w>l", { desc = "Move window right", remap = true })
 
 -- Better ESC
 map(
