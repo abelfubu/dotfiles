@@ -48,6 +48,8 @@ map(
 map("n", "<C-s>", helpers.write, { desc = "write buffer" })
 map("n", "L", helpers.next_buffer, { desc = "Next buffer" })
 map("n", "H", helpers.previous_buffer, { desc = "Previous buffer" })
+map("n", "<leader>|", ":vsplit<CR>", { desc = "Vertical split", silent = true })
+map("n", "<leader>x", ":close<CR>", { desc = "Close split", silent = true })
 
 -- Window
 map("n", "<C-h>", function()

@@ -1,7 +1,8 @@
 local wezterm = require("wezterm")
 
-local font_size = 16
-local font = "JetBrainsMono Nerd Font"
+local font_size = 17
+local font = "Operator Mono SSm Lig"
+local font_weight = "Medium"
 
 wezterm.on("gui-startup", function()
 	local tab, pane, window = wezterm.mux.spawn_window({
@@ -21,7 +22,7 @@ end
 config.window_background_opacity = 0.95
 
 config.color_scheme = "One Dark (Gogh)"
-config.font = wezterm.font_with_fallback({ { family = font }, "JetBrainsMono Nerd Font" })
+config.font = wezterm.font_with_fallback({ { family = font, weight = font_weight }, "JetBrainsMono Nerd Font" })
 config.font_size = font_size
 config.line_height = 1.6
 
@@ -115,26 +116,26 @@ config.keys = {
 		mods = "CMD",
 		action = wezterm.action.SendKey({ key = "s", mods = "CTRL" }),
 	},
-	-- {
-	-- 	key = "j",
-	-- 	mods = "CMD",
-	-- 	action = wezterm.action.SendKey({ key = "j", mods = "CTRL" }),
-	-- },
-	-- {
-	-- 	key = "k",
-	-- 	mods = "CMD",
-	-- 	action = wezterm.action.SendKey({ key = "k", mods = "CTRL" }),
-	-- },
-	-- {
-	-- 	key = "l",
-	-- 	mods = "CMD",
-	-- 	action = wezterm.action.SendKey({ key = "l", mods = "CTRL" }),
-	-- },
-	-- {
-	-- 	key = "h",
-	-- 	mods = "CMD",
-	-- 	action = wezterm.action.SendKey({ key = "h", mods = "CTRL" }),
-	-- },
+	{
+		key = "j",
+		mods = "CMD",
+		action = wezterm.action.SendKey({ key = "j", mods = "CTRL" }),
+	},
+	{
+		key = "k",
+		mods = "CMD",
+		action = wezterm.action.SendKey({ key = "k", mods = "CTRL" }),
+	},
+	{
+		key = "l",
+		mods = "CMD",
+		action = wezterm.action.SendKey({ key = "l", mods = "CTRL" }),
+	},
+	{
+		key = "h",
+		mods = "CMD",
+		action = wezterm.action.SendKey({ key = "h", mods = "CTRL" }),
+	},
 	{
 		key = "w",
 		mods = "CMD",
