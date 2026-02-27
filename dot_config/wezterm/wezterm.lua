@@ -82,22 +82,22 @@ config.keys = {
 		action = wezterm.action.ActivatePaneDirection("Right"),
 	},
 	{
-		mods = "LEADER",
+		mods = "SHIFT",
 		key = "LeftArrow",
 		action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
 	},
 	{
-		mods = "LEADER",
+		mods = "SHIFT",
 		key = "RightArrow",
 		action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
 	},
 	{
-		mods = "LEADER",
+		mods = "SHIFT",
 		key = "DownArrow",
 		action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
 	},
 	{
-		mods = "LEADER",
+		mods = "SHIFT",
 		key = "UpArrow",
 		action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
 	},
