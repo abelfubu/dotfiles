@@ -21,6 +21,21 @@ end
 
 config.window_background_opacity = 0.95
 
+-- config.background = {
+-- 	{
+-- 		source = { File = "/Users/abelfubu/Nextcloud/Photos/blue-gray-bg.jpg" },
+-- 		-- width = "100%",
+-- 		height = "100%",
+-- 		opacity = 0.3,
+-- 	},
+-- 	{
+-- 		source = { Color = "#282c34" },
+-- 		width = "100%",
+-- 		height = "100%",
+-- 		opacity = 0.85,
+-- 	},
+-- }
+
 config.color_scheme = "One Dark (Gogh)"
 config.font = wezterm.font_with_fallback({ { family = font, weight = font_weight }, "JetBrainsMono Nerd Font" })
 config.font_size = font_size
@@ -172,16 +187,7 @@ wezterm.plugin.require("https://github.com/abelfubu/wezmuxbar").add_mux_bar(conf
 	tab_bar_position = "top",
 })
 
-local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
--- you can put the rest of your Wezterm config here
-smart_splits.apply_to_config(config, {
-	-- the default config is here, if you'd like to use the default keys,
-	-- you can omit this configuration table parameter and just use
-	-- smart_splits.apply_to_config(config)
-
-	-- directional keys to use in order of: left, down, up, right
-	-- if you want to use separate direction keys for move vs. resize, you
-	-- can also do this:
+wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim").apply_to_config(config, {
 	direction_keys = {
 		move = { "h", "j", "k", "l" },
 		resize = { "LeftArrow", "DownArrow", "UpArrow", "RightArrow" },

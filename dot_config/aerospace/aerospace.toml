@@ -2,9 +2,9 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = true
 start-at-login = true
 
-after-startup-command = [
-  'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x00ffcb6b width=2.5',
-]
+# after-startup-command = [
+#   'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x00ffcb6b width=2.5',
+# ]
 
 [gaps]
   inner.horizontal = [{ monitor."Built-in" = 8 }, 18]

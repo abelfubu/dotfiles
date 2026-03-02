@@ -14,9 +14,9 @@ return {
         function()
           return require("sidekick").nes_jump_or_apply()
         end,
-        function()
-          return vim.lsp.inline_completion.get()
-        end,
+        -- function()
+        --   return vim.lsp.inline_completion.get()
+        -- end,
         "fallback",
       },
     },

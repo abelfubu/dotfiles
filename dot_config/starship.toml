@@ -21,7 +21,7 @@ $line_break\
 palette = 'gruvbox_dark'
 
 [palettes.gruvbox_dark]
-color_fg0 = 'white'
+color_fg0 = 'yellow'
 color_bg1 = '#3c3836'
 color_bg3 = '#665c54'
 color_blue = 'blue'
@@ -67,7 +67,7 @@ style_root = "bg:color_orange fg:color_fg0"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:red"
+style = "fg:blue"
 format = "[ $path ]($style)"
 truncation_length = 3
 
@@ -91,9 +91,9 @@ diverged = "[${ahead_count} ](fg:color_fg0) [${behind_count}](fg:color_fg0
 untracked = "[${count} ](fg:color_fg0)"
 stashed = "[${count} ](fg:color_fg0)"
 modified = "[${count} ](fg:color_fg0)"
-renamed = "[${count}󰑕 ](bg:color_bg1 fg:blue)"
-staged = "[${count}󱓺 ](bg:color_bg1 fg:green)"
-deleted = "[ ${count} ](bg:color_bg1 fg:red)"
+renamed = "[${count}󰑕 ](fg:blue)"
+staged = "[${count}󱓺 ](fg:green)"
+deleted = "[ ${count} ](fg:red)"
 style = "fg:black"
 format = '[[ ($all_status$ahead_behind )](fg:black)]($style)'
 
