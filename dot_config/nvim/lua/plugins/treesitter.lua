@@ -1,8 +1,12 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    "arborist-ts/arborist.nvim",
     lazy = false,
-    build = ":TSUpdate",
+    config = function()
+      require("arborist").setup {
+        auto_install = false,
+        parser_dir = vim.fn.stdpath "data" .. "/treesitter",
+      }
+    end,
   },
 }

@@ -96,11 +96,14 @@ local function add_tilde_string()
   end
 
   local current_node = vim.treesitter.get_node { ignore_injections = false }
+  print("Current node: " .. tostring(current_node))
+  if not current_node then return end
   if current_node:type() ~= "string" then
     return
   end
 
   local string_text = vim.treesitter.get_node_text(current_node, 0)
+  print("String text: " .. string_text)
   print(string_text)
   if vim.startswith(string_text, "`") then
     return

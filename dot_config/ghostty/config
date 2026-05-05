@@ -25,5 +25,6 @@ shell-integration-features = no-cursor,ssh-env
 mouse-scroll-multiplier = 0.95
 mouse-hide-while-typing = true
 
-background-opacity = 1
-theme = dark:Atom One Dark,light:obsidian-ember-light
+background-opacity = 1.00
+# theme = dark:Atom One Dark,light:obsidian-ember-light
+theme = dark:Vesper,light:obsidian-ember-light

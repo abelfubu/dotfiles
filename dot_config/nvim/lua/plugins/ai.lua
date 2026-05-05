@@ -1,5 +1,24 @@
 return {
-  { "github/copilot.vim", enabled = false },
+  { "carderne/pi-nvim", opts = {} },
+  -- Remove the `use` here if you're using folke/lazy.nvim.
+  {
+    "Exafunction/windsurf.vim",
+    event = "BufEnter",
+    config = function()
+      vim.keymap.set("i", "<C-g>", function()
+        return vim.fn["codeium#Accept"]()
+      end, { expr = true, silent = true })
+      vim.keymap.set("i", "<c-;>", function()
+        return vim.fn["codeium#CycleCompletions"](1)
+      end, { expr = true, silent = true })
+      vim.keymap.set("i", "<c-,>", function()
+        return vim.fn["codeium#CycleCompletions"](-1)
+      end, { expr = true, silent = true })
+      vim.keymap.set("i", "<c-x>", function()
+        return vim.fn["codeium#Clear"]()
+      end, { expr = true, silent = true })
+    end,
+  },
   {
     "folke/sidekick.nvim",
     opts = {},
