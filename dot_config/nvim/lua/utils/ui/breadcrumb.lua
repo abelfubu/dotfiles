@@ -5,6 +5,7 @@ M.show_breadcrumbs = true
 M.filter_filetypes = {
   "oil",
   "help",
+  "markdown",
 }
 
 M.toggle = function()
@@ -58,11 +59,19 @@ M.setup = function()
         vim.wo.winbar = ""
         return
       end
+
       -- Filter filetypes
       if vim.tbl_contains(M.filter_filetypes, vim.bo[args.buf].filetype) then
         vim.wo.winbar = ""
         return
       end
+
+      -- Filter bufname including diffview:/
+      if vim.fn.bufname(args.buf):match "^diffview:/" then
+        vim.wo.winbar = ""
+        return
+      end
+
       -- Do not show winbar for single file in cwd
       local filepath = vim.fn.fnamemodify(vim.fn.expand "%", ":.")
       if not filepath or filepath == "" then

@@ -1,7 +1,18 @@
 local wezterm = require("wezterm")
 
-local font_size = 17
-local font = "Operator Mono SSm Lig"
+local function scheme_for_appearance(appearance)
+	if appearance:find("Dark") then
+		return "One Dark (Gogh)"
+	else
+		return "One Light (Gogh)"
+	end
+end
+
+local font_size = 16
+-- local font = "Geist Mono"
+-- local font = "Operator Mono SSm Lig"
+-- local font = "JetBrainsMono Nerd Font"
+local font = "CommitMono"
 local font_weight = "Medium"
 
 wezterm.on("gui-startup", function()
@@ -21,31 +32,36 @@ end
 
 config.window_background_opacity = 0.95
 
--- config.background = {
--- 	{
--- 		source = { File = "/Users/abelfubu/Nextcloud/Photos/blue-gray-bg.jpg" },
--- 		-- width = "100%",
--- 		height = "100%",
--- 		opacity = 0.3,
--- 	},
--- 	{
--- 		source = { Color = "#282c34" },
--- 		width = "100%",
--- 		height = "100%",
--- 		opacity = 0.85,
--- 	},
--- }
-
-config.color_scheme = "One Dark (Gogh)"
-config.font = wezterm.font_with_fallback({ { family = font, weight = font_weight }, "JetBrainsMono Nerd Font" })
+config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+config.font = wezterm.font_with_fallback({
+	{
+		family = font,
+		weight = font_weight,
+	},
+	"JetBrainsMono Nerd Font",
+})
+config.harfbuzz_features = { "ss01", "ss02", "cv02", "cv10" }
 config.font_size = font_size
-config.line_height = 1.6
+config.line_height = 1.8
 
 config.window_decorations = "RESIZE"
+
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+table.insert(config.hyperlink_rules, {
+	regex = [[(\S+):(\d+):(\d+)]],
+	format = "file://$1:$2:$3",
+})
+
+table.insert(config.hyperlink_rules, {
+	regex = [[(\S+):(\d+)]],
+	format = "file://$1:$2",
+})
 
 config.leader = { key = "d", mods = "ALT", timeout_milliseconds = 5000 }
 
 config.keys = {
+
 	{
 		mods = "LEADER",
 		key = "c",
@@ -68,7 +84,7 @@ config.keys = {
 	},
 	{
 		mods = "LEADER",
-		key = "/",
+		key = "|",
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
@@ -118,11 +134,11 @@ config.keys = {
 	},
 	{
 		key = "Enter",
-		mods = "LEADER",
+		mods = "CMD",
 		action = wezterm.action.ActivateCopyMode,
 	},
 	{
-		key = "m",
+		key = "o",
 		mods = "LEADER",
 		action = wezterm.action.TogglePaneZoomState,
 	},
@@ -166,6 +182,39 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
 	},
+	{
+		key = "g",
+		mods = "CMD",
+		action = wezterm.action.SpawnCommandInNewTab({
+			label = "Lazygit",
+			args = { "/bin/zsh", "-l", "-c", "lazygit" },
+		}),
+	},
+	{
+		key = "1",
+		mods = "CMD",
+		action = wezterm.action.SpawnCommandInNewTab({
+			label = "Sql",
+			args = { "/bin/zsh", "-l", "-c", "lazysql" },
+		}),
+	},
+	{
+		key = "d",
+		mods = "CMD",
+		action = wezterm.action.SpawnCommandInNewTab({
+			label = "Dash",
+			args = { "/bin/zsh", "-l", "-c", "gh dash" },
+		}),
+	},
+	{
+		key = "o",
+		mods = "CMD",
+		action = wezterm.action.SplitPane({
+			direction = "Right",
+			command = { args = { "/bin/zsh", "-l", "-c", "opencode" } },
+			size = { Percent = 27 },
+		}),
+	},
 }
 
 for i = 1, 9 do
@@ -183,21 +232,19 @@ config.window_padding = {
 	bottom = 0,
 }
 
-wezterm.plugin.require("https://github.com/abelfubu/wezmuxbar").add_mux_bar(config, {
-	tab_bar_position = "top",
-})
+local wezmuxbar = wezterm.plugin.require("https://github.com/abelfubu/wezmuxbar")
+wezmuxbar.add_mux_bar(config, { tab_bar_position = "top", date = false, time = false })
+wezmuxbar.setup_switcher(config)
 
 wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim").apply_to_config(config, {
 	direction_keys = {
 		move = { "h", "j", "k", "l" },
 		resize = { "LeftArrow", "DownArrow", "UpArrow", "RightArrow" },
 	},
-	-- modifier keys to combine with direction_keys
 	modifiers = {
-		move = "CTRL", -- modifier to use for pane movement, e.g. CTRL+h to move left
-		resize = "CTRL", -- modifier to use for pane resize, e.g. META+h to resize to the left
+		move = "CTRL",
+		resize = "CTRL",
 	},
-	-- log level to use: info, warn, error
 	log_level = "info",
 })
 

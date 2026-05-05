@@ -11,7 +11,6 @@
 [pull]
 	rebase = true 			 # Rebase (instead of merge) on pull
 [push]
-	autoSetupRemote = true   # Automatically set upstream branch on push
 	autoSetupRemote = true
 [diff]
 	algorithm = histogram    # Clearer diffs on moved/edited lines
@@ -31,9 +30,3 @@
 [user]
 	name = Abel de la Fuente
 	email = {{ .email }}
-[credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential

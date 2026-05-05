@@ -12,7 +12,7 @@ M.ui = {
   statusline = {
     separator_style = "default",
     order = {
-      "mode",
+      -- "mode",
       "file",
       "git",
       "%=",
@@ -23,7 +23,7 @@ M.ui = {
       -- "cwd",
       "format",
       "organizeImports",
-      "recording",
+      -- "recording",
     },
     modules = {
       recording = function()
@@ -58,7 +58,7 @@ M.ui = {
   tabufline = {
     bufwidth = 21,
     order = { "buffers", "tabs" },
-    enabled = true,
+    enabled = false,
     lazyload = false,
     tabufline_style = "default",
   },
@@ -67,7 +67,7 @@ M.ui = {
 M.lsp = { signature = false }
 
 M.nvdash = {
-  load_on_startup = true,
+  load_on_startup = false,
   header = {
     "                            ",
     "         abelfubu           ",

@@ -2,6 +2,7 @@ return {
   { "https://github.com/MunifTanjim/nui.nvim" },
   {
     "https://github.com/folke/noice.nvim",
+    enabled = false,
     opts = {
       presets = {
         lsp_doc_border = true,

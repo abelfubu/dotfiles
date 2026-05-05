@@ -83,5 +83,21 @@ return {
       end,
     },
   },
-  { "sindrets/diffview.nvim", opts = {} },
+  {
+    "sindrets/diffview.nvim",
+    opts = {
+      enhanced_diff_hl = true,
+      file_panel = {
+        listing_style = "tree",
+        tree_options = {
+          flatten_dirs = true,
+        },
+        win_config = {
+          position = "left",
+          width = 50,
+          win_opts = {},
+        },
+      },
+    },
+  },
 }

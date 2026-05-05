@@ -6,6 +6,12 @@ map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 map("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
 map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
+map(
+  "t",
+  "<Esc><Esc>",
+  "<C-\\><C-n>",
+  { desc = "Enter normal mode on terminal" }
+)
 
 -- Remappings
 map({ "n", "v" }, ";", ":", { noremap = true })
@@ -18,6 +24,9 @@ map(
   helpers.toggle_relative_number,
   { desc = "Toggle relative number" }
 )
+
+-- Open diffview
+map("n", "<leader>dv", ":DiffviewOpen<CR>", { desc = "Open diffview" })
 
 -- sort only selection in visual mode
 map("v", "<leader>so", ":sort<CR>", {
@@ -123,3 +132,9 @@ end, {
   remap = true,
   desc = "Code actions",
 })
+
+-- Tabs
+map("n", "<leader>tc", ":tabclose<CR>", { desc = "Close tab" })
+map("n", "<leader>ta", ":tabonly<CR>", { desc = "Close all other tabs" })
+map("n", "<C-Tab>", "gt", { noremap = true, desc = "Next tab" })
+map("n", "<C-S-Tab>", "gT", { noremap = true, desc = "Previous tab" })

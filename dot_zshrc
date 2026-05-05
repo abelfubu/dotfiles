@@ -4,7 +4,7 @@ eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abelfubu/.rd/bin:$PATH"
+export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="/Users/abelfubu/.local/share/bin/:$PATH"
@@ -33,7 +33,7 @@ zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "marlonrichert/zsh-autocomplete"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-history-substring-search", defer:3
+# zplug "zsh-users/zsh-history-substring-search", defer:3
 
 
 if ! zplug check; then
@@ -59,6 +59,7 @@ alias dd='lazydocker'
 alias ss='lazysql'
 
 alias t='wezterm cli set-tab-title'
+alias T='wezterm cli rename-workspace'
 
 # bun completions
 [ -s "/Users/abeldelafuente/.bun/_bun" ] && source "/Users/abeldelafuente/.bun/_bun"
@@ -66,3 +67,7 @@ alias t='wezterm cli set-tab-title'
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# Load machine-specific secrets (not in chezmoi)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"

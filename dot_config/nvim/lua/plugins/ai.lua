@@ -1,5 +1,5 @@
 return {
-  { "github/copilot.vim" },
+  { "github/copilot.vim", enabled = false },
   {
     "folke/sidekick.nvim",
     opts = {},
