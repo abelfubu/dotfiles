@@ -4,8 +4,8 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "dark_horizon",
-  theme_toggle = { "dark_horizon", "dark_horizon" },
+  theme = "material-darker",
+  theme_toggle = { "material-darker", "material-darker" },
 }, { italics = false, transparency = true })
 
 M.ui = {

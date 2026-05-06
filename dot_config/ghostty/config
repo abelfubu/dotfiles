@@ -27,4 +27,4 @@ mouse-hide-while-typing = true
 
 background-opacity = 1.00
 # theme = dark:Atom One Dark,light:obsidian-ember-light
-theme = dark:Vesper,light:obsidian-ember-light
+theme = dark:Material Darker,light:obsidian-ember-light
