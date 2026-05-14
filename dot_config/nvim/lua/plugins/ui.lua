@@ -44,11 +44,6 @@ return {
     },
   },
   {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    dependencies = { "saghen/blink.cmp" },
-  },
-  {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     opts = {

@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 
-selected=$(tmux list-sessions -F '#S' 2>/dev/null \
-  | fzf \
-      --print-query \
-      --no-preview \
-      --reverse \
-      --bind "D:execute(tmux kill-session -t {})+reload(tmux list-sessions -F '#S' 2>/dev/null)" \
-  | tail -1)
+sessions=$(tmux list-sessions -F '#S' 2>/dev/null)
+[ -z "$sessions" ] && exit 0
 
+selected=$(echo "$sessions" | gum choose --no-show-help --header "Session")
 [ -z "$selected" ] && exit 0
 
-tmux has-session -t "$selected" 2>/dev/null || tmux new-session -ds "$selected"
 tmux switch-client -t "$selected"

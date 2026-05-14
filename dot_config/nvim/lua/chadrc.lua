@@ -58,7 +58,7 @@ M.ui = {
   tabufline = {
     bufwidth = 21,
     order = { "buffers", "tabs" },
-    enabled = false,
+    enabled = true,
     lazyload = false,
     tabufline_style = "default",
   },
