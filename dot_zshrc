@@ -4,7 +4,7 @@ eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
+export PATH="/Users/abelfubu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="/Users/abelfubu/.local/share/bin/:$PATH"
@@ -59,6 +59,8 @@ alias ss='lazysql'
 
 alias t='wezterm cli set-tab-title'
 alias T='wezterm cli rename-workspace'
+
+alias term='nvim -u NONE --noplugin -c "set laststatus=0" -c "set noshowmode" -c "set cmdheight=0" -c "set noruler" -c "set nonumber" -c "set norelativenumber" -c "tnoremap <Esc><Esc> <C-\><C-n>" -c "terminal" -c "highlight Normal ctermbg=NONE guibg=NONE" -c "highlight NonText ctermbg=NONE guibg=NONE"'
 
 # bun completions
 [ -s "/Users/abeldelafuente/.bun/_bun" ] && source "/Users/abeldelafuente/.bun/_bun"

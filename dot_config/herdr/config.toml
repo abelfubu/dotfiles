@@ -1,0 +1,52 @@
+onboarding = false
+
+[theme]
+name = "vesper"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+agent_panel_scope = "all"
+
+[keys]
+prefix = "alt+d"
+new_workspace = "n"
+rename_workspace = "shift+n"
+close_workspace = "X"
+reload_config = "R"      # optional, unset by default
+open_notification_target = "" # optional, unset by default
+new_tab = "c"
+split_vertical = "v"
+split_horizontal = "-"
+close_pane = "x"
+rename_pane = ""        # optional, unset by default
+fullscreen = "f"
+resize_mode = "r"
+toggle_sidebar = "b"
+previous_workspace = "ctrl+alt+["
+next_workspace = "ctrl+alt+]"
+previous_agent = "ctrl+["
+next_agent = "ctrl+]"
+focus_pane_left = "ctrl+h"
+focus_pane_down = "ctrl+j"
+focus_pane_up = "ctrl+k"
+focus_pane_right = "ctrl+l"
+rename_tab = "T"
+
+[keys.indexed]
+tabs = "ctrl"
+
+[[keys.command]]
+key = "g"
+type = "pane"
+command = "lazygit"
+
+[[keys.command]]
+key = "z"
+type = "pane"
+command = "lazysql"
+
+[[keys.command]]
+key = "G"
+type = "pane"
+command = "~/.config/tmux/scripts/git-diff-all.sh | diffnav"
