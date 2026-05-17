@@ -35,6 +35,7 @@ rename_tab = "T"
 
 [keys.indexed]
 tabs = "ctrl"
+agents = "ctrl+shift"
 
 [[keys.command]]
 key = "g"
