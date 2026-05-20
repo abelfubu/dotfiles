@@ -1,0 +1,9 @@
+gui:
+  theme:
+    # Selected line background - dark gray
+    selectedLineBgColor:
+      - "#3a3a3a"
+    
+    # Selected range background (for multi-select)
+    selectedRangeBgColor:
+      - "#3a3a3a"

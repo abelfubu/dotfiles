@@ -4,8 +4,8 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "material-darker",
-  theme_toggle = { "material-darker", "material-darker" },
+  theme = "aylin",
+  theme_toggle = { "aylin", "aylin" },
 }, { italics = false, transparency = true })
 
 M.ui = {
@@ -21,8 +21,8 @@ M.ui = {
       "diagnostics",
       -- "lsp",
       -- "cwd",
-      "format",
-      "organizeImports",
+      -- "format",
+      -- "organizeImports",
       -- "recording",
     },
     modules = {

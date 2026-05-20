@@ -5,8 +5,9 @@ name = "vesper"
 
 [ui]
 show_agent_labels_on_pane_borders = true
-
+sidebar_width = 40
 agent_panel_scope = "all"
+accent = "green"
 
 [keys]
 prefix = "alt+d"
@@ -16,7 +17,7 @@ close_workspace = "X"
 reload_config = "R"      # optional, unset by default
 open_notification_target = "" # optional, unset by default
 new_tab = "c"
-split_vertical = "v"
+split_vertical = "|"
 split_horizontal = "-"
 close_pane = "x"
 rename_pane = ""        # optional, unset by default
@@ -27,15 +28,16 @@ previous_workspace = "ctrl+alt+["
 next_workspace = "ctrl+alt+]"
 previous_agent = "ctrl+["
 next_agent = "ctrl+]"
-focus_pane_left = "ctrl+h"
-focus_pane_down = "ctrl+j"
-focus_pane_up = "ctrl+k"
-focus_pane_right = "ctrl+l"
-rename_tab = "T"
+rename_tab = "T" 
 
 [keys.indexed]
 tabs = "ctrl"
 agents = "ctrl+shift"
+
+[[keys.command]]
+key = "d"
+type = "pane"
+command = "lazydocker"
 
 [[keys.command]]
 key = "g"
@@ -51,3 +53,4 @@ command = "lazysql"
 key = "G"
 type = "pane"
 command = "~/.config/tmux/scripts/git-diff-all.sh | diffnav"
+
