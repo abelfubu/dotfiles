@@ -4,8 +4,8 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "aylin",
-  theme_toggle = { "aylin", "aylin" },
+  theme = "vesper-no-pink",
+  theme_toggle = { "vesper-no-pink", "vesper-no-pink" },
 }, { italics = false, transparency = true })
 
 M.ui = {
