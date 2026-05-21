@@ -1,6 +1,5 @@
 return {
   { "carderne/pi-nvim", opts = {} },
-  -- Remove the `use` here if you're using folke/lazy.nvim.
   {
     "Exafunction/windsurf.vim",
     event = "BufEnter",

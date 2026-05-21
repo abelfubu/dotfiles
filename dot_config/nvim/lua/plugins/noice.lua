@@ -1,5 +1,5 @@
 return {
-  { "https://github.com/MunifTanjim/nui.nvim" },
+  { "https://github.com/MunifTanjim/nui.nvim", enabled = false },
   {
     "https://github.com/folke/noice.nvim",
     enabled = false,

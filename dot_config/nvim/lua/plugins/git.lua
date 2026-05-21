@@ -1,18 +1,5 @@
 return {
   {
-    "NeogitOrg/neogit",
-    lazy = true,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "folke/snacks.nvim",
-    },
-    cmd = "Neogit",
-    keys = {
-      { "<leader>gn", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
-    },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     opts = {
       current_line_blame = false,
@@ -81,23 +68,6 @@ return {
         -- Text object
         map({ "o", "x" }, "ih", gitsigns.select_hunk)
       end,
-    },
-  },
-  {
-    "sindrets/diffview.nvim",
-    opts = {
-      enhanced_diff_hl = true,
-      file_panel = {
-        listing_style = "tree",
-        tree_options = {
-          flatten_dirs = true,
-        },
-        win_config = {
-          position = "left",
-          width = 50,
-          win_opts = {},
-        },
-      },
     },
   },
 }

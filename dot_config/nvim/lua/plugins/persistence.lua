@@ -1,6 +1,7 @@
 -- stylua: ignore 
 return {
   "folke/persistence.nvim",
+	enabled = false,
   opts = {},
   keys = {
     { "<leader>qs", function() require("persistence").load() end, desc = "Restore session" },

@@ -5,7 +5,7 @@ name = "vesper"
 
 [ui]
 show_agent_labels_on_pane_borders = true
-sidebar_width = 40
+sidebar_width = 30
 agent_panel_scope = "all"
 accent = "green"
 
