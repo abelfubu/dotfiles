@@ -4,7 +4,7 @@ eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
+export PATH="/Users/abelfubu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="/Users/abelfubu/.local/share/bin/:$PATH"
@@ -40,6 +40,14 @@ if ! zplug check; then
 fi
 
 zplug load
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
+}
 
 alias vi='nvim'
 alias la='eza -la --icons'
