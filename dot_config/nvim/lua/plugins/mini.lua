@@ -11,6 +11,17 @@ return {
         remap = true,
         desc = "Toggle breadcrumbs",
       },
+      {
+        "-",
+        function()
+          local buf_name = vim.api.nvim_buf_get_name(0)
+          local path = vim.fn.filereadable(buf_name) == 1 and buf_name
+            or vim.fn.getcwd()
+          require("mini.files").open(path)
+          require("mini.files").reveal_cwd()
+        end,
+        desc = "Open Mini Files",
+      },
     },
   },
   { "nvim-mini/mini.pairs", opts = {} },
@@ -24,4 +35,5 @@ return {
   },
   { "nvim-mini/mini.ai", opts = {} },
   { "nvim-mini/mini.surround", opts = {} },
+  { "nvim-mini/mini.statusline", opts = {} },
 }

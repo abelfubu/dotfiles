@@ -27,7 +27,7 @@ mouse-hide-while-typing = true
 
 background-opacity = 1.00
 # theme = dark:Atom One Dark,light:obsidian-ember-light
-theme = dark:Vesper,light:obsidian-ember-light
+theme = dark:Github Dark High Contrast,light:obsidian-ember-light
 custom-shader = ~/.config/ghostty/shaders/cursor.glsl
 
 

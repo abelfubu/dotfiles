@@ -25,9 +25,6 @@ map(
   { desc = "Toggle relative number" }
 )
 
--- Open diffview
-map("n", "<leader>dv", ":DiffviewOpen<CR>", { desc = "Open diffview" })
-
 -- sort only selection in visual mode
 map("v", "<leader>so", ":sort<CR>", {
   desc = "Sort lines",

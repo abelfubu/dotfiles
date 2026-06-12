@@ -110,12 +110,22 @@ return {
     },
   },
   keys = {
+    -- {
+    --   "<leader>th",
+    --   function()
+    --     require("utils.ui.change_theme").change_theme()
+    --   end,
+    --   desc = "Change Theme",
+    -- },
     {
-      "<leader>th",
+      "<leader>fz",
       function()
-        require("utils.ui.change_theme").change_theme()
+        require("snacks").picker.zoxide {
+          confirm = { "cd", "close" },
+          on_show = require("utils.nvim.helpers").stop_insert,
+        }
       end,
-      desc = "Change Theme",
+      desc = "Zoxide",
     },
     {
       "<leader><leader>",

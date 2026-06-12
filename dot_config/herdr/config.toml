@@ -1,7 +1,7 @@
 onboarding = false
 
 [theme]
-name = "vesper"
+name = "terminal"
 
 [ui]
 sidebar_width = 32
@@ -12,7 +12,7 @@ confirm_close = true
 prompt_new_tab_name = true
 show_agent_labels_on_pane_borders = false
 agent_panel_scope = "all"
-accent = "green"
+# accent = "green"
 
 [keys]
 prefix = "alt+d"
@@ -23,8 +23,8 @@ workspace_picker = "prefix+w"
 new_workspace = "prefix+n"
 rename_workspace = "prefix+shift+w"
 close_workspace = "prefix+shift+d"
-previous_tab = "prefix+["
-next_tab = "prefix+]"
+previous_tab = "prefix+ctrl+H"
+next_tab = "prefix+ctrl+L"
 switch_tab = "ctrl+1..9"
 switch_workspace = "prefix+1..9"
 rename_tab = "prefix+shift+t"
@@ -57,7 +57,23 @@ type = "pane"
 command = "lazysql"
 
 [[keys.command]]
-key = "prefix+ctrl+d"
+key = "prefix+G"
 type = "pane"
-command = "~/.config/tmux/scripts/git-diff-all.sh | diffnav"
+command = "~/.config/tmux/scripts/git-diff-all.sh | dv"
 
+[experimental]
+pane_history = false
+
+[update]
+channel = "stable"
+
+[theme.custom]
+panel_bg = "transparent"
+# accent = "#a6e3a1"
+surface0 = "transparent"  
+surface1 = "#45475a"  
+surface_dim = "#252a33"
+# green = "#a6e3a1"
+# blue = "#89b4fa"
+# red = "#f38ba8"
+# yellow = "#f9e2af"

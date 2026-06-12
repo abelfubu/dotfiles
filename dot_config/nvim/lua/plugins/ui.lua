@@ -1,5 +1,5 @@
 return {
-  "nvim-lua/plenary.nvim",
+  -- "nvim-lua/plenary.nvim",
   {
     "christoomey/vim-tmux-navigator",
     cmd = {
@@ -19,30 +19,54 @@ return {
     },
   },
   {
-    "nvchad/ui",
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+    lazy = false,
+    priority = 1000,
     config = function()
-      require "nvchad"
+      require("github-theme").setup {
+        options = {
+          -- hide_nc_statusline = true,
+          transparent = true,
+        },
+        groups = {
+          all = {
+            DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
+            DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
+            DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
+            DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
+            MiniFilesBorderModified = { fg = "bg0", bg = "bg0" },
+            SnacksPickerPreview = { bg = "bg1" },
+            SnacksPickerPreviewTitle = { bg = "bg1" },
+            SnacksPickerPreviewBorder = {
+              bg = "bg1",
+              fg = "bg1",
+            },
+            ["@punctuation.bracket"] = { fg = "#777777" },
+            FloatTitle = { fg = "fg1", bg = "bg0" },
+            NormalFloat = { bg = "bg0" },
+            FloatBorder = { bg = "bg0", fg = "bg0" },
+          },
+        },
+      }
+
+      vim.cmd "colorscheme github_dark_high_contrast"
     end,
   },
-  {
-    "nvchad/base46",
-    build = function()
-      require("base46").load_all_highlights()
-    end,
-    keys = {
-      {
-        "-",
-        function()
-          local buf_name = vim.api.nvim_buf_get_name(0)
-          local path = vim.fn.filereadable(buf_name) == 1 and buf_name
-            or vim.fn.getcwd()
-          require("mini.files").open(path)
-          require("mini.files").reveal_cwd()
-        end,
-        desc = "Open Mini Files",
-      },
-    },
-  },
+  -- {
+  --   "nvchad/ui",
+  --   config = function()
+  --     require "nvchad"
+  --   end,
+  -- },
+  -- {
+  --   "nvchad/base46",
+  --   build = function()
+  --     require("base46").load_all_highlights()
+  --   end,
+  --   keys = {
+  --   },
+  -- },
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",

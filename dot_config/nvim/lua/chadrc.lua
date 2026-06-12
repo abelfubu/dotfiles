@@ -4,15 +4,15 @@ local theme = require "utils.ui.theme"
 local M = {}
 
 M.base46 = theme.get_theme({
-  theme = "vesper-no-pink",
-  theme_toggle = { "vesper-no-pink", "vesper-no-pink" },
+  theme = "github_dark",
+  theme_toggle = { "github_dark", "github_dark" },
 }, { italics = false, transparency = true })
 
 M.ui = {
   statusline = {
     separator_style = "default",
     order = {
-      -- "mode",
+      "mode",
       "file",
       "git",
       "%=",

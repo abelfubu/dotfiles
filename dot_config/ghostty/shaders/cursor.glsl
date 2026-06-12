@@ -75,7 +75,7 @@ vec2 getRectangleCenter(vec4 rectangle) {
 // 0 = amber (original)
 // 1 = blue
 // 2 = green
-const int CURSOR_COLOR_MODE = 2;
+const int CURSOR_COLOR_MODE = 1;
 
 vec4 getTrailColor() {
     if (CURSOR_COLOR_MODE == 1) {
