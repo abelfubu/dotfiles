@@ -3,9 +3,9 @@ return {
   lazy = false,
   opts = {
     statuscolumn = { enabled = true },
-    explorer = {
-      replace_netrw = true,
-    },
+    -- explorer = {
+    --   replace_netrw = true,
+    -- },
     zen = {
       show = {
         statusline = true,
@@ -133,7 +133,8 @@ return {
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },
           ignored = false,
-          layout = { preview = false, layout = { max_width = 77 } },
+          hidden = true,
+          layout = { preview = "main", layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
@@ -144,7 +145,8 @@ return {
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },
           ignored = false,
-          layout = { preview = false, layout = { max_width = 77 } },
+          hidden = true,
+          layout = { preview = "main", layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
@@ -154,7 +156,7 @@ return {
       function()
         Snacks.picker.buffers {
           on_show = require("utils.nvim.helpers").stop_insert,
-          layout = { preview = false, layout = { max_width = 77 } },
+          layout = { preview = "main", layout = { max_width = 77 } },
           win = {
             input = {
               keys = {
