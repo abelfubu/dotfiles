@@ -1,6 +1,13 @@
 return {
   { "carderne/pi-nvim", opts = {} },
   {
+    "abelfubu/kimi-nvim",
+    build = "make install",
+    config = function()
+      require("kimi").setup()
+    end,
+  },
+  {
     "Exafunction/windsurf.vim",
     event = "BufEnter",
     config = function()
