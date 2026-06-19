@@ -8,6 +8,7 @@
     },
   },
   "agent": {
+    "notify_when_agent_waiting": "all_screens",
     "dock": "left",
     "default_model": { "provider": "copilot_chat", "model": "gpt-4.1" },
     "default_width": 600,
