@@ -21,6 +21,7 @@ return {
   {
     "projekt0n/github-nvim-theme",
     name = "github-theme",
+    enabled = true,
     lazy = false,
     priority = 1000,
     config = function()
@@ -43,7 +44,7 @@ return {
             -- FloatTitle = { fg = "fg1", bg = "bg0" },
             -- NormalFloat = { bg = "bg0" },
             FloatBorder = { fg = "bg3" },
-            -- SnacksPickerBorder = { bg = "bg0", fg = "bg0" },
+            SnacksPickerBorder = { bg = "bg1", fg = "bg1" },
             -- SnacksPicker = { bg = "bg0" },
             -- SnacksPickerFloatTitle = { fg = "fg1", bg = "bg0" },
           },
