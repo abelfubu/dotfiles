@@ -32,10 +32,10 @@ return {
         },
         groups = {
           all = {
-            DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
-            DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
-            DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
-            DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
+            -- DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
+            -- DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
+            -- DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
+            -- DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
             MiniFilesBorderModified = { fg = "bg0", bg = "bg0" },
             SnacksPickerPreview = { bg = "bg1" },
             SnacksPickerPreviewTitle = { bg = "bg1" },

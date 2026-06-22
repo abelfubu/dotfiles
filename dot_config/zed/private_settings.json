@@ -1,4 +1,5 @@
 {
+  "icon_theme": "Base Charmed Icons",
   "edit_predictions": {
     "provider": "copilot",
   },
@@ -13,7 +14,10 @@
     "default_model": { "provider": "copilot_chat", "model": "gpt-4.1" },
     "default_width": 600,
   },
-  "buffer_font_family": "Geist Mono",
+  "terminal": {
+    "line_height": { "custom": 2.3 },
+  },
+  "buffer_font_family": "GeistMono Nerd Font",
   "buffer_font_size": 15,
   "buffer_font_weight": 300,
   "buffer_line_height": { "custom": 2.3 },
@@ -42,13 +46,13 @@
     "show_tab_bar_buttons": true,
   },
   "theme": {
-    "mode": "system",
+    "mode": "dark",
     "dark": "GitHub Dark",
-    "light": "One Light",
+    "light": "GitHub Light",
   },
   "toolbar": { "quick_actions": false, "breadcrumbs": true },
-  "ui_font_family": "Geist Mono",
-  "ui_font_size": 15,
+  "ui_font_family": "GeistMono Nerd Font",
+  "ui_font_size": 16,
   "unstable.ui_density": "comfortable",
   "use_system_prompts": false,
   "vim_mode": true,

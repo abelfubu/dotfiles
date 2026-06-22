@@ -12,6 +12,9 @@ confirm_close = true
 prompt_new_tab_name = true
 show_agent_labels_on_pane_borders = false
 agent_panel_scope = "all"
+pane_borders = false
+pane_gaps = false
+
 # accent = "green"
 
 [keys]

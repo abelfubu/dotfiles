@@ -1,15 +1,10 @@
 [
   {
-    "context": "Workspace",
+    "context": "",
     "bindings": {
-      "ctrl-1": ["workspace::ActivatePane", 0],
-      "ctrl-2": ["workspace::ActivatePane", 1],
-    },
-  },
-  {
-    "context": "ProjectPanel",
-    "bindings": {
-      // "z": "project_panel::CollapseAllEntries"
+      // "ctrl-1": ["workspace::ActivatePane", 0],
+      // "ctrl-2": ["workspace::ActivatePane", 1],
+      "cmd-'": "workspace::NewCenterTerminal",
     },
   },
   {
@@ -65,13 +60,6 @@
     },
   },
   {
-    "context": "Terminal && !Dock",
-    "bindings": {
-      "m": "terminal::ToggleViMode",
-      "q": "pane::CloseActiveItem",
-    },
-  },
-  {
     "context": "CollabPanel || OutlinePanel || ChatPanel || VimControl || EmptyPane || SharedScreen || MarkdownPreview || KeyContextView || GitPanel || Terminal",
     "bindings": {
       "shift-l": "pane::ActivateNextItem",
@@ -91,6 +79,18 @@
     "context": "Editor",
     "bindings": {
       "cmd-space": "editor::ShowCompletions",
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-shift-g": "git_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "ctrl-shift-g": "git_panel::ToggleFocus",
     },
   },
 ]

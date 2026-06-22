@@ -6,6 +6,7 @@
 	ci = commit
 	st = status
 	cm = commit --allow-empty
+	cd = !git commit -m "$(date -u '+%Y-%m-%dT%T')"
 [init]
 	defaultBranch = main
 [pull]

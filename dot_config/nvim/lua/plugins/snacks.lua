@@ -134,7 +134,7 @@ return {
           exclude = { "node_modules", ".git" },
           ignored = false,
           hidden = true,
-          layout = { preview = "main", layout = { max_width = 77 } },
+          layout = { preview = false, layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
@@ -146,7 +146,7 @@ return {
           exclude = { "node_modules", ".git" },
           ignored = false,
           hidden = true,
-          layout = { preview = "main", layout = { max_width = 77 } },
+          layout = { preview = false, layout = { max_width = 77 } },
         }
       end,
       desc = "Smart Find Files",
@@ -156,7 +156,7 @@ return {
       function()
         Snacks.picker.buffers {
           on_show = require("utils.nvim.helpers").stop_insert,
-          layout = { preview = "main", layout = { max_width = 77 } },
+          layout = { preview = false, layout = { max_width = 77 } },
           win = {
             input = {
               keys = {
