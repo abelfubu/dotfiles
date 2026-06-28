@@ -17,6 +17,15 @@ cursor-style-blink = false
 
 keybind = cmd+h=text:\x08
 keybind = cmd+w=text:\x17
+
+# Splits
+keybind = option+g>h=goto_split:left
+keybind = option+g>l=goto_split:right
+keybind = option+g>j=goto_split:down
+keybind = option+g>k=goto_split:up
+keybind = option+g>/=new_split:right
+keybind = option+g>-=new_split:down
+
 # Cursor styling + SSH session terminfo
 # (all shell integration options must be passed together)
 shell-integration-features = no-cursor,ssh-env

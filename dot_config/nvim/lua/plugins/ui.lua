@@ -44,7 +44,7 @@ return {
             -- FloatTitle = { fg = "fg1", bg = "bg0" },
             -- NormalFloat = { bg = "bg0" },
             FloatBorder = { fg = "bg3" },
-            SnacksPickerBorder = { bg = "bg1", fg = "bg1" },
+            -- SnacksPickerBorder = { bg = "bg1", fg = "bg1" },
             -- SnacksPicker = { bg = "bg0" },
             -- SnacksPickerFloatTitle = { fg = "fg1", bg = "bg0" },
           },
