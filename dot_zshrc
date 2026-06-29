@@ -1,5 +1,6 @@
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
