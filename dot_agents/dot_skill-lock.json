@@ -1,0 +1,125 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "eb6a23305aea6e340d14b9de3766e721f9f4861b",
+      "installedAt": "2026-04-17T18:11:59.352Z",
+      "updatedAt": "2026-06-24T15:58:24.689Z"
+    },
+    "to-prd": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-prd/SKILL.md",
+      "skillFolderHash": "d74909eec8906ceb3341a9b30e2e51cdf62a67c7",
+      "installedAt": "2026-05-05T18:56:17.820Z",
+      "updatedAt": "2026-06-20T07:54:46.967Z"
+    },
+    "to-issues": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-issues/SKILL.md",
+      "skillFolderHash": "8d7393a4127ee678f4b99070f436a2a87014c6e7",
+      "installedAt": "2026-05-05T18:56:47.623Z",
+      "updatedAt": "2026-06-20T07:54:48.418Z"
+    },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "skillFolderHash": "aa82ffd61d7a3bda110060b4e24ec782b983cb8d",
+      "installedAt": "2026-05-12T18:19:08.425Z",
+      "updatedAt": "2026-06-20T07:54:49.828Z"
+    },
+    "grill-with-docs": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
+      "skillFolderHash": "21adba95de7d93065d9fec725ddf37f871e01d05",
+      "installedAt": "2026-06-03T16:07:02.346Z",
+      "updatedAt": "2026-06-20T07:54:51.587Z"
+    },
+    "teach": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/teach/SKILL.md",
+      "skillFolderHash": "3b6a4245e2aaeacb308ba6175ab3e7f2e43b0c47",
+      "installedAt": "2026-06-08T17:41:11.608Z",
+      "updatedAt": "2026-06-20T07:54:54.449Z"
+    },
+    "last30days": {
+      "source": "mvanhorn/last30days-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mvanhorn/last30days-skill.git",
+      "skillPath": "skills/last30days/SKILL.md",
+      "skillFolderHash": "6dfec70ff15907612abb15f7fb7c07db3ffb2b34",
+      "installedAt": "2026-06-13T06:25:52.336Z",
+      "updatedAt": "2026-06-27T05:42:08.637Z"
+    },
+    "improve-codebase-architecture": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
+      "skillFolderHash": "e5beae48471adf87c513b5cbcb0ca347467546da",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-06-24T19:11:33.870Z",
+      "updatedAt": "2026-06-24T19:11:33.870Z"
+    },
+    "okf-open-knowledge-format": {
+      "source": "fabricioctelles/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/fabricioctelles/skills.git",
+      "skillPath": "skills/okf-open-knowledge-format/SKILL.md",
+      "skillFolderHash": "46be54a98fe54cfed60f49aba68b6b8af7315d34",
+      "installedAt": "2026-06-27T16:15:41.680Z",
+      "updatedAt": "2026-06-27T16:15:41.680Z"
+    },
+    "domain-modeling": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/domain-modeling/SKILL.md",
+      "skillFolderHash": "028a0e44b23909cbdd715aa00546d5c1c46ae4d6",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-06-28T19:34:19.491Z",
+      "updatedAt": "2026-06-28T19:34:19.491Z"
+    },
+    "acli-jira": {
+      "source": "arjunmahishi/dotfiles",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/arjunmahishi/dotfiles.git",
+      "skillPath": "common/agent-skills/acli-jira/SKILL.md",
+      "skillFolderHash": "ee141a6c0ff3d6e656fd0bec98a37c163a050cf1",
+      "installedAt": "2026-06-28T19:46:59.328Z",
+      "updatedAt": "2026-06-28T19:46:59.328Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "pi"
+  ]
+}
