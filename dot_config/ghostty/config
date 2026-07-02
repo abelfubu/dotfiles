@@ -35,8 +35,8 @@ mouse-scroll-multiplier = 0.95
 mouse-hide-while-typing = true
 
 background-opacity = 1.00
-# theme = dark:Everforest Dark Hard,light:obsidian-ember-light
-theme = dark:Github Dark High Contrast,light:Github Light High Contrast
+theme = dark:TokyoNight,light:obsidian-ember-light
+# theme = dark:Github Dark High Contrast,light:Github Light High Contrast
 # custom-shader = ~/.config/ghostty/shaders/cursor.glsl
 
 

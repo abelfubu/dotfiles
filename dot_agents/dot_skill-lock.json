@@ -60,9 +60,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mvanhorn/last30days-skill.git",
       "skillPath": "skills/last30days/SKILL.md",
-      "skillFolderHash": "6dfec70ff15907612abb15f7fb7c07db3ffb2b34",
+      "skillFolderHash": "a72d37162d3a6ba326c98b20c172200284e60a0c",
       "installedAt": "2026-06-13T06:25:52.336Z",
-      "updatedAt": "2026-06-27T05:42:08.637Z"
+      "updatedAt": "2026-07-01T11:51:07.912Z"
     },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
@@ -81,7 +81,7 @@
       "skillPath": "skills/okf-open-knowledge-format/SKILL.md",
       "skillFolderHash": "46be54a98fe54cfed60f49aba68b6b8af7315d34",
       "installedAt": "2026-06-27T16:15:41.680Z",
-      "updatedAt": "2026-06-27T16:15:41.680Z"
+      "updatedAt": "2026-06-29T06:11:20.082Z"
     },
     "domain-modeling": {
       "source": "mattpocock/skills",
@@ -91,16 +91,16 @@
       "skillFolderHash": "028a0e44b23909cbdd715aa00546d5c1c46ae4d6",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-06-28T19:34:19.491Z",
-      "updatedAt": "2026-06-28T19:34:19.491Z"
+      "updatedAt": "2026-06-29T06:12:04.504Z"
     },
-    "acli-jira": {
-      "source": "arjunmahishi/dotfiles",
+    "review": {
+      "source": "mattpocock/skills",
       "sourceType": "github",
-      "sourceUrl": "https://github.com/arjunmahishi/dotfiles.git",
-      "skillPath": "common/agent-skills/acli-jira/SKILL.md",
-      "skillFolderHash": "ee141a6c0ff3d6e656fd0bec98a37c163a050cf1",
-      "installedAt": "2026-06-28T19:46:59.328Z",
-      "updatedAt": "2026-06-28T19:46:59.328Z"
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/review/SKILL.md",
+      "skillFolderHash": "7358042ff9636cf903d3183e1d86744ea7ffda40",
+      "installedAt": "2026-06-29T06:12:04.508Z",
+      "updatedAt": "2026-06-30T13:01:02.525Z"
     }
   },
   "dismissed": {
