@@ -36,7 +36,7 @@ return {
             -- DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
             -- DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
             -- DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
-            MiniFilesBorderModified = { fg = "bg0", bg = "bg0" },
+            MiniFilesBorderModified = { fg = "orange" },
             SnacksPickerPreview = { bg = "bg1" },
             SnacksPickerPreviewTitle = { bg = "bg1" },
             SnacksPickerPreviewBorder = { bg = "bg1", fg = "bg1" },
