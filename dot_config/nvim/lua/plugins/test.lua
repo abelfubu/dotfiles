@@ -2,6 +2,11 @@ return {
   {
     "nvim-neotest/neotest",
     dependencies = {
+      {
+        "mrcjkb/rustaceanvim",
+        version = "^9",
+        lazy = false,
+      },
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/nvim-nio",
       "nvim-neotest/neotest-jest",
@@ -13,6 +18,7 @@ return {
       require("neotest").setup {
         adapters = {
           require "neotest-jest",
+          require "rustaceanvim.neotest",
           require "neotest-vitest",
           require("neotest-playwright").adapter {
             options = {

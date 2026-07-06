@@ -2,8 +2,8 @@ onboarding = false
 
 [theme]
 name = "tokyo-night"
+auto_switch = true
 
-auto_switch = false
 [ui]
 sidebar_width = 32
 sidebar_min_width = 18
@@ -19,7 +19,6 @@ pane_gaps = false
 
 # accent = "green"
 
-agent_panel_sort = "spaces"
 [keys]
 prefix = "alt+d"
 new_tab = "prefix+c"
@@ -69,18 +68,15 @@ key = "prefix+G"
 type = "pane"
 command = "~/.config/tmux/scripts/git-diff-all.sh | dv"
 
-[experimental]
-pane_history = false
-
 [update]
 channel = "preview"
 
-[theme.custom]
-panel_bg = "transparent"
+# [theme.custom]
+# panel_bg = "transparent"
 # accent = "#a6e3a1"
-surface0 = "transparent"  
-surface1 = "transparent"  
-surface_dim = "#252a33"
+# surface0 = "transparent"  
+# surface1 = "transparent"  
+# surface_dim = "#252a33"
 # green = "#a6e3a1"
 # blue = "#89b4fa"
 # red = "#f38ba8"

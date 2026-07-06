@@ -13,7 +13,6 @@ vim.g.mapleader = " "
 vim.o.winborder = "rounded"
 vim.o.clipboard = "unnamedplus"
 vim.o.incsearch = true
-vim.o.statusline = ""
 vim.o.showmode = false
 vim.opt.cmdheight = 1
 -- vim.opt.laststatus = 3
