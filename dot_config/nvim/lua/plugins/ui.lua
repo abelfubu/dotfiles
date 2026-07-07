@@ -1,20 +1,6 @@
 return {
   "nvim-lua/plenary.nvim",
   {
-    "stevearc/oil.nvim",
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {
-      float = {
-        padding = 5,
-        preview_split = "right",
-      },
-    },
-    -- Optional dependencies
-    dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-    lazy = false,
-  },
-  {
     "christoomey/vim-tmux-navigator",
     cmd = {
       "TmuxNavigateLeft",
@@ -43,33 +29,6 @@ return {
         options = {
           transparent = true,
         },
-        palettes = {
-          github_dark_high_contrast = {
-            -- Tokyo Night main colors
-            black = { base = "#16161e", bright = "#292e42" },
-            red = { base = "#db4b4b", bright = "#db4b4b" },
-            green = { base = "#73daca", bright = "#9ece6a" },
-            yellow = { base = "#e0af68", bright = "#ff9e64" },
-            blue = { base = "#7aa2f7", bright = "#7dcfff" },
-            magenta = { base = "#9d7cd8", bright = "#bb9af7" },
-            cyan = { base = "#2ac3de", bright = "#89ddff" },
-            white = { base = "#c0caf5", bright = "#a9b1d6" },
-            orange = "#ff9e64",
-            comment = "#565f89",
-            bg0 = "#16161e",
-            bg1 = "#16161e",
-            bg2 = "#292e42",
-            bg3 = "#394b70",
-            bg4 = "#292e42",
-            fg0 = "#c0caf5",
-            fg1 = "#a9b1d6",
-            fg2 = "#737aa2",
-            fg3 = "#565f89",
-            sel0 = "#283457",
-            sel1 = "#283457",
-            sel2 = "#283457",
-          },
-        },
         groups = {
           all = {
             DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
@@ -97,20 +56,6 @@ return {
       vim.cmd "colorscheme github_dark_high_contrast"
     end,
   },
-  -- {
-  --   "nvchad/ui",
-  --   config = function()
-  --     require "nvchad"
-  --   end,
-  -- },
-  -- {
-  --   "nvchad/base46",
-  --   build = function()
-  --     require("base46").load_all_highlights()
-  --   end,
-  --   keys = {
-  --   },
-  -- },
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
