@@ -69,7 +69,7 @@ type = "pane"
 command = "~/.config/tmux/scripts/git-diff-all.sh | dv"
 
 [update]
-channel = "preview"
+channel = "stable"
 
 # [theme.custom]
 # panel_bg = "transparent"

@@ -1,6 +1,14 @@
 return {
   "nvim-lua/plenary.nvim",
   {
+    "stevearc/oil.nvim",
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+    lazy = false,
+  },
+  {
     "christoomey/vim-tmux-navigator",
     cmd = {
       "TmuxNavigateLeft",
@@ -46,6 +54,7 @@ return {
             PmenuSel = { bg = "#394b70" },
             FloatBorder = { fg = "#292e42" },
             Visual = { bg = "#394b70" },
+            CursorLine = { bg = "#394b70" },
             -- SnacksPickerBorder = { bg = "bg1", fg = "bg1" },
             -- SnacksPicker = { bg = "bg0" },
             -- SnacksPickerFloatTitle = { fg = "fg1", bg = "bg0" },
