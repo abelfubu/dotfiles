@@ -18,6 +18,26 @@ gtk-toolbar-style = flat
 keybind = cmd+h=text:\x08
 keybind = cmd+w=text:\x17
 
+# Route cmd+1..9 to Herdr as ctrl+shift+1..9 for workspace switching
+keybind = cmd+digit_1=text:\x1b[49;6u
+keybind = cmd+1=text:\x1b[49;6u
+keybind = cmd+digit_2=text:\x1b[50;6u
+keybind = cmd+2=text:\x1b[50;6u
+keybind = cmd+digit_3=text:\x1b[51;6u
+keybind = cmd+3=text:\x1b[51;6u
+keybind = cmd+digit_4=text:\x1b[52;6u
+keybind = cmd+4=text:\x1b[52;6u
+keybind = cmd+digit_5=text:\x1b[53;6u
+keybind = cmd+5=text:\x1b[53;6u
+keybind = cmd+digit_6=text:\x1b[54;6u
+keybind = cmd+6=text:\x1b[54;6u
+keybind = cmd+digit_7=text:\x1b[55;6u
+keybind = cmd+7=text:\x1b[55;6u
+keybind = cmd+digit_8=text:\x1b[56;6u
+keybind = cmd+8=text:\x1b[56;6u
+keybind = cmd+digit_9=text:\x1b[57;6u
+keybind = cmd+9=text:\x1b[57;6u
+
 # Splits
 keybind = option+g>h=goto_split:left
 keybind = option+g>l=goto_split:right

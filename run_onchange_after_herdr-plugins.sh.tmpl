@@ -1,0 +1,17 @@
+#!/bin/bash
+# Trigger: {{ include "dot_config/herdr/config.toml" | sha256sum }}
+set -e
+
+if ! command -v herdr >/dev/null 2>&1; then
+  echo "herdr not found, skipping herdr-splits plugin setup"
+  exit 0
+fi
+
+if ! herdr plugin list --json | grep -q '"plugin_id":"herdr-splits"'; then
+  echo "Installing herdr-splits plugin..."
+  herdr plugin install lmilojevicc/herdr-splits.nvim --yes
+else
+  echo "herdr-splits plugin already installed"
+fi
+
+herdr server reload-config || true

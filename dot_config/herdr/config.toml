@@ -31,15 +31,11 @@ close_workspace = "prefix+shift+d"
 previous_tab = "prefix+ctrl+H"
 next_tab = "prefix+ctrl+L"
 switch_tab = "ctrl+1..9"
-switch_workspace = "prefix+1..9"
+switch_workspace = "ctrl+shift+1..9"
 navigate_workspace_up =  "up"
 navigate_workspace_down = "down" 
 rename_tab = "prefix+shift+t"
 close_tab = "prefix+shift+x"
-focus_pane_left = "prefix+h"
-focus_pane_down = "prefix+j"
-focus_pane_up = "prefix+k"
-focus_pane_right = "prefix+l"
 split_vertical = "prefix+|"
 close_pane = "prefix+x"
 zoom = "prefix+z"
@@ -63,21 +59,52 @@ key = "prefix+S"
 type = "pane"
 command = "sabiql"
 
+# [[keys.command]]
+# key = "prefix+G"
+# type = "pane"
+# command = "dv"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+
+[[keys.command]]
+key = "ctrl+shift+h"
+type = "plugin_action"
+command = "herdr-splits.resize-left"
+
+[[keys.command]]
+key = "ctrl+shift+j"
+type = "plugin_action"
+command = "herdr-splits.resize-down"
+
+[[keys.command]]
+key = "ctrl+shift+k"
+type = "plugin_action"
+command = "herdr-splits.resize-up"
+
+[[keys.command]]
+key = "ctrl+shift+l"
+type = "plugin_action"
+command = "herdr-splits.resize-right"
+
 [[keys.command]]
 key = "prefix+G"
-type = "pane"
-command = "~/.config/tmux/scripts/git-diff-all.sh | dv"
-
-[update]
-channel = "stable"
-
-# [theme.custom]
-# panel_bg = "transparent"
-# accent = "#a6e3a1"
-# surface0 = "transparent"  
-# surface1 = "transparent"  
-# surface_dim = "#252a33"
-# green = "#a6e3a1"
-# blue = "#89b4fa"
-# red = "#f38ba8"
-# yellow = "#f9e2af"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"  

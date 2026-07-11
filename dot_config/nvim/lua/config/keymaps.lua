@@ -57,12 +57,6 @@ map("n", "<C-s>", helpers.write, { desc = "write buffer" })
 map("n", "<leader>|", ":vsplit<CR>", { desc = "Vertical split", silent = true })
 map("n", "<leader>x", ":close<CR>", { desc = "Close split", silent = true })
 
--- Window
-map("n", "<C-h>", "<C-w>h", { desc = "Move window left", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Move window down", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Move window up", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Move window right", remap = true })
-
 -- Better ESC
 map(
   { "i", "n", "s" },

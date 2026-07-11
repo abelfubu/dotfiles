@@ -1,0 +1,2 @@
+theme = "frappe"
+extra_hosts = ["api.kimi.com", "api.moonshot.ai"]
