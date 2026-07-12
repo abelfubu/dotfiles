@@ -3,9 +3,6 @@ return {
   lazy = false,
   opts = {
     statuscolumn = { enabled = true },
-    -- explorer = {
-    --   replace_netrw = true,
-    -- },
     zen = {
       show = {
         statusline = true,
@@ -55,7 +52,7 @@ return {
               )
             end
 
-            -- Include filename (this is what you want to keep)
+            -- Include filename
             vim.list_extend(
               ret,
               require("snacks.picker.format").filename(item, picker)

@@ -4,7 +4,40 @@ return {
     "stevearc/oil.nvim",
     ---@module 'oil'
     ---@type oil.SetupOpts
-    opts = {},
+    opts = {
+      keymaps = {
+        ["g?"] = { "actions.show_help", mode = "n" },
+        ["<CR>"] = "actions.select",
+        ["q"] = { "actions.close", mode = "n" },
+        ["<C-p>"] = { "actions.preview", opts = { split = "botright" } },
+        ["_"] = { "actions.open_cwd", mode = "n" },
+        ["-"] = { "actions.parent", mode = "n" },
+        ["gx"] = "actions.open_external",
+        ["g."] = { "actions.toggle_hidden", mode = "n" },
+      },
+      use_default_keymaps = false,
+      view_options = {
+        show_hidden = true,
+      },
+      float = {
+        preview_split = "right",
+      },
+      preview = {
+        max_width = 0.8,
+      },
+    },
+    keys = {
+      -- {
+      --   "-",
+      --   function()
+      --     require("oil").open(
+      --       nil,
+      --       { preview = { vertical = true, split = "botright" } }
+      --     )
+      --   end,
+      --   desc = "Oil",
+      -- },
+    },
     dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     lazy = false,
   },
@@ -33,6 +66,7 @@ return {
             -- FloatTitle = { fg = "fg1", bg = "bg0" },
             -- NormalFloat = { bg = "bg0" },
             Pmenu = { bg = "none" },
+            WinSeparator = { fg = "#292e42" },
             PmenuSel = { bg = "#394b70" },
             FloatBorder = { fg = "#292e42" },
             Visual = { bg = "#394b70" },

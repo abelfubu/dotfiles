@@ -1,6 +1,7 @@
 return {
   {
     "nvim-mini/mini.files",
+    enabled = true,
     opts = {},
     keys = {
       {
