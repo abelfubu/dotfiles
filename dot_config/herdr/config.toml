@@ -3,6 +3,8 @@ onboarding = false
 [theme]
 name = "tokyo-night"
 auto_switch = true
+light_name = "tokyo-night-day"
+dark_name = "tokyo-night"
 
 [ui]
 sidebar_width = 32
@@ -58,6 +60,11 @@ command = "lazygit"
 key = "prefix+S"
 type = "pane"
 command = "sabiql"
+
+[[keys.command]]
+key = "prefix+E"
+type = "pane"
+command = "nvim"
 
 [[keys.command]]
 key = "prefix+G"
