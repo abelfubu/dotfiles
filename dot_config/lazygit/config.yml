@@ -3,3 +3,7 @@ gui:
   theme:
     selectedLineBgColor:
       - "#3a3a3a"
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never
