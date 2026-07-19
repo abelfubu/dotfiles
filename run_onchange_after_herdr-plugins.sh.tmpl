@@ -3,7 +3,7 @@
 set -e
 
 if ! command -v herdr >/dev/null 2>&1; then
-  echo "herdr not found, skipping herdr-splits plugin setup"
+  echo "herdr not found, skipping plugin setup"
   exit 0
 fi
 
@@ -12,6 +12,13 @@ if ! herdr plugin list --json | grep -q '"plugin_id":"herdr-splits"'; then
   herdr plugin install lmilojevicc/herdr-splits.nvim --yes
 else
   echo "herdr-splits plugin already installed"
+fi
+
+if ! herdr plugin list --json | grep -q '"plugin_id":"persiyanov.reviewr"'; then
+  echo "Installing reviewr plugin..."
+  herdr plugin install persiyanov/herdr-reviewr --yes
+else
+  echo "reviewr plugin already installed"
 fi
 
 herdr server reload-config || true
