@@ -90,11 +90,6 @@ return {
               empty_open = " ",
               symlink = " ",
             },
-            tree = {
-              vertical = "  ",
-              middle = "  ",
-              last = "  ",
-            },
           },
           layout = {
             auto_hide = { "input" },
