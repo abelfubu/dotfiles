@@ -1,0 +1,16 @@
+#!/bin/bash
+# Trigger: {{ include "Brewfile" | sha256sum }}
+set -e
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not found, skipping brew bundle"
+  exit 0
+fi
+
+cd ~
+if [ ! -f Brewfile ]; then
+  echo "No Brewfile found, skipping brew bundle"
+  exit 0
+fi
+
+brew bundle --no-upgrade --file=Brewfile
