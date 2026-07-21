@@ -11,84 +11,118 @@ a8"    `Y88  a8"     "8a   88       88     88  88  a8P_____88  I8[    ""
  `"8bbdP"Y8   `"YbbdP"'    "Y888    88     88  88   `"Ybbd8"'  `"YbbdP"'
 ```
 
-These configs mirror my macOS/Linux workflow: Zsh + Neovim + tmux + Ghostty + Aerospace/Vicinae + Linux compositor helpers. I keep everything in `chezmoi` so a fresh machine is a single `brew bundle` and `chezmoi apply` away.
+These configs mirror my macOS workflow: Zsh + Neovim + tmux + Ghostty + Aerospace + Homebrew, managed by `chezmoi`. A fresh machine is mostly a single `chezmoi init` + `chezmoi apply` away.
 
-## 1. Install Homebrew (macOS / Linux)
+## 1. New machine setup (macOS)
 
-macOS: run `brew`’s installer:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-Follow the post-install notes to add Homebrew to your `PATH`.
-
-Linux: install prerequisites (example for Debian/Ubuntu) and then reuse the same script:
-
-```sh
-sudo apt update && sudo apt install build-essential procps curl file git
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-Afterward, source `~/.linuxbrew/bin/brew` (or the path printed by the installer).
-
-Install `chezmoi`:
-
-```sh
-brew install chezmoi
-```
-
-## 2. Configure a fresh machine (macOS & Linux)
-
-1. Supply template data:
-   ```sh
-   chezmoi data set email you@example.com
-   chezmoi data set font "SF Mono"
-   ```
-   This keeps `ghostty`, `vicinae`, `git/config.tmpl`, and other templates happy.
-2. Clone this repo (or point `chezmoi init` to it) and apply (after `chezmoi` is installed):
-   ```sh
-   chezmoi init https://github.com/abelfubu/dotfiles-omarchy
-   ```
-3. Install Homebrew dependencies:
+1. **Install Homebrew**
 
    ```sh
-   brew bundle --file=$(chezmoi source-path)/Brewfile
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
 
-4. Run `chezmoi apply` to render dotfiles.
-5. macOS-only: Aerospace + Ghostty + Vicinae configs land automatically; keep the `dot_local/share` themes private.
-6. Linux-only: When on Wayland, apply `dot_config/hypr`, `dot_config/waybar`, and `dot_config/zed` after `chezmoi apply` so compositor/keymap files are present.
+   Follow the post-install notes to add Homebrew to your `PATH`.
 
-## 3. Layout overview
+2. **Install chezmoi**
 
-| File/Area                        | Purpose                                                                                                                                                                                   |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Brewfile`                       | All Homebrew formulas (`bat`, `chezmoi`, `fzf`, ...), helper taps, and productivity casks (`aerospace`, `raycast`, `zed`, ...). Run `brew bundle --file=$(chezmoi source-path)/Brewfile`. |
-| `dot_zshrc`                      | Boots `zoxide`, `mise`, `starship`, `fzf`, and Zplug. History is shared, `eza` replaces `ls`, and git aliases stay handy.                                                                 |
-| `dot_config/starship.toml`       | Custom prompt with a two-line header, git state badges, and curated glyphs; extra modules like `memory_usage`/`kubernetes` stay disabled.                                                 |
-| `dot_config/git/config.tmpl`     | Git aliases, rebase-on-pull, histogram diffs, rerere, and GitHub credential helpers wired via `gh`.                                                                                       |
-| `dot_config/nvim/...`            | Neovim Lua tree plus `FubuType.nvim` (see `lua/commands/fubutype/README.md`) for typing practice with syntax-highlighting reference.                                                      |
-| `dot_config/tmux/tmux.conf`      | `M-t` prefix, mouse/true-color support, clean status, dot-style borders.                                                                                                                  |
-| `dot_config/aerospace/…`         | macOS tiling layer (gaps, colored borders, workspace bindings, handy shortcuts).                                                                                                          |
-| `dot_config/ghostty/config.tmpl` | Ghostty theming, fonts, and cursor tweaks pulled from Omniarchy-managed themes.                                                                                                           |
-| `dot_config/vicinae/...`         | Vicinae file manager theme & keybindings; templates reference `dot_local/share/vicinae/themes`.                                                                                           |
-| `dot_config/hypr`                | Linux hyprland compositor configs (themes, keybindings, workspace rules).                                                                                                                 |
-| `waybar`                         | Linux Wayland stack configs applied when you’re on a Wayland host.                                                                                                                        |
-| `zed`                            | Zed editor configuration                                                                                                                                                                  |
-| `dot_local`                      | Machine-specific, non-public assets (Vicinea themes, local overrides).                                                                                                                    |
+   ```sh
+   brew install chezmoi
+   ```
+
+3. **Initialize and apply this repo**
+
+   ```sh
+   chezmoi init --apply https://github.com/abelfubu/dotfiles-omarchy
+   ```
+
+   - This prompts for `email` and `font` on the first run (set in `.chezmoi.yml.tmpl`).
+   - It copies the `Brewfile` to `~` and runs `brew bundle` automatically.
+   - It applies the macOS defaults script and browser extension policies.
+
+4. **Restart** — log out and back in so input sources, menu bar auto-hide, and browser extension policies take effect.
+
+5. **Open browsers** and let the managed extensions install.
+
+### One-liner for new machines
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+  brew install chezmoi && \
+  chezmoi init --apply https://github.com/abelfubu/dotfiles-omarchy
+```
+
+## 2. Linux setup
+
+On Linux, skip the macOS defaults/browsers step. Install Homebrew and chezmoi, then run `chezmoi init --apply` with the same repo. Apply Hyprland/Waybar configs afterward only if you are on a Wayland host.
+
+## 3. What's in here
+
+| File/Area | Purpose |
+| --- | --- |
+| `Brewfile` | All Homebrew formulas, casks, fonts, npm packages, and third-party taps. Updated with `brew bundle dump` and applied automatically via `chezmoi apply`. |
+| `run_onchange_after_brew-bundle.sh` | Re-runs `brew bundle` whenever the `Brewfile` changes. |
+| `run_onchange_after_macos-defaults.sh` | macOS system defaults (Dock, Finder, keyboard, trackpad, menu bar, input sources, hot corners, screenshots, browser extension policies). |
+| `dot_zshrc` | Zsh setup with `zoxide`, `mise`, `starship`, `fzf`, `zplug`, `eza`, and git aliases. |
+| `dot_config/starship.toml` | Two-line prompt with git state and glyphs. |
+| `dot_config/git/config.tmpl` | Git aliases, rebase-on-pull, histogram diffs, rerere, and `gh` credentials. |
+| `dot_config/nvim/...` | Neovim Lua config. |
+| `dot_config/tmux/tmux.conf` | `M-t` prefix, mouse, true-color, clean status. |
+| `dot_config/aerospace/…` | macOS tiling window manager config. |
+| `dot_config/ghostty/config.tmpl` | Ghostty terminal theming and fonts. |
+| `dot_config/raycast` | Raycast config. |
+| `dot_config/zed` | Zed editor config. |
+| `dot_config/wezterm` | Wezterm config. |
+| `dot_config/vicinae` | Vicinae file manager theme and keybindings. |
+| `dot_config/hypr` / `dot_config/waybar` | Linux Wayland compositor configs. |
+| `dot_local` | Machine-specific, non-public assets (themes, local overrides). |
 
 ## 4. Day-to-day tweaks
 
 - Shell stays snappy: shared history, deferred Zplug plugins, and aliases that point `ls`/`vim` to their modern counterparts.
 - Starship only shows git extras when needed and uses symbols for success/failure states.
-- Neovim modules are organized under `lua/` so lazy-loaders can pick them up; the typing practice command is front-and-center via `:FubuType`.
-- tmux, Ghostty, Aerospace, and Vicinae share the same color language so muscle memory stays consistent.
+- Neovim modules are organized under `lua/` so lazy-loaders can pick them up.
+- Browser extensions are force-installed via managed policy, so they show as "installed by your administrator."
 
-## 5. Maintenance notes
+## 5. Maintenance
 
-- When adding brew dependencies, update `Brewfile` and run `brew bundle --file=$(chezmoi source-path)/Brewfile`; include any generated lockfile.
-- Keep `dot_local` minimal—only add host-specific assets or secrets that must stay out of git.
-- Refresh template data with `chezmoi data set ...` when your email, font, or other shared metadata changes.
+### Update apps after installing something new
+
+```sh
+brew bundle dump --force --file=$(chezmoi source-path)/Brewfile
+chezmoi apply
+```
+
+This keeps the `Brewfile` in sync with your machine. The `run_onchange_after_brew-bundle.sh` hook will re-run `brew bundle` if the `Brewfile` changed.
+
+### Remove unused apps/taps
+
+After editing the `Brewfile` to remove things you no longer need:
+
+```sh
+brew bundle cleanup
+```
+
+Then commit the result.
+
+### Change macOS defaults
+
+Edit `run_onchange_after_macos-defaults.sh` and run:
+
+```sh
+chezmoi apply
+```
+
+Some changes need a logout/restart to fully take effect.
+
+### Update template data
+
+```sh
+chezmoi data set email you@example.com
+chezmoi data set font "SF Mono"
+```
+
+Then `chezmoi apply` to re-render templates.
+
+---
 
 Pull requests and suggestions welcome—thanks for stepping through my rig! ✨
