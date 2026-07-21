@@ -2,6 +2,7 @@ tap "agavra/tap"
 tap "jnsahaj/lumen"
 tap "nikitabobko/tap", trusted: true
 tap "riii111/sabiql"
+tap "textfuel/tap", trusted: true
 # Apple Intelligence from the command-line, with OpenAi-compatible API server
 brew "apfel"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -30,6 +31,8 @@ brew "lazydocker"
 brew "lazygit"
 # Cross-platform TUI database management tool
 brew "lazysql"
+# TUI for Jira
+brew "textfuel/tap/lazyjira"
 # Postgres C API library
 brew "libpq"
 # Polyglot runtime manager (asdf rust clone)
