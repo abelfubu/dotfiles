@@ -10,6 +10,7 @@ macos-option-as-alt = true
 confirm-close-surface = false
 resize-overlay = never
 gtk-toolbar-style = flat
+background-blur = macos-glass-regular
 
 # Cursor styling
 # cursor-style = "block"
