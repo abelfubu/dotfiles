@@ -20,6 +20,16 @@ M.toggle = function()
   end
 end
 
+M.disable = function()
+  M.show_breadcrumbs = false
+  vim.wo.winbar = ""
+end
+
+M.enable = function()
+  M.show_breadcrumbs = true
+  vim.wo.winbar = M.winbar_path()
+end
+
 M.winbar_path = function()
   if vim.bo.buftype ~= "" then
     return ""

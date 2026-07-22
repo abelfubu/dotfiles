@@ -1,6 +1,14 @@
 return {
   "nvim-lua/plenary.nvim",
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.cmd "colorscheme catppuccin"
+    end,
+  },
+  {
     "stevearc/oil.nvim",
     ---@module 'oil'
     ---@type oil.SetupOpts
@@ -44,7 +52,7 @@ return {
   {
     "projekt0n/github-nvim-theme",
     name = "github-theme",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
     config = function()

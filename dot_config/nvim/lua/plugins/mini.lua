@@ -5,14 +5,6 @@ return {
     opts = {},
     keys = {
       {
-        "<leader>ub",
-        function()
-          require("utils.ui.breadcrumb").toggle()
-        end,
-        remap = true,
-        desc = "Toggle breadcrumbs",
-      },
-      {
         "-",
         function()
           local buf_name = vim.api.nvim_buf_get_name(0)

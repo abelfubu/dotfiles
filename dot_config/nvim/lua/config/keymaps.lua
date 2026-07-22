@@ -73,6 +73,11 @@ map(
   { desc = "Close all other buffers" }
 )
 
+-- Breadcrumb
+map("n", "<leader>ub", function()
+  require("utils.ui.breadcrumb").toggle()
+end, { remap = true, desc = "Toggle breadcrumbs" })
+
 map("n", "<leader>bd", helpers.delete_buffer, { desc = "Delete buffer" })
 
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })

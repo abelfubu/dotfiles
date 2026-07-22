@@ -21,6 +21,7 @@ vim.opt.undofile = true
 vim.opt.autoread = true
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
+vim.opt.fillchars:append { diff = "╱" }
 
 vim.g.have_nerd_font = true
 

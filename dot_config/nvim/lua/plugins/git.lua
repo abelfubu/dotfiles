@@ -1,5 +1,54 @@
 return {
-  { "sindrets/diffview.nvim" },
+  {
+    "dlyongemallo/diffview-plus.nvim",
+    dependencies = "rickhowe/diffchar.vim",
+    version = "*",
+    lazy = false,
+    opts = {
+      show_help_hints = false,
+      hide_merge_artifacts = true,
+      clean_up_buffers = true,
+      auto_close_on_empty = true,
+      enhanced_diff_hl = true,
+      diffopt = { algorithm = "histogram" },
+      file_panel = {
+        win_config = {
+          width = "auto",
+        },
+      },
+      hooks = {
+        view_enter = function()
+          pcall(require("utils.ui.breadcrumb").disable)
+        end,
+        view_leave = function()
+          pcall(require("utils.ui.breadcrumb").enable)
+        end,
+      },
+    },
+    -- cmd = {
+    --   "DiffviewOpen",
+    --   "DiffviewToggle",
+    --   "DiffviewFileHistory",
+    --   "DiffviewDiffFiles",
+    --   "DiffviewLog",
+    -- },
+    keys = {
+      {
+        "<leader>do",
+        function()
+          require("diffview").open {}
+        end,
+        desc = "DiffView Open",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("diffview").toggle {}
+        end,
+        desc = "DiffView Toggle",
+      },
+    },
+  },
   {
     "lewis6991/gitsigns.nvim",
     opts = {
