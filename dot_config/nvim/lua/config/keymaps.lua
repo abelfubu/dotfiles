@@ -38,17 +38,10 @@ map(
 )
 
 map(
-  { "n", "v" },
-  "gd",
-  "<C-]>",
-  { remap = true, desc = "Code go to definition" }
-)
-
-map(
-  { "n", "v" },
-  "gvd",
-  ":vsplit<CR><C-w>l<C-]>",
-  { remap = true, desc = "Code go to definition" }
+  "n",
+  "<C-w>gd",
+  "<C-w>v<C-w>l<C-]>",
+  { remap = true, desc = "Go to definition in vertical split" }
 )
 
 map("n", "<C-s>", helpers.write, { desc = "write buffer" })

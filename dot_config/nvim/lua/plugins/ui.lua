@@ -1,11 +1,42 @@
 return {
   "nvim-lua/plenary.nvim",
   {
+    "akinsho/bufferline.nvim",
+    opts = {
+      highlights = {
+        buffer_selected = { italic = false, fg = "#ff8922" },
+      },
+      options = {
+        mode = "tabs",
+        separator_style = "thin",
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+        always_show_bufferline = true,
+      },
+    },
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     config = function()
-      vim.cmd "colorscheme catppuccin"
+      require("catppuccin").setup {
+        transparent_background = true,
+        no_italic = true,
+        integrations = {
+          native_lsp = {
+            enabled = true,
+            underlines = {
+              errors = { "undercurl" },
+              hints = { "undercurl" },
+              warnings = { "undercurl" },
+              information = { "undercurl" },
+            },
+          },
+        },
+      }
+
+      vim.cmd "colorscheme catppuccin-mocha"
     end,
   },
   {
@@ -48,38 +79,6 @@ return {
     },
     dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     lazy = false,
-  },
-  {
-    "projekt0n/github-nvim-theme",
-    name = "github-theme",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("github-theme").setup {
-        options = {
-          transparent = true,
-        },
-        groups = {
-          all = {
-            DiagnosticUnderlineError = { undercurl = true, sp = "#ff5370" },
-            DiagnosticUnderlineWarn = { undercurl = true, sp = "#ffcb6b" },
-            DiagnosticUnderlineInfo = { undercurl = true, sp = "#82aaff" },
-            DiagnosticUnderlineHint = { undercurl = true, sp = "#c3e88d" },
-            MiniFilesBorderModified = { fg = "orange" },
-            ["@punctuation.bracket"] = { fg = "#737aa2" },
-            Pmenu = { bg = "none" },
-            WinSeparator = { fg = "#292e42" },
-            PmenuSel = { bg = "#394b70" },
-            FloatBorder = { fg = "#292e42" },
-            Visual = { bg = "#394b70" },
-            CursorLine = { bg = "#394b70" },
-          },
-        },
-      }
-
-      vim.cmd "colorscheme github_dark_high_contrast"
-    end,
   },
   {
     "ThePrimeagen/harpoon",
