@@ -29,6 +29,8 @@ brew "httpie"
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
+# Cross-platform TUI database management tool
+brew "lazysql"
 # TUI for Jira
 brew "textfuel/tap/lazyjira"
 # Postgres C API library

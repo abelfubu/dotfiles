@@ -13,7 +13,7 @@ return {
       diffopt = { algorithm = "histogram" },
       file_panel = {
         win_config = {
-          width = "auto",
+          width = 60,
         },
       },
       hooks = {
