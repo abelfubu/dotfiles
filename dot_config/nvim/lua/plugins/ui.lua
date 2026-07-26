@@ -1,23 +1,18 @@
 return {
   "nvim-lua/plenary.nvim",
   {
-    "akinsho/bufferline.nvim",
+    "beauwilliams/statusline.lua",
     opts = {
-      highlights = {
-        buffer_selected = { italic = false, fg = "#ff8922" },
-      },
-      options = {
-        mode = "tabs",
-        separator_style = "thin",
-        show_buffer_close_icons = false,
-        show_close_icon = false,
-        always_show_bufferline = true,
-      },
+      match_colorscheme = false,
+      tabline = true,
+      lsp_diagnostics = true,
+      ale_diagnostics = false,
     },
   },
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    lazy = false,
     priority = 1000,
     config = function()
       require("catppuccin").setup {
@@ -36,7 +31,7 @@ return {
         },
       }
 
-      vim.cmd "colorscheme catppuccin-mocha"
+      vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
   {
@@ -64,18 +59,6 @@ return {
       preview = {
         max_width = 0.8,
       },
-    },
-    keys = {
-      -- {
-      --   "-",
-      --   function()
-      --     require("oil").open(
-      --       nil,
-      --       { preview = { vertical = true, split = "botright" } }
-      --     )
-      --   end,
-      --   desc = "Oil",
-      -- },
     },
     dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     lazy = false,

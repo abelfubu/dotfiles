@@ -9,16 +9,6 @@ return {
     keymap = {
       preset = "enter",
       ["<D-Space>"] = { "show" },
-      ["<Tab>"] = {
-        "snippet_forward",
-        function()
-          return require("sidekick").nes_jump_or_apply()
-        end,
-        function()
-          return vim.lsp.inline_completion.get()
-        end,
-        "fallback",
-      },
     },
     completion = {
       accept = { auto_brackets = { enabled = false } },
@@ -31,25 +21,6 @@ return {
       menu = {
         scrollbar = false,
         border = "none",
-        -- draw = {
-        --   padding = { 0, 1 },
-        --   columns = { { "kind_icon" }, { "label" }, { "kind" } },
-        --   components = {
-        --     kind_icon = {
-        --       text = function(ctx)
-        --         local icons = require "nvchad.icons.lspkind"
-        --         local icon = " " .. (icons[ctx.kind] or "󰈚") .. " "
-        --
-        --         return icon
-        --       end,
-        --     },
-        --     kind = {
-        --       highlight = function()
-        --         return "comment"
-        --       end,
-        --     },
-        --   },
-        -- },
       },
     },
   },

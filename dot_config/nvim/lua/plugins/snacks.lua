@@ -102,13 +102,6 @@ return {
     },
   },
   keys = {
-    -- {
-    --   "<leader>th",
-    --   function()
-    --     require("utils.ui.change_theme").change_theme()
-    --   end,
-    --   desc = "Change Theme",
-    -- },
     {
       "<leader>fz",
       function()
@@ -175,13 +168,6 @@ return {
         Snacks.picker.command_history()
       end,
       desc = "Command History",
-    },
-    {
-      "<leader>n",
-      function()
-        Snacks.picker.notifications()
-      end,
-      desc = "Notification History",
     },
     {
       "<leader>e",
@@ -296,13 +282,6 @@ return {
       desc = "Git Log File",
     },
     -- Grep
-    {
-      "<leader>sb",
-      function()
-        Snacks.picker.lines()
-      end,
-      desc = "Buffer Lines",
-    },
     {
       "<leader>sB",
       function()
@@ -557,13 +536,6 @@ return {
         Snacks.notifier.show_history()
       end,
       desc = "Notification History",
-    },
-    {
-      "<leader>bd",
-      function()
-        Snacks.bufdelete()
-      end,
-      desc = "Delete Buffer",
     },
     {
       "<leader>cR",

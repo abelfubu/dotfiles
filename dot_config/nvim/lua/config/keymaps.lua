@@ -30,23 +30,7 @@ map("v", "<leader>so", ":sort<CR>", {
   desc = "Sort lines",
 })
 
-map(
-  { "n", "v" },
-  "gd",
-  "<C-]>",
-  { remap = true, desc = "Code go to definition" }
-)
-
-map(
-  "n",
-  "<C-w>gd",
-  "<C-w>v<C-w>l<C-]>",
-  { remap = true, desc = "Go to definition in vertical split" }
-)
-
 map("n", "<C-s>", helpers.write, { desc = "write buffer" })
--- map("n", "L", helpers.next_buffer, { desc = "Next buffer" })
--- map("n", "H", helpers.previous_buffer, { desc = "Previous buffer" })
 map("n", "<leader>|", ":vsplit<CR>", { desc = "Vertical split", silent = true })
 map("n", "<leader>x", ":close<CR>", { desc = "Close split", silent = true })
 
@@ -80,8 +64,6 @@ map("n", "]e", helpers.diagnostic_goto(1, "ERROR"), { desc = "Next Error" })
 map("n", "[e", helpers.diagnostic_goto(-1, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", helpers.diagnostic_goto(1, "WARN"), { desc = "Next Warning" })
 map("n", "[w", helpers.diagnostic_goto(-1, "WARN"), { desc = "Prev Warning" })
--- map("n", "H", "<cmd>bprev<CR>", { desc = "Previous Buffer" })
--- map("n", "L", "<cmd>bnext<CR>", { desc = "Next Buffer" })
 
 -- Editor
 vim.keymap.set(

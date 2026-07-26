@@ -29,7 +29,6 @@ return {
     opts = {
       ensure_installed = {
         "lua_ls",
-        "vtsls",
         "jsonls",
         "postgres_lsp",
         "eslint",

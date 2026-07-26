@@ -25,13 +25,6 @@ return {
         end,
       },
     },
-    -- cmd = {
-    --   "DiffviewOpen",
-    --   "DiffviewToggle",
-    --   "DiffviewFileHistory",
-    --   "DiffviewDiffFiles",
-    --   "DiffviewLog",
-    -- },
     keys = {
       {
         "<leader>do",
