@@ -60,6 +60,10 @@ brew "jnsahaj/lumen/lumen", trusted: true
 # Fast, driver-less TUI to browse, query, and edit PostgreSQL databases
 brew "riii111/sabiql/sabiql", trusted: true
 cask "aerospace", trusted: true
+# Web browser focusing on privacy
+cask "brave-browser"
+# Voice and text chat software
+cask "discord"
 cask "font-geist-mono-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
@@ -68,6 +72,8 @@ cask "ghostty"
 cask "hammerspoon"
 # Chromium-based web browser
 cask "helium-browser"
+# Meet, chat, call, and collaborate in just one place
+cask "microsoft-teams"
 # Desktop sync client for Nextcloud software products
 cask "nextcloud"
 # VPN client for secure internet access and private browsing
