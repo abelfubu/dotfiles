@@ -18,15 +18,13 @@ return {
       require("catppuccin").setup {
         transparent_background = true,
         no_italic = true,
-        integrations = {
-          native_lsp = {
-            enabled = true,
-            underlines = {
-              errors = { "undercurl" },
-              hints = { "undercurl" },
-              warnings = { "undercurl" },
-              information = { "undercurl" },
-            },
+        auto_integrations = true,
+        lsp_styles = {
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
           },
         },
       }

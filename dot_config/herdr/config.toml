@@ -120,3 +120,6 @@ delivery = "herdr"
 
 [update]
 channel = "preview"
+
+[experimental]
+kitty_graphics = true
