@@ -1,0 +1,42 @@
+#!/bin/bash
+# SbarLua: dba9cc421b868c918d5c23c408544a28aadf2f2f
+# Config: {{ include "dot_config/sketchybar/executable_sketchybarrc" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/init.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/bar.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/colors.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/default.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/settings.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/icons.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/helpers/default_font.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/aerospace.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/usage.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/calendar.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/front_app.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/widgets/battery.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/widgets/cpu.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/widgets/keyboard.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/widgets/volume.lua" | sha256sum }}
+# Config: {{ include "dot_config/sketchybar/items/widgets/wifi.lua" | sha256sum }}
+# Helper: {{ include "dot_config/sketchybar/helpers/event_providers/cpu_load/cpu_load.c" | sha256sum }}
+set -euo pipefail
+
+SBARLUA_COMMIT="dba9cc421b868c918d5c23c408544a28aadf2f2f"
+SBARLUA_DIR="$HOME/.local/share/sketchybar_lua"
+SBARLUA_STAMP="$SBARLUA_DIR/.commit"
+
+if [ ! -f "$SBARLUA_DIR/sketchybar.so" ] || [ "$(cat "$SBARLUA_STAMP" 2>/dev/null || true)" != "$SBARLUA_COMMIT" ]; then
+  tmp_dir="$(mktemp -d)"
+  trap 'rm -rf "$tmp_dir"' EXIT
+  git clone --quiet https://github.com/FelixKratz/SbarLua.git "$tmp_dir/SbarLua"
+  git -C "$tmp_dir/SbarLua" checkout --quiet "$SBARLUA_COMMIT"
+  make -C "$tmp_dir/SbarLua" install
+  printf '%s\n' "$SBARLUA_COMMIT" > "$SBARLUA_STAMP"
+  rm -rf "$tmp_dir"
+  trap - EXIT
+fi
+
+make -C "$HOME/.config/sketchybar/helpers/event_providers"
+
+if command -v sketchybar >/dev/null 2>&1; then
+  brew services restart felixkratz/formulae/sketchybar
+fi

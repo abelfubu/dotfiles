@@ -1,4 +1,5 @@
 tap "agavra/tap"
+tap "felixkratz/formulae", trusted: true
 tap "jnsahaj/lumen"
 tap "nikitabobko/tap", trusted: true
 tap "riii111/sabiql"
@@ -35,6 +36,8 @@ brew "lazysql"
 brew "textfuel/tap/lazyjira"
 # Postgres C API library
 brew "libpq"
+# Lua runtime for the SbarLua SketchyBar configuration
+brew "lua"
 # Polyglot runtime manager (asdf rust clone)
 brew "mise"
 # Deep clean and optimize your Mac
@@ -45,6 +48,8 @@ brew "neovim"
 brew "ripgrep"
 # Cross-shell prompt for astronauts
 brew "starship"
+# Lua-configurable macOS status bar
+brew "felixkratz/formulae/sketchybar", trusted: true
 # Terminal multiplexer
 brew "yazi"
 # Feature-rich command-line audio/video downloader
@@ -80,6 +85,8 @@ cask "nextcloud"
 cask "nordvpn"
 # Whisper dictation/transcription app
 cask "opensuperwhisper"
+# AI usage tracker and CLI used by SketchyBar
+cask "openusage"
 # Kubernetes and container management on the desktop
 cask "rancher"
 # Archive manager for data compression and backups

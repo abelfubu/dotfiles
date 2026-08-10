@@ -2,6 +2,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = true
 start-at-login = true
 
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  '/usr/bin/env PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+]
+
 # after-startup-command = [
 #   'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x00ffcb6b width=2.5',
 # ]
