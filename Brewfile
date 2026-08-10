@@ -30,8 +30,6 @@ brew "httpie"
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Cross-platform TUI database management tool
-brew "lazysql"
 # TUI for Jira
 brew "textfuel/tap/lazyjira"
 # Postgres C API library
@@ -68,7 +66,6 @@ cask "aerospace", trusted: true
 # Web browser focusing on privacy
 cask "brave-browser"
 # Voice and text chat software
-cask "discord"
 cask "font-geist-mono-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration

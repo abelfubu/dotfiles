@@ -56,7 +56,7 @@ return {
 	font_sizes = sizes,
 
 	paddings = 3,
-	group_padding = 5,
+	group_padding = 3,
 
 	icons = "NerdFont",
 
