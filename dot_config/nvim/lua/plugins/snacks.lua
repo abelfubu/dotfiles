@@ -129,7 +129,7 @@ return {
       function()
         require("snacks").picker.files {
           exclude = { "node_modules", ".git" },
-          ignored = false,
+          ignored = true,
           hidden = true,
           layout = { preview = false, layout = { max_width = 77 } },
         }

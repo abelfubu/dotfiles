@@ -10,12 +10,32 @@ return {
     },
   },
   {
+    "afonsofrancof/OSC11.nvim",
+    lazy = false,
+    opts = {
+      on_dark = function()
+        vim.opt.background = "dark"
+        vim.cmd.colorscheme "catppuccin"
+      end,
+
+      on_light = function()
+        vim.opt.background = "light"
+        vim.cmd.colorscheme "catppuccin"
+      end,
+    },
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
     priority = 1000,
     config = function()
       require("catppuccin").setup {
+        flavour = "auto",
+        background = {
+          light = "latte",
+          dark = "mocha",
+        },
         transparent_background = true,
         no_italic = true,
         auto_integrations = true,

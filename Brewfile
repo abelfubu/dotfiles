@@ -1,6 +1,7 @@
 tap "agavra/tap"
 tap "felixkratz/formulae", trusted: true
 tap "jnsahaj/lumen"
+tap "janekbaraniewski/tap", trusted: true
 tap "nikitabobko/tap", trusted: true
 tap "riii111/sabiql"
 tap "textfuel/tap", trusted: true
@@ -30,6 +31,8 @@ brew "httpie"
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
+# Cross-platform TUI database management tool
+brew "lazysql"
 # TUI for Jira
 brew "textfuel/tap/lazyjira"
 # Postgres C API library
@@ -42,6 +45,8 @@ brew "mise"
 brew "mole"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Terminal-first local AI provider usage and quota tracker
+brew "janekbaraniewski/tap/openusage"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Cross-shell prompt for astronauts
@@ -66,6 +71,7 @@ cask "aerospace", trusted: true
 # Web browser focusing on privacy
 cask "brave-browser"
 # Voice and text chat software
+cask "discord"
 cask "font-geist-mono-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
@@ -82,8 +88,6 @@ cask "nextcloud"
 cask "nordvpn"
 # Whisper dictation/transcription app
 cask "opensuperwhisper"
-# AI usage tracker and CLI used by SketchyBar
-cask "openusage"
 # Kubernetes and container management on the desktop
 cask "rancher"
 # Archive manager for data compression and backups
