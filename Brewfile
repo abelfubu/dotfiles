@@ -62,7 +62,7 @@ brew "zoxide"
 # Next-generation plugin manager for zsh
 brew "zplug"
 # Terminal UI for Code Reviews - review AI-generated diffs like a GitHub PR
-brew "agavra/tap/tuicr", trusted: true
+brew "tuicr"
 # lumen is a command-line tool that can show pretty diff, generate commit messages with AI, summarise diffs / commits, and more without requiring an API key.
 brew "jnsahaj/lumen/lumen", trusted: true
 # Fast, driver-less TUI to browse, query, and edit PostgreSQL databases
