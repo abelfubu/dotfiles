@@ -1,6 +1,22 @@
 return {
   "nvim-lua/plenary.nvim",
   {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    opts = {
+      markdown = {
+        headings = {
+          heading_1 = { icon = "󰉫  " },
+          heading_2 = { icon = "󰉬  " },
+          heading_3 = { icon = "󰉭  " },
+          heading_4 = { icon = "󰉮  " },
+          heading_5 = { icon = "󰉯  " },
+          heading_6 = { icon = "󰉰  " },
+        },
+      },
+    },
+  },
+  {
     "beauwilliams/statusline.lua",
     opts = {
       match_colorscheme = false,
@@ -30,6 +46,7 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      -- local palette = require "palette.github-dark-high-contrast"
       require("catppuccin").setup {
         flavour = "auto",
         background = {
@@ -37,6 +54,8 @@ return {
           dark = "mocha",
         },
         transparent_background = true,
+        -- color_overrides = palette.color_overrides,
+        -- highlight_overrides = palette.highlight_overrides,
         no_italic = true,
         auto_integrations = true,
         lsp_styles = {

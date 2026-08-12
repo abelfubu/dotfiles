@@ -121,8 +121,12 @@ local function update_usage()
 	end)
 
 	sbar.exec("$CONFIG_DIR/plugins/kimi_usage.sh", function(result)
-		local used = type(result) == "table" and tonumber(result.used) or nil
-		kimi:set({ label = used and (math.floor(used + 0.5) .. "%") or "--" })
+		local remaining = type(result) == "table" and tonumber(result.remaining) or nil
+		local limit = type(result) == "table" and tonumber(result.limit) or nil
+		local remaining_percentage = remaining and limit and limit > 0
+			and math.max(0, math.floor(remaining / limit * 100 + 0.5))
+			or nil
+		kimi:set({ label = remaining_percentage and (remaining_percentage .. "%") or "--" })
 	end)
 end
 

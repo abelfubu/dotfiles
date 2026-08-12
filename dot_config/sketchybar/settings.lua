@@ -45,8 +45,11 @@ local widgets = {
 			Russian = "RU",
 			RussianWin = "RU",
 			ABC = "EN",
-			["U.S."] = "EN",
-			US = "EN",
+			["U.S."] = "",
+			US = "",
+			USA = "",
+			["USA INT"] = "󰇧",
+			["USInternational-PC"] = "󰇧",
 		},
 	},
 }

@@ -31,8 +31,6 @@ brew "httpie"
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Cross-platform TUI database management tool
-brew "lazysql"
 # TUI for Jira
 brew "textfuel/tap/lazyjira"
 # Postgres C API library
@@ -61,8 +59,10 @@ brew "yt-dlp"
 brew "zoxide"
 # Next-generation plugin manager for zsh
 brew "zplug"
+# CLI for Git worktree management, designed for parallel AI agent workflows
+brew "worktrunk"
 # Terminal UI for Code Reviews - review AI-generated diffs like a GitHub PR
-brew "tuicr"
+brew "agavra/tap/tuicr", trusted: true
 # lumen is a command-line tool that can show pretty diff, generate commit messages with AI, summarise diffs / commits, and more without requiring an API key.
 brew "jnsahaj/lumen/lumen", trusted: true
 # Fast, driver-less TUI to browse, query, and edit PostgreSQL databases
@@ -70,8 +70,6 @@ brew "riii111/sabiql/sabiql", trusted: true
 cask "aerospace", trusted: true
 # Web browser focusing on privacy
 cask "brave-browser"
-# Voice and text chat software
-cask "discord"
 cask "font-geist-mono-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration

@@ -1,0 +1,13 @@
+# Keep worktrees as siblings of the primary checkout.
+worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
+
+# Prepare ignored local state before an agent starts in a new worktree.
+# Repositories opt in by committing a .worktreeinclude file. Suggested Node.js patterns:
+#   .env
+#   .env.*
+#   .eslintcache
+#   node_modules/
+pre-start = "wt step copy-ignored --require-include"
+
+[list]
+json-schema = 2

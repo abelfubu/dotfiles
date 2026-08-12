@@ -15,7 +15,11 @@ local keyboard = sbar.add("item", "widgets.keyboard", {
 	icon = { drawing = false },
 	label = {
 		string = keyboard_settings.default_label,
-		font = settings.label_font,
+		font = {
+			family = settings.font.icons,
+			style = settings.font.style_map["Regular"],
+			size = settings.font_sizes.icon_large,
+		},
 		align = "left",
 		padding_left = 6,
 		padding_right = 6,
@@ -33,6 +37,7 @@ sbar.add("item", "widgets.keyboard.padding", {
 })
 
 local layout_script = [[
+sleep 0.1
 defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources 2>/dev/null | grep -w "KeyboardLayout Name" | cut -d "=" -f 2 | tr -d '"; '
 ]]
 

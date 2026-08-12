@@ -1,5 +1,31 @@
 return {
   {
+    "eltonsst/postilla.nvim",
+    opts = { keymap = nil },
+    keys = {
+      {
+        "<leader>ra",
+        "<cmd>PostillaComment<cr>",
+        desc = "Add review comment",
+      },
+      {
+        "<leader>rd",
+        "<cmd>PostillaDone<cr>",
+        desc = "Finish review",
+      },
+      {
+        "<leader>rl",
+        "<cmd>PostillaList<cr>",
+        desc = "List review comments",
+      },
+      {
+        "<leader>rx",
+        "<cmd>PostillaAbort<cr>",
+        desc = "Abort review",
+      },
+    },
+  },
+  {
     "dlyongemallo/diffview-plus.nvim",
     dependencies = "rickhowe/diffchar.vim",
     version = "*",
