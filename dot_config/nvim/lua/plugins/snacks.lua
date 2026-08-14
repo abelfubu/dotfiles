@@ -2,7 +2,11 @@ return {
   "folke/snacks.nvim",
   lazy = false,
   opts = {
-    statuscolumn = { enabled = true },
+    statuscolumn = {
+      enabled = true,
+      -- Render local-review.nvim markers in the git signs column.
+      git = { patterns = { "GitSign", "MiniDiffSign", "LocalReview" } },
+    },
     zen = {
       show = {
         statusline = true,

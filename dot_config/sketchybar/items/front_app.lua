@@ -1,4 +1,3 @@
-local colors = require("colors")
 local settings = require("settings")
 
 local front_app = sbar.add("item", "front_app", {
@@ -6,9 +5,9 @@ local front_app = sbar.add("item", "front_app", {
 	icon = { drawing = false },
 	label = {
 		font = {
-			family = settings.font.text,
+			family = settings.font.icons,
 			style = "ExtraBold",
-			size = settings.font_sizes.label,
+			size = settings.font_sizes.label_compact,
 		},
 	},
 	updates = true,

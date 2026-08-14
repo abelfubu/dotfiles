@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/usr/bin/env -S mise x -- lua
 
 require("helpers")
 require("init")

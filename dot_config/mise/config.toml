@@ -1,0 +1,11 @@
+[tools]
+go = "latest"
+lua = "5.5.1"
+node = "24"
+ruby = "latest"
+rust = "latest"
+stylua = "latest"
+zig = "0.15.2"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

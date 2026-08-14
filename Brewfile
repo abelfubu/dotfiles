@@ -35,8 +35,6 @@ brew "lazygit"
 brew "textfuel/tap/lazyjira"
 # Postgres C API library
 brew "libpq"
-# Lua runtime for the SbarLua SketchyBar configuration
-brew "lua"
 # Polyglot runtime manager (asdf rust clone)
 brew "mise"
 # Deep clean and optimize your Mac

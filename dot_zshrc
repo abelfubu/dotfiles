@@ -95,3 +95,9 @@ if command -v llmtrim >/dev/null 2>&1 && llmtrim _alive 2>/dev/null; then
     export CURL_CA_BUNDLE='/Users/abeldelafuente/.llmtrim/ca-bundle.pem'
 fi
 # <<< llmtrim <<<
+
+if [[ $HERDR_ENV == 1 ]]; then
+  nvim() { TERM=xterm-ghostty command nvim "$@"; }
+fi
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

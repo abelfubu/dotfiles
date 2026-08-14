@@ -1,36 +1,30 @@
 return {
   {
-    "eltonsst/postilla.nvim",
-    opts = { keymap = nil },
-    keys = {
-      {
-        "<leader>ra",
-        "<cmd>PostillaComment<cr>",
-        desc = "Add review comment",
+    -- "abelfubu/local-review.nvim",
+    dir = "~/dev/local-review.nvim",
+    opts = {
+      keymaps = {
+        comment = "<leader>rc",
+        delete = "<leader>rd",
+        next = "]r",
+        prev = "[r",
+        export = "<leader>re",
+        list = "<leader>rl",
       },
-      {
-        "<leader>rd",
-        "<cmd>PostillaDone<cr>",
-        desc = "Finish review",
-      },
-      {
-        "<leader>rl",
-        "<cmd>PostillaList<cr>",
-        desc = "List review comments",
-      },
-      {
-        "<leader>rx",
-        "<cmd>PostillaAbort<cr>",
-        desc = "Abort review",
+      comment_close_keys = {
+        { modes = { "n" }, key = "q" },
+        { modes = { "n", "i" }, key = "<C-c>" },
       },
     },
   },
   {
     "dlyongemallo/diffview-plus.nvim",
-    dependencies = "rickhowe/diffchar.vim",
     version = "*",
     lazy = false,
     opts = {
+      default_args = {
+        DiffviewOpen = { "--imply-local" },
+      },
       show_help_hints = false,
       hide_merge_artifacts = true,
       clean_up_buffers = true,
@@ -52,6 +46,19 @@ return {
       },
     },
     keys = {
+      {
+        "<leader>ds",
+        function()
+          vim.ui.select(
+            { "develop", "beta", "master" },
+            { prompt = "Origin Branch > " },
+            function(choice)
+              require("diffview").open { choice }
+            end
+          )
+        end,
+        desc = "DiffView Select",
+      },
       {
         "<leader>do",
         function()
@@ -99,8 +106,8 @@ return {
         end)
 
         -- Actions
-        map("n", "<leader>hs", gitsigns.stage_hunk)
-        map("n", "<leader>hr", gitsigns.reset_hunk)
+        map("n", "cleader>hs", gitsigns.stage_hunk)
+        map("n", "<ceader>hr", gitsigns.reset_hunk)
 
         map("v", "<leader>hs", function()
           gitsigns.stage_hunk { vim.fn.line ".", vim.fn.line "v" }
