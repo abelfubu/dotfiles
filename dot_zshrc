@@ -4,7 +4,7 @@ eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
+export PATH="/Users/abelfubu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="$HOME/.local/share/bin/:$PATH"
@@ -89,15 +89,10 @@ if command -v llmtrim >/dev/null 2>&1 && llmtrim _alive 2>/dev/null; then
     export HTTP_PROXY='http://127.0.0.1:43117'
     export NO_PROXY='localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
     export no_proxy='localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
-    export NODE_EXTRA_CA_CERTS='/Users/abeldelafuente/.llmtrim/ca.pem'
+    export NODE_EXTRA_CA_CERTS='/Users/abelfubu/.llmtrim/ca.pem'
     export NODE_USE_ENV_PROXY='1'
-    export SSL_CERT_FILE='/Users/abeldelafuente/.llmtrim/ca-bundle.pem'
-    export CURL_CA_BUNDLE='/Users/abeldelafuente/.llmtrim/ca-bundle.pem'
+    export SSL_CERT_FILE='/Users/abelfubu/.llmtrim/ca-bundle.pem'
+    export CURL_CA_BUNDLE='/Users/abelfubu/.llmtrim/ca-bundle.pem'
 fi
 # <<< llmtrim <<<
-
-if [[ $HERDR_ENV == 1 ]]; then
-  nvim() { TERM=xterm-ghostty command nvim "$@"; }
-fi
-
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+eval "$(atuin init zsh)"

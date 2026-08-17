@@ -47,6 +47,9 @@ keybind = option+g>k=goto_split:up
 keybind = option+g>/=new_split:right
 keybind = option+g>-=new_split:down
 
+keybind = cmd+t=unbind
+keybind = cmd+w=unbind
+
 # Cursor styling + SSH session terminfo
 # (all shell integration options must be passed together)
 shell-integration-features = no-cursor,ssh-env

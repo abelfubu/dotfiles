@@ -48,6 +48,11 @@ return {
   {
     "folke/lazydev.nvim",
     ft = "lua",
-    opts = {},
+    opts = {
+      -- lazydev is only for the Neovim config; projects manage lua_ls themselves
+      enabled = function(root_dir)
+        return root_dir == vim.fn.stdpath "config"
+      end,
+    },
   },
 }

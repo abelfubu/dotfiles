@@ -13,7 +13,7 @@ sidebar_max_width = 36
 sidebar_collapsed_mode = "hidden"
 mouse_capture = true
 confirm_close = true
-prompt_new_tab_name = true
+prompt_new_tab_name = false
 show_agent_labels_on_pane_borders = true
 pane_borders = true
 pane_gaps = false
@@ -22,7 +22,7 @@ pane_gaps = false
 
 [keys]
 prefix = "alt+d"
-new_tab = "prefix+c"
+new_tab = "cmd+t"
 split_horizontal = "prefix+minus"
 detach = "prefix+q"
 workspace_picker = "prefix+w"
@@ -36,7 +36,7 @@ switch_workspace = "ctrl+shift+1..9"
 navigate_workspace_up =  "up"
 navigate_workspace_down = "down" 
 rename_tab = "prefix+shift+t"
-close_tab = "prefix+shift+x"
+close_tab = "cmd+w"
 split_vertical = "prefix+|"
 close_pane = "prefix+x"
 zoom = "prefix+z"

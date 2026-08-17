@@ -12,6 +12,7 @@ return {
       "nvim-neotest/neotest-jest",
       "marilari88/neotest-vitest",
       "thenbe/neotest-playwright",
+      "MisanthropicBit/neotest-busted",
     },
     config = function()
       ---@diagnostic disable-next-line: missing-fields
@@ -20,6 +21,7 @@ return {
           require "neotest-jest",
           require "rustaceanvim.neotest",
           require "neotest-vitest",
+          require "neotest-busted",
           require("neotest-playwright").adapter {
             options = {
               persist_project_selection = true,
