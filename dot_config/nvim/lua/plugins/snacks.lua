@@ -132,7 +132,7 @@ return {
       "<C-p>",
       function()
         require("snacks").picker.files {
-          exclude = { "node_modules", ".git" },
+          exclude = { "node_modules", ".git", "**/dist" },
           ignored = true,
           hidden = true,
           layout = { preview = false, layout = { max_width = 77 } },

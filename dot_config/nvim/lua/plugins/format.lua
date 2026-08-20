@@ -40,7 +40,7 @@ return {
       formatters = {
         injected = { options = { ignore_errors = true } },
         oxfmt = {
-          condition = function(ctx)
+          condition = function(self, ctx)
             return vim.fs.find(
               { ".oxfmtrc.json" },
               { path = ctx.filename, upward = true }
@@ -48,7 +48,7 @@ return {
           end,
         },
         prettier = {
-          condition = function(ctx)
+          condition = function(self, ctx)
             return vim.fs.find({
               ".prettierrc",
               ".prettierrc.json",
