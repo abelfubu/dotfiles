@@ -22,17 +22,6 @@ return {
     version = "*",
     lazy = false,
     opts = {
-      view = {
-        default = {
-          layout = "diff1_inline",
-        },
-        file_history = {
-          layout = "diff1_inline",
-        },
-        inline = {
-          style = "unified",
-        },
-      },
       default_args = {
         DiffviewOpen = { "--imply-local" },
       },

@@ -30,6 +30,7 @@ exec-on-workspace-change = [
   alt-shift-w = 'exec-and-forget open -n -a "helium" --args --app="https://web.whatsapp.com"'
   alt-e = 'exec-and-forget open -n -a "helium" --args --app="https://tldraw.com"'
 	alt-n = 'exec-and-forget open -n -a ghostty --args --window-padding-x=0 --window-padding-y=0 -e zsh -i -c "nvim"'
+  alt-g = 'exec-and-forget open -n -a "helium" --args --app="https://github.com"'
 
   alt-w = "close"
   alt-o = "macos-native-fullscreen"

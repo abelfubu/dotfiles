@@ -15,7 +15,7 @@ local function set_focused_workspace(focused)
 			icon = { color = selected and colors.tokyonight_bg or colors.grey },
 			background = {
 				drawing = true,
-				color = selected and colors.tokyonight_blue or colors.transparent,
+				color = selected and colors.white or colors.transparent,
 			},
 		})
 	end
