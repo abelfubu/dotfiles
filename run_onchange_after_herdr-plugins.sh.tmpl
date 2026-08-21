@@ -21,4 +21,11 @@ else
   echo "reviewr plugin already installed"
 fi
 
+if ! herdr plugin list --json | grep -q '"plugin_id":"herdr-popup"'; then
+  echo "Installing herdr-popup plugin..."
+  herdr plugin install abelfubu/herdr-popup --yes
+else
+  echo "herdr-popup plugin already installed"
+fi
+
 herdr server reload-config || true
