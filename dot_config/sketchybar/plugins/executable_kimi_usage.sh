@@ -15,7 +15,7 @@ api_key="${KIMI_API_KEY:-}"
 
 response="$({
 	printf 'header = "Authorization: Bearer %s"\n' "$api_key"
-	printf 'url = "https://api.kimi.com/coding/v1/usages"\n'
+	printf 'url = "https://api.kimi.ai/coding/v1/usages"\n'
 	printf 'silent\nshow-error\nmax-time = 10\n'
 } | /usr/bin/curl --config -)" || exit 1
 

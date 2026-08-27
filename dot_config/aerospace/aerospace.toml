@@ -13,90 +13,90 @@ exec-on-workspace-change = [
 # ]
 
 [gaps]
-  inner.horizontal = [{ monitor."Built-in" = 8 }, 40]
-  inner.vertical =   [{ monitor."Built-in" = 8 }, 40]
-  outer.left =       [{ monitor."Built-in" = 8 }, 64]
-  outer.bottom =     [{ monitor."Built-in" = 8 }, 40]
-  outer.top =        [{ monitor."Built-in" = 8 }, 64]
-  outer.right =      [{ monitor."Built-in" = 8 }, 64]
+inner.horizontal = [{ monitor."Built-in" = 8 }, 40]
+inner.vertical = [{ monitor."Built-in" = 8 }, 40]
+outer.left = [{ monitor."Built-in" = 8 }, 64]
+outer.bottom = [{ monitor."Built-in" = 8 }, 40]
+outer.top = [{ monitor."Built-in" = 8 }, 64]
+outer.right = [{ monitor."Built-in" = 8 }, 64]
 
 [mode.main.binding]
-  alt-enter = 'exec-and-forget open -n -a "ghostty"'
-  alt-b = 'exec-and-forget open -n -a "helium"'
-  alt-a = 'exec-and-forget open -n -a "helium" --args --app="https://kimi.com"'
-  alt-y = 'exec-and-forget open -n -a "helium" --args --app="https://youtube.com"'
-  alt-m = 'exec-and-forget open -n -a "helium" --args --app="https://music.youtube.com"'
-  alt-shift-m = 'exec-and-forget open -n -a "helium" --args --app="https://monkeytype.com"'
-  alt-shift-w = 'exec-and-forget open -n -a "helium" --args --app="https://web.whatsapp.com"'
-  alt-e = 'exec-and-forget open -n -a "helium" --args --app="https://tldraw.com"'
-	alt-n = 'exec-and-forget open -n -a ghostty --args --window-padding-x=0 --window-padding-y=0 -e zsh -i -c "nvim"'
-  alt-g = 'exec-and-forget open -n -a "helium" --args --app="https://github.com"'
+alt-enter = 'exec-and-forget open -n -a "ghostty"'
+alt-b = 'exec-and-forget open -n -a "helium"'
+alt-a = 'exec-and-forget open -n -a "helium" --args --app="https://chatgpt.com"'
+alt-y = 'exec-and-forget open -n -a "helium" --args --app="https://youtube.com"'
+alt-m = 'exec-and-forget open -n -a "helium" --args --app="https://music.youtube.com"'
+alt-shift-m = 'exec-and-forget open -n -a "helium" --args --app="https://monkeytype.com"'
+alt-shift-w = 'exec-and-forget open -n -a "helium" --args --app="https://web.whatsapp.com"'
+alt-e = 'exec-and-forget open -n -a "helium" --args --app="https://tldraw.com"'
+alt-n = 'exec-and-forget open -n -a ghostty --args --window-padding-x=0 --window-padding-y=0 -e zsh -i -c "nvim"'
+alt-g = 'exec-and-forget open -n -a "helium" --args --app="https://github.com"'
 
-  alt-w = "close"
-  alt-o = "macos-native-fullscreen"
-  alt-f = "layout floating tiling"
-  # Float and center the window. If it's already floating, return it back into the tiles.
-  # alt-f = """exec-and-forget aerospace layout floating && open -g 'raycast://extensions/raycast/window-management/center-half' || aerospace layout tiling"""
+alt-w = "close"
+alt-o = "macos-native-fullscreen"
+alt-f = "layout floating tiling"
+# Float and center the window. If it's already floating, return it back into the tiles.
+# alt-f = """exec-and-forget aerospace layout floating && open -g 'raycast://extensions/raycast/window-management/center-half' || aerospace layout tiling"""
 
-  alt-h = "focus left"
-  alt-j = "focus down"
-  alt-k = "focus up"
-  alt-l = "focus right"
+alt-h = "focus left"
+alt-j = "focus down"
+alt-k = "focus up"
+alt-l = "focus right"
 
-  alt-shift-h = "move left"
-  alt-shift-j = "move down"
-  alt-shift-k = "move up"
-  alt-shift-l = "move right"
+alt-shift-h = "move left"
+alt-shift-j = "move down"
+alt-shift-k = "move up"
+alt-shift-l = "move right"
 
-  alt-1 = "workspace 1"
-  alt-2 = "workspace 2"
-  alt-3 = "workspace 3"
-  alt-4 = "workspace 4"
-  alt-5 = "workspace 5"
-  alt-6 = "workspace 6"
-  alt-7 = "workspace 7"
-  alt-8 = "workspace 8"
-  alt-9 = "workspace 9"
+alt-1 = "workspace 1"
+alt-2 = "workspace 2"
+alt-3 = "workspace 3"
+alt-4 = "workspace 4"
+alt-5 = "workspace 5"
+alt-6 = "workspace 6"
+alt-7 = "workspace 7"
+alt-8 = "workspace 8"
+alt-9 = "workspace 9"
 
-  alt-shift-1 = ["move-node-to-workspace 1", "workspace 1"]
-  alt-shift-2 = ["move-node-to-workspace 2", "workspace 2"]
-  alt-shift-3 = ["move-node-to-workspace 3", "workspace 3"]
-  alt-shift-4 = ["move-node-to-workspace 4", "workspace 4"]
-  alt-shift-5 = ["move-node-to-workspace 5", "workspace 5"]
-  alt-shift-6 = ["move-node-to-workspace 6", "workspace 6"]
-  alt-shift-7 = ["move-node-to-workspace 7", "workspace 7"]
-  alt-shift-8 = ["move-node-to-workspace 8", "workspace 8"]
-  alt-shift-9 = ["move-node-to-workspace 9", "workspace 9"]
+alt-shift-1 = ["move-node-to-workspace 1", "workspace 1"]
+alt-shift-2 = ["move-node-to-workspace 2", "workspace 2"]
+alt-shift-3 = ["move-node-to-workspace 3", "workspace 3"]
+alt-shift-4 = ["move-node-to-workspace 4", "workspace 4"]
+alt-shift-5 = ["move-node-to-workspace 5", "workspace 5"]
+alt-shift-6 = ["move-node-to-workspace 6", "workspace 6"]
+alt-shift-7 = ["move-node-to-workspace 7", "workspace 7"]
+alt-shift-8 = ["move-node-to-workspace 8", "workspace 8"]
+alt-shift-9 = ["move-node-to-workspace 9", "workspace 9"]
 
-  alt-slash = 'layout tiles horizontal vertical'
-  alt-comma = 'layout accordion horizontal vertical'
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
 
-  alt-r = 'mode resize'
-  alt-s = 'mode service'
+alt-r = 'mode resize'
+alt-s = 'mode service'
 
 [mode.service.binding]
-  space  = ['reload-config', 'mode main']
-  r = ['flatten-workspace-tree', 'mode main'] # reset layout
-  f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
-  backspace = ['close-all-windows-but-current', 'mode main']
-  s = ['exec-and-forget screencapture -ic', 'mode main']
-  v = ['exec-and-forget screencapture -iU "/tmp/screencapture.mov"', 'mode main']
-  # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-  #s = ['layout sticky tiling', 'mode main']
+space = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
+s = ['exec-and-forget screencapture -ic', 'mode main']
+v = ['exec-and-forget screencapture -iU "/tmp/screencapture.mov"', 'mode main']
+# sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+#s = ['layout sticky tiling', 'mode main']
 
-  h = ['join-with left', 'mode main']
-  j = ['join-with down', 'mode main']
-  k = ['join-with up', 'mode main']
-  l = ['join-with right', 'mode main']
-  enter = 'mode main'
-  esc = 'mode main'
+h = ['join-with left', 'mode main']
+j = ['join-with down', 'mode main']
+k = ['join-with up', 'mode main']
+l = ['join-with right', 'mode main']
+enter = 'mode main'
+esc = 'mode main'
 
 [mode.resize.binding]
-  h = 'resize width -50'
-  j = 'resize height +50'
-  k = 'resize height -50'
-  l = 'resize width +50'
-  shift-h = 'resize width -750'
-  shift-l = 'resize width +750'
-  enter = 'mode main'
-  esc = 'mode main'
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+shift-h = 'resize width -750'
+shift-l = 'resize width +750'
+enter = 'mode main'
+esc = 'mode main'

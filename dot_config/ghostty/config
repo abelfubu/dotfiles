@@ -50,6 +50,7 @@ keybind = option+g>-=new_split:down
 keybind = cmd+t=unbind
 keybind = cmd+w=unbind
 keybind = cmd+d=unbind
+keybind = cmd+n=unbind
 
 # Cursor styling + SSH session terminfo
 # (all shell integration options must be passed together)
@@ -61,7 +62,7 @@ mouse-scroll-multiplier = 0.95
 mouse-hide-while-typing = true
 
 background-opacity = 1.00
-theme = dark:TokyoNight,light:obsidian-ember-light
+theme = dark:Catppuccin Mocha,light:obsidian-ember-light
 # theme = dark:Github Dark High Contrast,light:Github Light High Contrast
 # custom-shader = ~/.config/ghostty/shaders/cursor.glsl
 
