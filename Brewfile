@@ -59,10 +59,8 @@ brew "zoxide"
 brew "zplug"
 # CLI for Git worktree management, designed for parallel AI agent workflows
 brew "worktrunk"
-# Terminal UI for Code Reviews - review AI-generated diffs like a GitHub PR
-brew "agavra/tap/tuicr", trusted: true
-# lumen is a command-line tool that can show pretty diff, generate commit messages with AI, summarise diffs / commits, and more without requiring an API key.
-brew "jnsahaj/lumen/lumen", trusted: true
+# Terminal UI for processes
+brew "btop"
 # Fast, driver-less TUI to browse, query, and edit PostgreSQL databases
 brew "riii111/sabiql/sabiql", trusted: true
 cask "aerospace", trusted: true
