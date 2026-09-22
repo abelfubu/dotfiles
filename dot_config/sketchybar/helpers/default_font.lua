@@ -1,7 +1,7 @@
 return {
 	text = "SF Pro",
 	numbers = "SF Pro",
-	icons = "GeistMono Nerd Font",
+	icons = "JetBrainsMono Nerd Font",
 	style_map = {
 		["Regular"] = "Regular",
 		["Semibold"] = "Semibold",

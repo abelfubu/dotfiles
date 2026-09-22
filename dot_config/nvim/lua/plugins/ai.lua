@@ -1,5 +1,4 @@
 return {
-  { "carderne/pi-nvim", opts = {} },
   {
     "Exafunction/windsurf.vim",
     event = "BufEnter",
