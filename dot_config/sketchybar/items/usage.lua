@@ -1,7 +1,7 @@
 local colors = require("colors")
 local settings = require("settings")
 
-local brand_font = "GeistMono Nerd Font"
+local brand_font = settings.font.icons
 
 local codex = sbar.add("item", "usage.codex", {
 	position = "right",
@@ -123,8 +123,10 @@ local function update_usage()
 	sbar.exec("$CONFIG_DIR/plugins/kimi_usage.sh", function(result)
 		local remaining = type(result) == "table" and tonumber(result.remaining) or nil
 		local limit = type(result) == "table" and tonumber(result.limit) or nil
-		local remaining_percentage = remaining and limit and limit > 0
-			and math.max(0, math.floor(remaining / limit * 100 + 0.5))
+		local remaining_percentage = remaining
+				and limit
+				and limit > 0
+				and math.max(0, math.floor(remaining / limit * 100 + 0.5))
 			or nil
 		kimi:set({ label = remaining_percentage and (remaining_percentage .. "%") or "--" })
 	end)
