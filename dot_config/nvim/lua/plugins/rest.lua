@@ -1,5 +1,6 @@
 return {
   "https://github.com/mistweaverco/kulala.nvim",
+  enabled = false,
   opts = {
     global_keymaps = true,
     global_keymaps_prefix = "<leader>r",

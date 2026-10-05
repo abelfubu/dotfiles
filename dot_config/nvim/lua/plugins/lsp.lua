@@ -19,6 +19,26 @@ vim.diagnostic.config {
   virtual_text = false,
 }
 
+vim.lsp.config("eslint", {
+  root_dir = function(bufnr, on_dir)
+    local root = vim.fs.root(bufnr, {
+      "eslint.config.js",
+      "eslint.config.mjs",
+      "eslint.config.cjs",
+      ".eslintrc.json",
+      ".eslintrc.js",
+      ".eslintrc.cjs",
+    })
+
+    if root then
+      on_dir(root)
+    end
+  end,
+  settings = {
+    workingDirectory = { mode = "auto" },
+  },
+})
+
 return {
   {
     "mason-org/mason-lspconfig.nvim",
