@@ -1,7 +1,7 @@
 return {
   {
-    -- "abelfubu/local-review.nvim",
-    dir = "~/dev/local-review.nvim",
+    "abelfubu/local-review.nvim",
+    -- dir = "~/dev/local-review.nvim",
     opts = {
       keymaps = {
         comment = "<leader>rc",
@@ -72,6 +72,11 @@ return {
           require("diffview").toggle {}
         end,
         desc = "DiffView Toggle",
+      },
+      {
+        "<leader>df",
+        "<CMD>DiffviewFileHistory %<CR>",
+        desc = "DiffView file history",
       },
     },
   },

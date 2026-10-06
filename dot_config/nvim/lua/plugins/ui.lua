@@ -1,14 +1,62 @@
 return {
   "nvim-lua/plenary.nvim",
   {
-    "beauwilliams/statusline.lua",
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    after = "catppuccin",
+    keys = {
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+      {
+        "<leader>bo",
+        "<Cmd>BufferLineGroupClose ungrouped<CR>",
+        desc = "Delete Non-Pinned Buffers",
+      },
+      {
+        "<leader>br",
+        "<Cmd>BufferLineCloseRight<CR>",
+        desc = "Delete Buffers to the Right",
+      },
+      {
+        "<leader>bl",
+        "<Cmd>BufferLineCloseLeft<CR>",
+        desc = "Delete Buffers to the Left",
+      },
+      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+      { "<leader>bb", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
+    },
+    config = function()
+      require("bufferline").setup {
+        highlights = require("catppuccin.special.bufferline").get_theme(),
+      }
+    end,
+  },
+  {
+    "nvim-lualine/lualine.nvim",
     opts = {
-      match_colorscheme = false,
-      tabline = true,
-      lsp_diagnostics = true,
-      ale_diagnostics = false,
+      options = {
+        -- section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        component_separators = { left = "", right = "" },
+      },
+      -- tabline = {
+      --   lualine_a = { "tabs" },
+      -- },
     },
   },
+  -- {
+  --   "beauwilliams/statusline.lua",
+  --   opts = {
+  --     match_colorscheme = false,
+  --     tabline = true,
+  --     lsp_diagnostics = true,
+  --     ale_diagnostics = false,
+  --   },
+  -- },
   {
     "afonsofrancof/OSC11.nvim",
     lazy = false,

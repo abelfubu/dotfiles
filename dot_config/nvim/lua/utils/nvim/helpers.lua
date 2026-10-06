@@ -33,27 +33,6 @@ M.better_escape = function()
   return "<esc>"
 end
 
-M.close_other_buffers = function()
-  local zen = require "snacks.zen"
-  local open = zen.win and not zen.win.closed
-
-  if open then
-    zen.win:close { buf = true }
-  end
-
-  local current_buf = vim.api.nvim_get_current_buf()
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    local ft = vim.bo[buf].filetype
-    if buf ~= current_buf and ft ~= "sidekick_terminal" then
-      vim.api.nvim_buf_delete(buf, {})
-    end
-  end
-
-  if open then
-    zen.zen()
-  end
-end
-
 M.diagnostic_goto = function(count, severity)
   return function()
     vim.diagnostic.jump {

@@ -42,14 +42,6 @@ map(
   { expr = true, desc = "Escape and Clear hlsearch" }
 )
 
--- Buffers
-map(
-  "n",
-  "<leader>bo",
-  helpers.close_other_buffers,
-  { desc = "Close all other buffers" }
-)
-
 -- Breadcrumb
 map("n", "<leader>ub", function()
   require("utils.ui.breadcrumb").toggle()
@@ -93,6 +85,7 @@ end, {
 
 -- Tabs
 map("n", "<leader>tc", ":tabclose<CR>", { desc = "Close tab" })
+map("n", "<leader>tn", ":tabnew<CR>", { desc = "Create tab" })
 map("n", "<leader>ta", ":tabonly<CR>", { desc = "Close all other tabs" })
 map("n", "<C-Tab>", "gt", { noremap = true, desc = "Next tab" })
 map("n", "<C-S-Tab>", "gT", { noremap = true, desc = "Previous tab" })
