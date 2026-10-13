@@ -7,7 +7,7 @@ light_name = "tokyo-night-day"
 dark_name = "tokyo-night"
 
 [ui]
-sidebar_width = 32
+sidebar_width = 18
 sidebar_min_width = 18
 sidebar_max_width = 36
 sidebar_collapsed_mode = "hidden"
