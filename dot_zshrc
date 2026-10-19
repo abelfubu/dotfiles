@@ -5,7 +5,7 @@ if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)
 eval "$(atuin init zsh)"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/abelfubu/.rd/bin:$PATH"
+export PATH="/Users/abeldelafuente/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="$HOME/.local/share/bin/:$PATH"

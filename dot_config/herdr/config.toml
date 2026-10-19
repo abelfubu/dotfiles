@@ -6,8 +6,11 @@ auto_switch = false
 light_name = "tokyo-night-day"
 dark_name = "tokyo-night"
 
+[theme.custom]
+active_row_bg = "#45475a"
+
 [ui]
-sidebar_width = 18
+sidebar_width = 22
 sidebar_min_width = 18
 sidebar_max_width = 36
 sidebar_collapsed_mode = "hidden"
@@ -17,8 +20,8 @@ prompt_new_tab_name = false
 show_agent_labels_on_pane_borders = true
 pane_borders = true
 pane_gaps = false
-
 # accent = "green"
+
 
 [keys]
 prefix = "alt+d"
@@ -119,7 +122,7 @@ command = "persiyanov.reviewr.toggle"
 delivery = "herdr"
 
 [update]
-channel = "preview"
+channel = "stable"
 
 [experimental]
 kitty_graphics = true
