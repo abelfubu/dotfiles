@@ -43,20 +43,8 @@ return {
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
       },
-      -- tabline = {
-      --   lualine_a = { "tabs" },
-      -- },
     },
   },
-  -- {
-  --   "beauwilliams/statusline.lua",
-  --   opts = {
-  --     match_colorscheme = false,
-  --     tabline = true,
-  --     lsp_diagnostics = true,
-  --     ale_diagnostics = false,
-  --   },
-  -- },
   {
     "afonsofrancof/OSC11.nvim",
     lazy = false,
@@ -84,6 +72,10 @@ return {
         background = {
           light = "latte",
           dark = "mocha",
+        },
+        float = {
+          transparent = true, -- enable transparent floating windows
+          solid = false, -- use solid styling for floating windows, see |winborder|
         },
         transparent_background = true,
         -- color_overrides = palette.color_overrides,
