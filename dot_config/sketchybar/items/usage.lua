@@ -94,7 +94,7 @@ local function add_usage_popup(parent, windows)
 	parent:subscribe("mouse.entered", function()
 		parent:set({ popup = { drawing = true } })
 	end)
-	parent:subscribe({ "mouse.exited", "mouse.exited.global" }, function()
+	parent:subscribe("mouse.exited", function()
 		parent:set({ popup = { drawing = false } })
 	end)
 	return rows

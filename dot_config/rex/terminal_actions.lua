@@ -1,4 +1,8 @@
 local M = {}
+local config_dir = (os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") .. "/.config") .. "/rex"
+-- The app's server PATH does not necessarily include the bundled Rex CLI.
+local rex_command = os.getenv("HOME")
+	.. "/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
 
 -- Register a tab launcher. command defaults to name and is resolved on the shell's PATH.
 function M.register(tool)
@@ -30,11 +34,8 @@ function M.register(tool)
 						command = {
 							"/bin/sh",
 							"-c",
-							-- Restore the original pane's focus before the tab closes.
-							[[cd "$3" && "$4"; rex focus -s "$2" "$1" >/dev/null 2>&1]],
+							[[cd "$1" && exec "$2"]],
 							tool.name,
-							ctx.block_id,
-							ctx.session_id,
 							cwd,
 							tool.command or tool.name,
 						},
@@ -43,6 +44,21 @@ function M.register(tool)
 			})
 			if not window then
 				error(err, 0)
+			end
+			local watcher, watcher_err = rex.exec.start({
+				rex_command, "-C", ctx.client_id,
+				"do", "-s", ctx.session_id,
+				config_dir .. "/terminal_action_focus.lua",
+				"session_id=" .. ctx.session_id,
+				"window_id=" .. window.window_id,
+				"source_block_id=" .. ctx.block_id,
+			}, { detach = true })
+			if not watcher then
+				error(watcher_err, 0)
+			end
+			local startup = watcher:wait(0.1)
+			if startup and not startup.ok then
+				error("Focus watcher failed: " .. startup.stderr, 0)
 			end
 			rex.client.queue("session.select", {
 				session_id = ctx.session_id,

@@ -31,7 +31,7 @@ return {
     },
     config = function()
       require("bufferline").setup {
-        highlights = require("catppuccin.special.bufferline").get_theme(),
+        -- highlights = require("catppuccin.special.bufferline").get_theme(),
       }
     end,
   },
@@ -39,6 +39,7 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
+        theme = "tokyonight",
         -- section_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
@@ -61,9 +62,34 @@ return {
     },
   },
   {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("tokyonight").setup {
+        transparent = true,
+        styles = {
+          comments = { italic = false },
+          keywords = { italic = false },
+          functions = { italic = false },
+          variables = { italic = false },
+          sidebars = "transparent",
+          floats = "transparent",
+        },
+        on_highlights = function(hl, c)
+          hl.DiffviewFilePanelInsertions = { fg = c.green, bg = "NONE" }
+          hl.DiffviewFilePanelDeletions = { fg = c.red, bg = "NONE" }
+          hl.DiffviewStatusModified = { fg = c.blue, bg = "NONE" }
+          hl.DiffviewStatusAdded = { fg = c.green, bg = "NONE" }
+          hl.DiffviewStatusDeleted = { fg = c.red, bg = "NONE" }
+        end,
+      }
+      vim.cmd.colorscheme "tokyonight-moon"
+    end,
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = false,
     priority = 1000,
     config = function()
       -- local palette = require "palette.github-dark-high-contrast"
@@ -92,7 +118,7 @@ return {
         },
       }
 
-      vim.cmd.colorscheme "catppuccin-mocha"
+      -- vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
   {

@@ -32,6 +32,8 @@ return {
       enhanced_diff_hl = true,
       diffopt = { algorithm = "histogram" },
       file_panel = {
+        mark_placement = "sign_column",
+        always_show_marks = false, -- or true
         win_config = {
           width = 60,
         },

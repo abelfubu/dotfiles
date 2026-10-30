@@ -54,6 +54,7 @@ return {
               ".prettierrc.json",
               ".prettierrc.js",
               "prettier.config.js",
+              "prettier.config.mjs",
               "prettier.config.ts",
             }, { path = ctx.filename, upward = true })[1] ~= nil
           end,
