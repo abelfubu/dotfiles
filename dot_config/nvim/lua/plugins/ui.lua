@@ -30,7 +30,11 @@ return {
       { "<leader>bb", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
     },
     config = function()
-      require("bufferline").setup {
+      local bufferline = require "bufferline"
+      bufferline.setup {
+        options = {
+          style_preset = bufferline.style_preset.no_italic,
+        },
         -- highlights = require("catppuccin.special.bufferline").get_theme(),
       }
     end,
@@ -39,7 +43,7 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
-        theme = "tokyonight",
+        -- theme = "tokyonight",
         -- section_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
@@ -52,12 +56,11 @@ return {
     opts = {
       on_dark = function()
         vim.opt.background = "dark"
-        vim.cmd.colorscheme "catppuccin"
+        vim.cmd.colorscheme "tokyonight-night"
       end,
-
       on_light = function()
         vim.opt.background = "light"
-        vim.cmd.colorscheme "catppuccin"
+        vim.cmd.colorscheme "tokyonight-day"
       end,
     },
   },
@@ -66,6 +69,7 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("tokyonight").setup {
         transparent = true,
         styles = {
