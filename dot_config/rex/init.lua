@@ -1,9 +1,9 @@
-require("copy_mode")
-
-do
-	local ok, navigator = pcall(require, "nvim")
-	if ok then
-		navigator.setup()
+for _, mod in pairs({ "nvim", "copy_mode", "resize" }) do
+	do
+		local ok, extension = pcall(require, mod)
+		if ok then
+			extension.setup()
+		end
 	end
 end
 

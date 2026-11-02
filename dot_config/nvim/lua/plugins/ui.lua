@@ -36,6 +36,11 @@ return {
           style_preset = bufferline.style_preset.no_italic,
         },
         -- highlights = require("catppuccin.special.bufferline").get_theme(),
+        highlights = {
+          -- buffer_selected = {
+          --   fg = "white",
+          -- },
+        },
       }
     end,
   },
@@ -43,8 +48,6 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
-        -- theme = "tokyonight",
-        -- section_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
       },
@@ -56,13 +59,42 @@ return {
     opts = {
       on_dark = function()
         vim.opt.background = "dark"
-        vim.cmd.colorscheme "tokyonight-night"
+        vim.cmd.colorscheme "github_dark_default"
       end,
       on_light = function()
         vim.opt.background = "light"
-        vim.cmd.colorscheme "tokyonight-day"
+        vim.cmd.colorscheme "github_light_default"
       end,
     },
+  },
+  {
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("github-theme").setup {
+        options = {
+          transparent = true,
+        },
+        groups = {
+          all = {
+            DiffviewFilePanelInsertions = { fg = "palette.green", bg = "NONE" },
+            DiffviewFilePanelDeletions = { fg = "palette.red", bg = "NONE" },
+            DiffviewStatusModified = { fg = "palette.blue", bg = "NONE" },
+            DiffviewStatusAdded = { fg = "palette.green", bg = "NONE" },
+            DiffviewStatusDeleted = { fg = "palette.red", bg = "NONE" },
+            TabLineFill = { bg = "NONE" },
+            Pmenu = { bg = "NONE" },
+            PmenuSel = { bg = "#2F81F7", fg = "#FFFFFF" },
+            Visual = { bg = "#2F81F7", fg = "#FFFFFF" },
+            MiniFilesCursorLine = { bg = "#58A6FF", fg = "#FFFFFF" },
+          },
+        },
+      }
+
+      vim.cmd "colorscheme github_dark_default"
+    end,
   },
   {
     "folke/tokyonight.nvim",
@@ -86,10 +118,10 @@ return {
           hl.DiffviewStatusModified = { fg = c.blue, bg = "NONE" }
           hl.DiffviewStatusAdded = { fg = c.green, bg = "NONE" }
           hl.DiffviewStatusDeleted = { fg = c.red, bg = "NONE" }
-          hl.FloatBorder = { fg = c.fg_dark, bg = "NONE" }
+          hl.FloatBorder = { fg = c.terminal_black, bg = "NONE" }
         end,
       }
-      vim.cmd.colorscheme "tokyonight-night"
+      -- vim.cmd.colorscheme "tokyonight-night"
     end,
   },
   {
@@ -97,7 +129,6 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      -- local palette = require "palette.github-dark-high-contrast"
       require("catppuccin").setup {
         flavour = "auto",
         background = {
@@ -105,12 +136,10 @@ return {
           dark = "mocha",
         },
         float = {
-          transparent = true, -- enable transparent floating windows
-          solid = false, -- use solid styling for floating windows, see |winborder|
+          transparent = true,
+          solid = false,
         },
         transparent_background = true,
-        -- color_overrides = palette.color_overrides,
-        -- highlight_overrides = palette.highlight_overrides,
         no_italic = true,
         auto_integrations = true,
         lsp_styles = {
