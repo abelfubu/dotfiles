@@ -1,16 +1,10 @@
-require("copy_mode")
-
-do
-	local ok, navigator = pcall(require, "nvim")
+-- Load extensions
+for _, mod in pairs({ "nvim", "resize", "copy_mode" }) do
+	local ok, extension = pcall(require, mod)
 	if ok then
-		navigator.setup()
+		extension.setup()
 	end
 end
-
--- rex.bind("cmd+h", "pane.focus", { direction = "right" })
--- rex.bind("cmd+l", "pane.focus", { direction = "left" })
--- rex.bind("cmd+k", "pane.focus", { direction = "up" })
--- rex.bind("cmd+j", "pane.focus", { direction = "down" })
 
 local terminal_actions = require("terminal_actions")
 

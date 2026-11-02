@@ -25,11 +25,19 @@ return {
 
         if editor.opts.organize then
           local ft = vim.bo[bufnr].filetype:gsub("react$", "")
-          if vim.tbl_contains({ "javascript", "typescript" }, ft) then
+          local supports_execute_command = #vim.lsp.get_clients {
+            bufnr = bufnr,
+            method = "workspace/executeCommand",
+          } > 0
+
+          if
+            vim.tbl_contains({ "javascript", "typescript" }, ft)
+            and supports_execute_command
+          then
             vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", {
               command = (ft .. ".organizeImports"),
               arguments = { vim.api.nvim_buf_get_name(bufnr) },
-            }, 3000)
+            }, 500)
           end
         end
 
@@ -42,7 +50,7 @@ return {
         oxfmt = {
           condition = function(self, ctx)
             return vim.fs.find(
-              { ".oxfmtrc.json" },
+              { ".oxfmtrc.json", "oxfmt.config.ts" },
               { path = ctx.filename, upward = true }
             )[1] ~= nil
           end,

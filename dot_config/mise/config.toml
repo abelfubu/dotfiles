@@ -5,7 +5,7 @@ node = "24"
 ruby = "latest"
 rust = "latest"
 stylua = "latest"
-zig = "0.15.2"
+zig = "0.17"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

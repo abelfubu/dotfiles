@@ -30,8 +30,12 @@ return {
       { "<leader>bb", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
     },
     config = function()
-      require("bufferline").setup {
+      local bufferline = require "bufferline"
+      bufferline.setup {
         -- highlights = require("catppuccin.special.bufferline").get_theme(),
+        options = {
+          style_preset = bufferline.style_preset.no_italic,
+        },
       }
     end,
   },
