@@ -86,9 +86,10 @@ return {
           hl.DiffviewStatusModified = { fg = c.blue, bg = "NONE" }
           hl.DiffviewStatusAdded = { fg = c.green, bg = "NONE" }
           hl.DiffviewStatusDeleted = { fg = c.red, bg = "NONE" }
+          hl.FloatBorder = { fg = c.fg_dark, bg = "NONE" }
         end,
       }
-      vim.cmd.colorscheme "tokyonight-moon"
+      vim.cmd.colorscheme "tokyonight-night"
     end,
   },
   {
