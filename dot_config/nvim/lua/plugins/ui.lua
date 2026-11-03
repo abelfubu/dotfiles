@@ -2,8 +2,8 @@ return {
   "nvim-lua/plenary.nvim",
   {
     "akinsho/bufferline.nvim",
+    enabled = true,
     event = "VeryLazy",
-    after = "catppuccin",
     keys = {
       {
         "<leader>bo",
@@ -39,15 +39,7 @@ return {
       bufferline.setup {
         options = {
           style_preset = bufferline.style_preset.no_italic,
-        },
-        -- highlights = require("catppuccin.special.bufferline").get_theme(),
-        highlights = {
-          buffer_selected = {
-            fg = "#2F81F7",
-          },
-          buffer = {
-            fg = "#151b23",
-          },
+          separator_style = "thin",
         },
       }
     end,
@@ -56,121 +48,17 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
-        theme = {
-          normal = { a = {}, b = {}, c = {}, x = {}, y = {}, z = {} },
-        },
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
       },
     },
   },
   {
-    "afonsofrancof/OSC11.nvim",
-    lazy = false,
-    opts = {
-      on_dark = function()
-        vim.opt.background = "dark"
-        vim.cmd.colorscheme "github_dark_default"
-      end,
-      on_light = function()
-        vim.opt.background = "light"
-        vim.cmd.colorscheme "github_light_default"
-      end,
-    },
-  },
-  {
-    "projekt0n/github-nvim-theme",
-    name = "github-theme",
-    lazy = false,
+    dir = "~/dev/moksha.nvim",
     priority = 1000,
     config = function()
-      require("github-theme").setup {
-        options = {
-          transparent = true,
-        },
-        groups = {
-          all = {
-            DiffviewFilePanelInsertions = { fg = "palette.green", bg = "NONE" },
-            DiffviewFilePanelDeletions = { fg = "palette.red", bg = "NONE" },
-            DiffviewStatusModified = { fg = "palette.blue", bg = "NONE" },
-            DiffviewStatusAdded = { fg = "palette.green", bg = "NONE" },
-            DiffviewStatusDeleted = { fg = "palette.red", bg = "NONE" },
-            TabLineFill = { bg = "NONE" },
-            Pmenu = { bg = "NONE" },
-            PmenuSel = { bg = "#2F81F7", fg = "#FFFFFF" },
-            Visual = { bg = "#151b23" },
-            MiniFilesCursorLine = { bg = "#151b23", fg = "#FFFFFF" },
-            FloatBorder = { fg = "#667686" },
-            StatusLine = { bg = "#151b23" },
-            StatusLineNC = { bg = "#151b23" },
-            DiffAdd = { bg = "#1C4428" },
-            DiffChange = { bg = "#1C4428" },
-            DiffDelete = { bg = "#442222" },
-            DiffText = { bg = "#2D5A3D" },
-          },
-        },
-      }
-
-      vim.cmd "colorscheme github_dark_default"
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("tokyonight").setup {
-        transparent = true,
-        styles = {
-          comments = { italic = false },
-          keywords = { italic = false },
-          functions = { italic = false },
-          variables = { italic = false },
-          sidebars = "transparent",
-          floats = "transparent",
-        },
-        on_highlights = function(hl, c)
-          hl.DiffviewFilePanelInsertions = { fg = c.green, bg = "NONE" }
-          hl.DiffviewFilePanelDeletions = { fg = c.red, bg = "NONE" }
-          hl.DiffviewStatusModified = { fg = c.blue, bg = "NONE" }
-          hl.DiffviewStatusAdded = { fg = c.green, bg = "NONE" }
-          hl.DiffviewStatusDeleted = { fg = c.red, bg = "NONE" }
-          hl.FloatBorder = { fg = c.terminal_black, bg = "NONE" }
-        end,
-      }
-      -- vim.cmd.colorscheme "tokyonight-night"
-    end,
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup {
-        flavour = "auto",
-        background = {
-          light = "latte",
-          dark = "mocha",
-        },
-        float = {
-          transparent = true,
-          solid = false,
-        },
-        transparent_background = true,
-        no_italic = true,
-        auto_integrations = true,
-        lsp_styles = {
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
-      }
-
-      -- vim.cmd.colorscheme "catppuccin-mocha"
+      require("moksha").setup { palette = "auto" }
+      vim.cmd "colorscheme moksha"
     end,
   },
   {
