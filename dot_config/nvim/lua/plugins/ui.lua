@@ -5,9 +5,14 @@ return {
     event = "VeryLazy",
     after = "catppuccin",
     keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
       {
         "<leader>bo",
+        "<Cmd>BufferLineCloseOthers<CR>",
+        desc = "Close All Other Buffers",
+      },
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+      {
+        "<leader>bP",
         "<Cmd>BufferLineGroupClose ungrouped<CR>",
         desc = "Delete Non-Pinned Buffers",
       },
@@ -37,9 +42,12 @@ return {
         },
         -- highlights = require("catppuccin.special.bufferline").get_theme(),
         highlights = {
-          -- buffer_selected = {
-          --   fg = "white",
-          -- },
+          buffer_selected = {
+            fg = "#2F81F7",
+          },
+          buffer = {
+            fg = "#151b23",
+          },
         },
       }
     end,
@@ -48,6 +56,9 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
+        theme = {
+          normal = { a = {}, b = {}, c = {}, x = {}, y = {}, z = {} },
+        },
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
       },
@@ -87,8 +98,15 @@ return {
             TabLineFill = { bg = "NONE" },
             Pmenu = { bg = "NONE" },
             PmenuSel = { bg = "#2F81F7", fg = "#FFFFFF" },
-            Visual = { bg = "#2F81F7", fg = "#FFFFFF" },
-            MiniFilesCursorLine = { bg = "#58A6FF", fg = "#FFFFFF" },
+            Visual = { bg = "#151b23" },
+            MiniFilesCursorLine = { bg = "#151b23", fg = "#FFFFFF" },
+            FloatBorder = { fg = "#667686" },
+            StatusLine = { bg = "#151b23" },
+            StatusLineNC = { bg = "#151b23" },
+            DiffAdd = { bg = "#1C4428" },
+            DiffChange = { bg = "#1C4428" },
+            DiffDelete = { bg = "#442222" },
+            DiffText = { bg = "#2D5A3D" },
           },
         },
       }

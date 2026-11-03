@@ -30,7 +30,9 @@ return {
       clean_up_buffers = true,
       auto_close_on_empty = true,
       enhanced_diff_hl = true,
-      diffopt = { algorithm = "histogram" },
+      diffopt = {
+        algorithm = "histogram",
+      },
       file_panel = {
         mark_placement = "sign_column",
         always_show_marks = false, -- or true

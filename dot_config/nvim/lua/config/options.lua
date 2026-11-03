@@ -21,6 +21,7 @@ vim.opt.autoread = true
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
 vim.opt.fillchars:append { diff = "╱" }
+vim.opt.diffopt:remove "linematch:40"
 
 vim.g.have_nerd_font = true
 
