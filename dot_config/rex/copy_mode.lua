@@ -86,7 +86,8 @@ function M.setup(user)
 		key = "cmd+[",
 		copy_key = "y",
 		nvim = "/opt/homebrew/bin/nvim",
-		rex = "/Users/abelfubu/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex",
+		rex = os.getenv("HOME")
+			.. "/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex",
 		toast_seconds = 1.2,
 	}
 	for key, value in pairs(user or {}) do

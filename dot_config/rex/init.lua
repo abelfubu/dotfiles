@@ -53,7 +53,7 @@ rex.action({
 	run = function(ctx, args)
 		if md_viewer_pane(ctx.block_id) then
 			local _, err =
-				rex.block.call("com.superlogical.terminal", "write", { block_id = ctx.block_id, data = "\27[102;9u" })
+					rex.block.call("com.superlogical.terminal", "write", { block_id = ctx.block_id, data = "\27[102;9u" })
 			if err == nil then
 				return { target = "md-viewer" }
 			end
