@@ -2,6 +2,13 @@ return {
   "folke/snacks.nvim",
   lazy = false,
   opts = {
+    -- indent = {
+    --   char = "|",
+    --   only_scope = true,
+    --   animate = {
+    --     enabled = false,
+    --   },
+    -- },
     statuscolumn = {
       enabled = true,
       -- Render local-review.nvim markers in the git signs column.

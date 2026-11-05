@@ -1,20 +1,13 @@
 local M = {}
-local config_dir = (os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") .. "/.config") .. "/rex"
--- The app's server PATH does not necessarily include the bundled Rex CLI.
-local rex_command = os.getenv("HOME")
-	.. "/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
 
--- Register a tab launcher. command defaults to name and is resolved on the shell's PATH.
+-- Register a floating pane launcher. command defaults to name and is resolved on the shell's PATH.
 function M.register(tool)
 	rex.action({
 		name = tool.name,
 		title = "Open " .. tool.title,
 		run = function(ctx)
-			local process, process_err = rex.block.call(
-				"com.superlogical.terminal",
-				"process",
-				{ block_id = ctx.block_id }
-			)
+			local process, process_err =
+				rex.block.call("com.superlogical.terminal", "process", { block_id = ctx.block_id })
 			if not process then
 				error(process_err, 0)
 			end
@@ -23,11 +16,19 @@ function M.register(tool)
 				error(tool.name .. ": cannot determine the current pane's working directory", 0)
 			end
 
-			local window, err = rex.session.new_window({
-				window_label = tool.title,
+			local placement, placement_err = rex.session.describe_block({ block_id = ctx.block_id })
+			local window_id = placement and placement.block and placement.block.window_id
+			if not window_id then
+				error(placement_err or (tool.name .. ": invoking pane is not in a window"), 0)
+			end
+
+			local layer, err = rex.session.new_layer({
+				window_id = window_id,
+				bounds = tool.bounds or { 0, 0, 1, 1 },
 				focus = true,
 				layout = rex.layout.block({
 					flavor = "com.superlogical.terminal.shell",
+					label = tool.title,
 					options = {
 						cwd = cwd,
 						theme = { background = "#1e1e2e" },
@@ -42,29 +43,10 @@ function M.register(tool)
 					},
 				}),
 			})
-			if not window then
+			if not layer then
 				error(err, 0)
 			end
-			local watcher, watcher_err = rex.exec.start({
-				rex_command, "-C", ctx.client_id,
-				"do", "-s", ctx.session_id,
-				config_dir .. "/terminal_action_focus.lua",
-				"session_id=" .. ctx.session_id,
-				"window_id=" .. window.window_id,
-				"source_block_id=" .. ctx.block_id,
-			}, { detach = true })
-			if not watcher then
-				error(watcher_err, 0)
-			end
-			local startup = watcher:wait(0.1)
-			if startup and not startup.ok then
-				error("Focus watcher failed: " .. startup.stderr, 0)
-			end
-			rex.client.queue("session.select", {
-				session_id = ctx.session_id,
-				window_id = window.window_id,
-			})
-			return window
+			return layer
 		end,
 	})
 	rex.bind(tool.key, tool.name)

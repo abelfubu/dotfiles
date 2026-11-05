@@ -1,16 +1,15 @@
-for _, mod in pairs({ "nvim", "copy_mode", "resize" }) do
+for _, mod in pairs({
+	{ "nvim" },
+	{ "copy_mode" },
+	{ "resize" },
+}) do
 	do
-		local ok, extension = pcall(require, mod)
+		local ok, extension = pcall(require, mod[1])
 		if ok then
-			extension.setup()
+			extension.setup(mod[2] or {})
 		end
 	end
 end
-
--- rex.bind("cmd+h", "pane.focus", { direction = "right" })
--- rex.bind("cmd+l", "pane.focus", { direction = "left" })
--- rex.bind("cmd+k", "pane.focus", { direction = "up" })
--- rex.bind("cmd+j", "pane.focus", { direction = "down" })
 
 local terminal_actions = require("terminal_actions")
 

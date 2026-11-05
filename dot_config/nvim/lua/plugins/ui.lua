@@ -2,7 +2,6 @@ return {
   "nvim-lua/plenary.nvim",
   {
     "akinsho/bufferline.nvim",
-    enabled = true,
     event = "VeryLazy",
     keys = {
       {
@@ -39,7 +38,6 @@ return {
       bufferline.setup {
         options = {
           style_preset = bufferline.style_preset.no_italic,
-          separator_style = "thin",
         },
       }
     end,
@@ -57,7 +55,7 @@ return {
     dir = "~/dev/moksha.nvim",
     priority = 1000,
     config = function()
-      require("moksha").setup { palette = "auto" }
+      require("moksha").setup { palette = "merino_dark" }
       vim.cmd "colorscheme moksha"
     end,
   },
