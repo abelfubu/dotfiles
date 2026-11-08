@@ -1,11 +1,11 @@
-// Starts Claude Code on a pull request: a new tab in the shown space, with what the
-// panel knows about the PR in Claude's system prompt and an empty input to type into.
+// Starts Pi on a pull request: a new tab in the shown space, with what the
+// panel knows about the PR in Pi's system prompt and an empty input to type into.
 
 import { run, spaces, shared, knownAgents, notify } from "herdr";
 import { TRUNK_REPO } from "./data.js";
 
 // Herdr ships the agent icons in its own icons/ folder.
-export const CLAUDE_ICON = "icons/claude.svg";
+export const PI_ICON = "icons/pi.svg";
 
 /**
  * @param pr       A PR as data.js shapes it. Queue rows for other people's PRs only
@@ -14,29 +14,29 @@ export const CLAUDE_ICON = "icons/claude.svg";
  *                 status: the panel's next-step label. stack: the PR's stack group.
  *                 asOf: when the panel last refreshed (ms since the epoch).
  */
-export async function startClaude(pr, context) {
+export async function startPi(pr, context) {
   const space = spaces().find((s) => s.active);
   const name = `PR ${ref(pr)}`;
   try {
-    const claude = await claudeArgv(space?.machine);
-    run("tab.new", { name, space: space?.id, argv: [...claude, "--name", name, "--append-system-prompt", systemPrompt(pr, context)] });
+    const pi = await piArgv(space?.machine);
+    run("tab.new", { name, space: space?.id, argv: [...pi, "--name", name, "--append-system-prompt", systemPrompt(pr, context)] });
   } catch (e) {
-    notify({ title: `Couldn't start Claude Code on ${name}`, body: String(e?.message ?? e), level: "error" });
+    notify({ title: `Couldn't start Pi on ${name}`, body: String(e?.message ?? e), level: "error" });
   }
 }
 
 const ref = (pr) => (pr.repo === TRUNK_REPO ? `#${pr.number}` : `${pr.repo}#${pr.number}`);
 
-// How the space's machine starts Claude Code: the new-menu mod's cached agent list
-// when it has one, else a fresh look, else plain `claude` from the shell's PATH.
-async function claudeArgv(machine) {
-  const find = (agents) => agents?.find((a) => a.key === "claude" && a.installed)?.run;
+// How the space's machine starts Pi: the new-menu mod's cached agent list
+// when it has one, else a fresh look, else plain `pi` from the shell's PATH.
+async function piArgv(machine) {
+  const find = (agents) => agents?.find((a) => a.key === "pi" && a.installed)?.run;
   const cached = find(shared("new-menu.agents")?.[machine ?? ""]);
   if (cached) return cached;
   try {
-    return find(await knownAgents({ on: machine })) ?? ["claude"];
+    return find(await knownAgents({ on: machine })) ?? ["pi"];
   } catch {
-    return ["claude"];
+    return ["pi"];
   }
 }
 
