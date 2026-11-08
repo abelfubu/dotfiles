@@ -3,7 +3,7 @@
 
 import { View, div, svg, image } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { theme, run, props, openOverlay, nextCommand, notify } from "herdr";
+import { theme, run, props, openOverlay, nextCommand, notify, focused } from "herdr";
 import { TRUNK_REPO, TrunkUnavailable, login, searchPrs, stacks, queue, queueItem, testRun, enqueue, dequeue } from "./data.js";
 import { PI_ICON, startPi } from "./pi.js";
 
@@ -90,6 +90,11 @@ export default class GhInbox extends View {
     this.busy = { gh: false, trunk: false };
     this.seen = null;
     this.width = 268;
+    this.handle = cx.focus_handle();
+    this.selectedKey = null;
+    this.actionOpen = false;
+    this.actionIndex = 0;
+    this.returnPane = null;
 
     cx.timer.every(GH_EVERY, (cx) => this.refreshGh(cx));
     if (this.queueEnabled) {
@@ -103,6 +108,17 @@ export default class GhInbox extends View {
         const c = await nextCommand();
         if (c === "confirmed" && this.pending) await this.act(cx);
         else if (c === "refresh") this.refreshAll(cx);
+        else if (c === "focus") {
+          this.returnPane = focused()?.pane ?? this.returnPane;
+          this.ensureSelection();
+          this.handle.focus();
+        } else if (c === "next") this.move(1, cx);
+        else if (c === "prev") this.move(-1, cx);
+        else if (c === "tab-next") this.moveTab(1, cx);
+        else if (c === "tab-prev") this.moveTab(-1, cx);
+        else if (c === "actions") this.showActions(cx);
+        else if (c === "open") this.openSelected(cx);
+        else if (c === "escape") this.escape(cx);
         else if (c.startsWith("show-") && this.order.includes(c.slice(5))) this.select(c.slice(5), cx);
         cx.notify();
       }
@@ -351,9 +367,145 @@ export default class GhInbox extends View {
   select(id, cx) {
     const was = this.tab;
     this.tab = id;
+    this.selectedKey = null;
+    this.actionOpen = false;
     localStorage.setItem("tab", id);
     if (id === "queue" && was !== "queue") this.refreshTrunk(cx);
     cx.notify();
+  }
+
+  navigationItems() {
+    if (this.tab === "review") {
+      if (!this.reviews) return [];
+      const direct = this.reviews.filter((r) => r.requested.includes(this.me));
+      const teams = this.reviews.filter((r) => !r.requested.includes(this.me));
+      const items = [];
+      for (const [id, list] of [["review:you", direct], ["review:teams", teams]]) {
+        if (this.folded.has(id)) continue;
+        for (const pr of [...list].sort((a, b) => b.updated - a.updated)) items.push({ pr, review: true, group: null });
+      }
+      return items;
+    }
+    if (this.tab !== "mine" || !this.mine) return [];
+    const items = [];
+    const groups = stacks(this.mine);
+    for (const group of [...groups].sort((a, b) => (a.members[0].pr.repo === TRUNK_REPO ? 0 : 1) - (b.members[0].pr.repo === TRUNK_REPO ? 0 : 1))) {
+      if (group.members.length > 1) {
+        if (this.folded.has(`stack:${group.id}`)) continue;
+        for (const member of [...group.members].reverse()) items.push({ pr: member.pr, review: false, group });
+      } else {
+        items.push({ pr: group.members[0].pr, review: false, group });
+      }
+    }
+    return items;
+  }
+
+  selectedItem() {
+    return this.navigationItems().find((item) => item.pr.key === this.selectedKey) ?? null;
+  }
+
+  ensureSelection() {
+    const items = this.navigationItems();
+    if (!items.some((item) => item.pr.key === this.selectedKey)) this.selectedKey = items[0]?.pr.key ?? null;
+    return this.selectedItem();
+  }
+
+  move(delta, cx) {
+    const length = this.actionOpen ? this.currentActions().length : this.navigationItems().length;
+    if (!length) return;
+    const current = this.actionOpen ? this.actionIndex : this.navigationItems().findIndex((item) => item.pr.key === this.selectedKey);
+    const next = current < 0 ? (delta > 0 ? 0 : length - 1) : (current + delta + length) % length;
+    if (this.actionOpen) this.actionIndex = next;
+    else this.selectedKey = this.navigationItems()[next].pr.key;
+    cx.notify();
+  }
+
+  moveTab(delta, cx) {
+    const current = this.order.indexOf(this.tab);
+    const next = (current + delta + this.order.length) % this.order.length;
+    this.select(this.order[next], cx);
+  }
+
+  showActions(cx) {
+    if (!this.ensureSelection()) {
+      notify({ title: "No pull request selected", body: "Wait for the inbox to load, then try again.", level: "info", timeout: 2500 });
+      return;
+    }
+    this.actionIndex = 0;
+    this.actionOpen = true;
+    cx.notify();
+  }
+
+  openSelected(cx) {
+    if (this.actionOpen) {
+      const action = this.currentActions()[this.actionIndex];
+      if (!action) return;
+      this.actionOpen = false;
+      cx.notify();
+      action.run(cx);
+      return;
+    }
+    const item = this.ensureSelection();
+    if (item) cx.open_url(item.pr.url);
+  }
+
+  escape(cx) {
+    if (this.actionOpen) {
+      this.actionOpen = false;
+    } else if (this.returnPane) {
+      run("pane.focus", { pane: this.returnPane });
+    }
+    cx.notify();
+  }
+
+  currentActions() {
+    const item = this.selectedItem();
+    if (!item) return [];
+    const { pr, review, group } = item;
+    const p = palette(theme());
+    const q = review ? null : this.queueFor(pr, group);
+    let s = review ? this.reviewStep(pr, p) : this.step(pr, q, p);
+    const below = !review && !q && s.icon === "check" ? this.blockedBelow(pr, group, p) : null;
+    if (below) s = { icon: "stack", color: p.warn, label: `Waiting on #${below.number} below`, below };
+    const startAgent = () => startPi(pr, { me: this.me, review, status: s.label, stack: group, asOf: this.updated });
+    const actions = [
+      { id: "pi", icon: "rocket", label: "Start Pi on this PR", run: (cx) => cx.spawn(startAgent) },
+      { id: "open", icon: "external", label: "Open on GitHub", run: (cx) => cx.open_url(pr.url) },
+      { id: "copy", icon: "copy", label: "Copy PR link", run: (cx) => {
+        cx.write_to_clipboard(pr.url);
+        notify({ title: "Link copied", body: pr.url, level: "success", timeout: 2500 });
+      } },
+    ];
+    for (const [index, visual] of visualAsks(pr).entries()) actions.push({
+      id: `visual-${index}`, icon: "eye", label: `Approve ${visual.type}${visual.partial ? " (partial)" : ""}`, run: (cx) => cx.open_url(visual.url),
+    });
+    const stacked = (group?.members.length ?? 0) > 1;
+    if (!review && pr.repo === TRUNK_REPO && !this.trunkOff && !stacked && ((!q && s.icon === "check") || (q && ["Failed", "Cancelled"].includes(q.state) && !q.via))) {
+      actions.push({ id: "merge", icon: "merged", label: q ? "Merge again" : "Merge", run: () => this.ask("enqueue", pr) });
+    }
+    actions.push({ id: "refresh", icon: "refresh", label: "Refresh inbox", run: (cx) => this.refreshAll(cx) });
+    return actions;
+  }
+
+  actionView(t, cx) {
+    const item = this.selectedItem();
+    const actions = this.currentActions();
+    if (!item) return [this.empty(t, "No pull request selected.")];
+    return [
+      v_flex().px(10).py(8).gap(2).border_b(1).border_color(t.border)
+        .child(div().text_size(10.5).font_medium().text_color(t.dim).child("PR ACTIONS"))
+        .child(div().truncate().text_size(12).text_color(t.foreground).child(`#${item.pr.number} ${item.pr.title}`)),
+      ...actions.map((action, index) => h_flex().id(`ghi-action-${action.id}`).mx(4).px(8).py(7).gap(8).items_center().rounded(6).cursor_pointer()
+        .bg(index === this.actionIndex ? t.selected : t.chrome)
+        .text_color(index === this.actionIndex ? t.foreground : t.muted)
+        .hover((s) => s.bg(t.hover))
+        .on_hover((on, cx) => { if (on) { this.actionIndex = index; cx.notify(); } })
+        .on_click((_e, cx) => { this.actionIndex = index; this.openSelected(cx); })
+        .child(this.icon(t, action.icon, index === this.actionIndex ? t.accent : t.dim, 14))
+        .child(div().flex_1().min_w(0).truncate().text_size(12).child(action.label))
+        .when(index === this.actionIndex, (el) => el.child(div().text_size(10).text_color(t.dim).child("↵")))),
+      div().px(10).py(8).text_size(10.5).text_color(t.dim).child("h/l tabs · j/k navigate · r refresh · enter run · esc back"),
+    ];
   }
 
   // Dropping a dragged tab on another puts it in that tab's place.
@@ -467,16 +619,17 @@ export default class GhInbox extends View {
     const startAgent = () => startPi(pr, { me: this.me, review, status: s.label, stack: group, asOf: this.updated });
     const lead = this.icon(t, pr.draft ? "pr-draft" : q?.state === "Merged" ? "merged" : "pr", pr.draft ? p.dim : review ? t.muted : s.color, 15);
     return [h_flex().id(`ghi-pr-${pr.key}`).px(8).py(5).gap(8).items_start().rounded(8).cursor_pointer()
+      .bg(this.selectedKey === pr.key ? t.selected : t.chrome)
       .hover((st) => st.bg(t.hover))
       .on_hover((on, cx) => this.hover(pr.key, on, cx))
-      .on_click((_e, cx) => cx.open_url(pr.url))
+      .on_click((_e, cx) => { this.selectedKey = pr.key; cx.open_url(pr.url); })
       .when(depth > 0, (el) => el.pl(8 + 14 * Math.min(depth, 3)))
       .child(div().mt(1).child(lead))
       .child(v_flex().flex_1().min_w(0).gap(2)
         .child(h_flex().gap(5).items_center().min_w(0)
           .child(div().flex_none().text_size(11).text_color(t.dim).child(`#${pr.number}`))
           .child(div().flex_1().min_w(0).truncate().text_size(12.5).text_color(pr.draft ? t.muted : t.foreground).child(pr.title))
-          .when(this.hovered === pr.key, (el) => el.child(this.linkIcons(t, pr.key, pr.url, startAgent))))
+          .when(this.hovered === pr.key || this.selectedKey === pr.key, (el) => el.child(this.linkIcons(t, pr.key, pr.url, startAgent))))
         .child(h_flex().gap(8).items_center().min_w(0).overflow_hidden().text_size(11).children(meta))
         .when(Boolean(s.progress), (el) => el.child(this.progressBar(t, p, s.progress)))
         .when(actions.length > 0, (el) => el.child(h_flex().mt(3).gap(5).flex_wrap().children(actions))))];
@@ -705,13 +858,13 @@ export default class GhInbox extends View {
 
   render(cx) {
     const t = theme();
-    const root = (el) => el.id("ghi-root").on_size_change((size, cx) => {
+    const root = (el) => el.id("ghi-root").track_focus(this.handle).on_size_change((size, cx) => {
       if (Math.abs(size.width - this.width) < 1) return;
       this.width = size.width;
       cx.notify();
     });
     if (this.width < 160) return root(this.rail(t, cx));
-    const body = this.tab === "queue" ? this.queueView(t, cx) : this.tab === "review" ? this.reviewView(t, cx) : this.mineView(t, cx);
+    const body = this.actionOpen ? this.actionView(t, cx) : this.tab === "queue" ? this.queueView(t, cx) : this.tab === "review" ? this.reviewView(t, cx) : this.mineView(t, cx);
     return root(v_flex().size_full().min_h(0).bg(t.chrome).border_t(1).border_color(t.border).text_size(13)
       .on_mouse_up("left", () => { this.dragging = null; })
       .child(this.tabStrip(t, cx))

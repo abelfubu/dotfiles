@@ -19,6 +19,8 @@
     "cmd-shift-p": "app.palette",
     "cmd-shift-f": "tabs-thin.focus-files",
     "cmd-shift-g": "tabs-thin.focus-changes",
+    "cmd-g": "gh-inbox.focus",
+    "cmd-shift-m": "mod.open:markdown-panel",
     "cmd-,": "app.settings",
     "cmd-d": "pane.split:right",
     "cmd-shift-d": "pane.split:down",
@@ -59,6 +61,16 @@
     "cmd-7": "space.select:7",
     "cmd-8": "space.select:8",
     "cmd-9": "space.select:9"
+  },
+  "mod:gh-inbox": {
+    "j": "gh-inbox.next",
+    "k": "gh-inbox.prev",
+    "h": "gh-inbox.tab-prev",
+    "l": "gh-inbox.tab-next",
+    "r": "gh-inbox.refresh",
+    "cmd-k": "gh-inbox.actions",
+    "enter": "gh-inbox.open",
+    "escape": "gh-inbox.escape"
   },
   "terminal": {
     "cmd-f": "terminal.search",
