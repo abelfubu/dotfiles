@@ -3,7 +3,7 @@ if
   or not vim.env.REX_SESSION
   or vim.env.REX_SESSION == ""
 then
-  return
+  return {}
 end
 vim.g.loaded_rex_navigator = true
 
@@ -41,4 +41,4 @@ else
   vim.api.nvim_create_autocmd("VimEnter", { once = true, callback = map })
 end
 
-return {}
+return { {} }

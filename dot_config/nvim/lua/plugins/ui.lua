@@ -55,8 +55,8 @@ return {
     dir = "~/dev/moksha.nvim",
     priority = 1000,
     config = function()
-      require("moksha").setup { palette = "merino_dark" }
-      vim.cmd "colorscheme moksha"
+      require("moksha").setup { palette = "auto" }
+      -- vim.cmd "colorscheme moksha"
     end,
   },
   {
