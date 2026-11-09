@@ -127,6 +127,7 @@ function shape(n) {
     deletions: n.deletions,
     head: n.headRefName,
     base: n.baseRefName,
+    labels: n.labels?.nodes ?? [],
     decision: n.reviewDecision,
     conflicts: n.mergeable === "CONFLICTING",
     mergeState: n.mergeStateStatus,

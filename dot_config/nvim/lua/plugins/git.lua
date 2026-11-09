@@ -25,6 +25,9 @@ return {
       default_args = {
         DiffviewOpen = { "--imply-local" },
       },
+      view = {
+        default = { layout = "diff1_inline" },
+      },
       show_help_hints = false,
       hide_merge_artifacts = true,
       clean_up_buffers = true,
@@ -35,7 +38,7 @@ return {
       },
       file_panel = {
         mark_placement = "sign_column",
-        always_show_marks = false, -- or true
+        always_show_marks = false,
         win_config = {
           width = 60,
         },

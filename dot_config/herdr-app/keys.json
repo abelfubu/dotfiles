@@ -77,7 +77,12 @@
     "h": "gh-inbox.tab-prev",
     "l": "gh-inbox.tab-next",
     "r": "gh-inbox.refresh",
-    "cmd-k": "gh-inbox.actions",
+    "K": "gh-inbox.actions",
+    "m": "gh-inbox.merge",
+    "L": "gh-inbox.labels",
+    "a": "gh-inbox.approve",
+    "y": "gh-inbox.copy-url",
+    "d": "gh-inbox.diff",
     "enter": "gh-inbox.open",
     "escape": "gh-inbox.escape"
   },

@@ -1,11 +1,11 @@
 // Your pull requests, the Trunk merge queue and your review requests, as tabs
 // you can drag into any order. Data comes from the `gh` and `trunk` CLIs.
 
-import { View, div, svg, image } from "gpui-kit";
+import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { theme, run, props, openOverlay, nextCommand, notify, focused } from "herdr";
+import { theme, run, props, openOverlay, nextCommand, notify, focused, exec, spaces } from "herdr";
 import { TRUNK_REPO, TrunkUnavailable, login, searchPrs, stacks, queue, queueItem, testRun, enqueue, dequeue } from "./data.js";
-import { PI_ICON, startPi } from "./pi.js";
+import { startPi } from "./pi.js";
 
 const ICON = (name) => `mods/gh-inbox/icons/${name}.svg`;
 const GH_EVERY = 60000;
@@ -117,6 +117,11 @@ export default class GhInbox extends View {
         else if (c === "tab-next") this.moveTab(1, cx);
         else if (c === "tab-prev") this.moveTab(-1, cx);
         else if (c === "actions") this.showActions(cx);
+        else if (c === "merge") this.runAction("github-merge", cx);
+        else if (c === "labels") this.runAction("labels", cx);
+        else if (c === "approve") this.runAction("approve", cx);
+        else if (c === "copy-url") this.runAction("copy", cx);
+        else if (c === "diff") this.diffSelected(cx);
         else if (c === "open") this.openSelected(cx);
         else if (c === "escape") this.escape(cx);
         else if (c.startsWith("show-") && this.order.includes(c.slice(5))) this.select(c.slice(5), cx);
@@ -340,9 +345,41 @@ export default class GhInbox extends View {
     });
   }
 
+  openInput(action, pr) {
+    openOverlay({ mod: "gh-inbox-input", kind: "dialog", width: 440, height: action === "labels" ? 480 : 240, props: { action, pr } });
+  }
+
+  confirmGithubMerge(pr) {
+    this.pending = { action: "github-merge", number: pr.number, repo: pr.repo };
+    openOverlay({
+      mod: "confirm", kind: "dialog", width: 400, height: 180,
+      props: {
+        title: `Merge #${pr.number} on GitHub?`,
+        detail: `Merges "${pr.title}" into ${pr.base} using a merge commit.`,
+        command: { name: "gh-inbox.confirmed" },
+      },
+    });
+  }
+
+  async github(cx, pr, args, success) {
+    try {
+      const r = await exec("gh", args);
+      const output = (r.stderr.trim() || r.stdout.trim()).split("\n").filter(Boolean).pop() ?? "";
+      notify({ title: r.code === 0 ? success : `GitHub refused #${pr.number}`, body: output || pr.repo, level: r.code === 0 ? "success" : "error", timeout: 8000 });
+      if (r.code === 0) this.refreshGh(cx);
+    } catch (e) {
+      notify({ title: `GitHub action failed for #${pr.number}`, body: String(e?.message ?? e), level: "error" });
+    }
+  }
+
   async act(cx) {
-    const { action, number } = this.pending;
+    const pending = this.pending;
     this.pending = null;
+    if (pending.action === "github-merge") {
+      await this.github(cx, pending, ["pr", "merge", String(pending.number), "--repo", pending.repo, "--merge"], `#${pending.number} merged`);
+      return;
+    }
+    const { action, number } = pending;
     try {
       const r = action === "enqueue" ? await enqueue(number) : await dequeue(number);
       const last = r.out.trim().split("\n").filter(Boolean).pop() ?? "";
@@ -436,6 +473,70 @@ export default class GhInbox extends View {
     cx.notify();
   }
 
+  diffSelected(cx) {
+    const item = this.ensureSelection();
+    if (!item) {
+      notify({ title: "No pull request selected", body: "Wait for the inbox to load, then try again.", level: "info", timeout: 2500 });
+      return;
+    }
+    this.diffPr(cx, item.pr);
+  }
+
+  diffPr(cx, pr) {
+    const context = focused();
+    const machine = spaces().find((space) => space.id === context?.space)?.machine;
+    const cwd = context?.cwd;
+    if (!cwd || !context?.space) {
+      notify({ title: "No terminal folder", body: "Focus a terminal in the PR's repository, then try again.", level: "error" });
+      return;
+    }
+    cx.spawn(async (cx) => {
+      try {
+        const remote = await exec("git", ["remote", "get-url", "origin"], { cwd, on: machine });
+        const match = remote.stdout.trim().match(/[:\/]([^\/:]+)\/([^\/]+?)(?:\.git)?\/?$/);
+        const repo = match ? `${match[1]}/${match[2]}` : null;
+        if (remote.code !== 0 || repo?.toLowerCase() !== pr.repo.toLowerCase()) {
+          notify({ title: "Wrong repository", body: `Focus a terminal in ${pr.repo}, then try again.`, level: "error", timeout: 6000 });
+          return;
+        }
+        const base = `origin/${pr.base}`;
+        const head = `origin/pr/${pr.number}/head`;
+        notify({ title: `Fetching PR #${pr.number}`, body: "Preparing the Diffview tab…", level: "info", timeout: 2500 });
+        const fetched = await exec("git", [
+          "fetch", "origin",
+          `+refs/heads/${pr.base}:refs/remotes/${base}`,
+          `+refs/pull/${pr.number}/head:refs/remotes/${head}`,
+        ], { cwd, on: machine, timeout: 120000 });
+        if (fetched.code !== 0) {
+          notify({ title: `Could not fetch PR #${pr.number}`, body: fetched.stderr.trim() || "git fetch failed", level: "error", timeout: 8000 });
+          return;
+        }
+        run("tab.new", {
+          space: context.space,
+          name: `PR #${pr.number} · diff`,
+          folder: cwd,
+          argv: ["nvim", "-c", `DiffviewOpen ${base}...${head}`],
+        });
+      } catch (e) {
+        notify({ title: `Could not open PR #${pr.number} diff`, body: String(e?.message ?? e), level: "error", timeout: 8000 });
+      }
+      cx.notify();
+    });
+  }
+
+  runAction(id, cx) {
+    if (!this.ensureSelection()) {
+      notify({ title: "No pull request selected", body: "Wait for the inbox to load, then try again.", level: "info", timeout: 2500 });
+      return;
+    }
+    const action = this.currentActions().find((action) => action.id === id);
+    if (action) {
+      this.actionOpen = false;
+      action.run(cx);
+    }
+    cx.notify();
+  }
+
   openSelected(cx) {
     if (this.actionOpen) {
       const action = this.currentActions()[this.actionIndex];
@@ -471,17 +572,24 @@ export default class GhInbox extends View {
     const actions = [
       { id: "pi", icon: "rocket", label: "Start Pi on this PR", run: (cx) => cx.spawn(startAgent) },
       { id: "open", icon: "external", label: "Open on GitHub", run: (cx) => cx.open_url(pr.url) },
+      { id: "diff", icon: "pr", label: "Open diff in Neovim", run: (cx) => this.diffPr(cx, pr) },
       { id: "copy", icon: "copy", label: "Copy PR link", run: (cx) => {
         cx.write_to_clipboard(pr.url);
         notify({ title: "Link copied", body: pr.url, level: "success", timeout: 2500 });
       } },
+      { id: "approve", icon: "approved", label: "Approve PR…", run: () => this.openInput("approve", pr) },
+      { id: "github-merge", icon: "merged", label: "Merge PR", run: () => this.confirmGithubMerge(pr) },
+      { id: "labels", icon: "tag", label: "Add labels…", run: () => this.openInput("labels", pr) },
+      { id: "assign", icon: "approved", label: "Assign me", run: (cx) => cx.spawn(async (cx) => {
+        await this.github(cx, pr, ["pr", "edit", String(pr.number), "--repo", pr.repo, "--add-assignee", this.me ?? "@me"], `Assigned you to #${pr.number}`);
+      }) },
     ];
     for (const [index, visual] of visualAsks(pr).entries()) actions.push({
       id: `visual-${index}`, icon: "eye", label: `Approve ${visual.type}${visual.partial ? " (partial)" : ""}`, run: (cx) => cx.open_url(visual.url),
     });
     const stacked = (group?.members.length ?? 0) > 1;
     if (!review && pr.repo === TRUNK_REPO && !this.trunkOff && !stacked && ((!q && s.icon === "check") || (q && ["Failed", "Cancelled"].includes(q.state) && !q.via))) {
-      actions.push({ id: "merge", icon: "merged", label: q ? "Merge again" : "Merge", run: () => this.ask("enqueue", pr) });
+      actions.push({ id: "merge", icon: "queue", label: q ? "Merge again via Trunk" : "Merge via Trunk", run: () => this.ask("enqueue", pr) });
     }
     actions.push({ id: "refresh", icon: "refresh", label: "Refresh inbox", run: (cx) => this.refreshAll(cx) });
     return actions;
@@ -615,8 +723,6 @@ export default class GhInbox extends View {
     if (pr.approvedBy.length && s.icon !== "check") meta.push(this.chip(t, { icon: "approved", color: p.ok, label: String(pr.approvedBy.length) }));
     if (pr.unresolved) meta.push(this.chip(t, { icon: "comment", color: p.warn, label: String(pr.unresolved) }));
 
-    const actions = this.actions(t, pr, q, s, review, group);
-    const startAgent = () => startPi(pr, { me: this.me, review, status: s.label, stack: group, asOf: this.updated });
     const lead = this.icon(t, pr.draft ? "pr-draft" : q?.state === "Merged" ? "merged" : "pr", pr.draft ? p.dim : review ? t.muted : s.color, 15);
     return [h_flex().id(`ghi-pr-${pr.key}`).px(8).py(5).gap(8).items_start().rounded(8).cursor_pointer()
       .bg(this.selectedKey === pr.key ? t.selected : t.chrome)
@@ -628,23 +734,9 @@ export default class GhInbox extends View {
       .child(v_flex().flex_1().min_w(0).gap(2)
         .child(h_flex().gap(5).items_center().min_w(0)
           .child(div().flex_none().text_size(11).text_color(t.dim).child(`#${pr.number}`))
-          .child(div().flex_1().min_w(0).truncate().text_size(12.5).text_color(pr.draft ? t.muted : t.foreground).child(pr.title))
-          .when(this.hovered === pr.key || this.selectedKey === pr.key, (el) => el.child(this.linkIcons(t, pr.key, pr.url, startAgent))))
+          .child(div().flex_1().min_w(0).truncate().text_size(12.5).text_color(pr.draft ? t.muted : t.foreground).child(pr.title)))
         .child(h_flex().gap(8).items_center().min_w(0).overflow_hidden().text_size(11).children(meta))
-        .when(Boolean(s.progress), (el) => el.child(this.progressBar(t, p, s.progress)))
-        .when(actions.length > 0, (el) => el.child(h_flex().mt(3).gap(5).flex_wrap().children(actions))))];
-  }
-
-  // Only what waits on you: approving visual changes, and merging what's ready.
-  actions(t, pr, q, s, review, group) {
-    const out = visualAsks(pr).map((v) =>
-      this.button(t, `ghi-vrb-${pr.key}-${v.type}`, "eye", `Approve ${v.type}${v.partial ? " (partial)" : ""}`, (_e, cx) => cx.open_url(v.url), true));
-    if (review || pr.repo !== TRUNK_REPO || this.trunkOff) return out;
-    // A stack merges from its header, so its layers offer no merge of their own.
-    const stacked = (group?.members.length ?? 0) > 1;
-    if (!q && s.icon === "check" && !stacked) out.push(this.button(t, `ghi-enq-${pr.key}`, "merged", "Merge", () => this.ask("enqueue", pr), true));
-    if (q && (q.state === "Failed" || q.state === "Cancelled") && !q.via) out.push(this.button(t, `ghi-enq-${pr.key}`, "merged", "Merge again", () => this.ask("enqueue", pr), true));
-    return out;
+        .when(Boolean(s.progress), (el) => el.child(this.progressBar(t, p, s.progress))))];
   }
 
   // Makes a chip open a page, without opening the PR under it.
@@ -668,15 +760,6 @@ export default class GhInbox extends View {
     if (pr.checks.fail) return { icon: "fail", color: p.bad, label: "CI failing" };
     if (pr.checks.running) return { icon: "spinner", spin: true, color: p.run, label: "CI running" };
     return { icon: "pr", color: p.ok, label: "Ready for review" };
-  }
-
-  button(t, id, iconName, label, onClick, primary = false) {
-    return h_flex().id(id).h(22).px(7).gap(5).items_center().rounded(6).border_1()
-      .border_color(primary ? t.input : t.border).bg(primary ? t.raised : t.surface)
-      .text_size(11).text_color(primary ? t.foreground : t.muted).cursor_pointer().hover((s) => s.bg(t.hover).text_color(t.foreground))
-      .on_click((e, cx) => { cx.stop_propagation(); onClick(e, cx); })
-      .child(this.icon(t, iconName, primary ? t.foreground : t.muted, 12))
-      .child(label);
   }
 
   // One failed refresh is usually GitHub having a moment; three in a row is worth showing.
@@ -730,7 +813,7 @@ export default class GhInbox extends View {
         if (this.folded.has(id)) continue;
         // Top of the stack first, the layer on the base branch last, as `gh stack view` shows it.
         const members = [...g.members].reverse();
-        members.forEach((m, i) => rows.push(...this.prRow(t, m.pr, cx, { group: g, depth: 1 })));
+        members.forEach((m) => rows.push(...this.prRow(t, m.pr, cx, { group: g, depth: 1 })));
       } else {
         rows.push(...this.prRow(t, g.members[0].pr, cx, { group: g }));
       }
@@ -792,8 +875,6 @@ export default class GhInbox extends View {
     const r = s.progress;
     const pct = r?.checks.total ? Math.round(((r.checks.pass + r.checks.fail) / r.checks.total) * 100) : null;
     const key = `q-${i.number}`;
-    const url = `https://github.com/${TRUNK_REPO}/pull/${i.number}`;
-    const startAgent = () => startPi({ repo: TRUNK_REPO, number: i.number, title: i.title, url }, { status: s.label, asOf: this.updated });
     return h_flex().id(`ghi-q-${i.number}`).px(8).h(26).gap(8).items_center().rounded(6).cursor_pointer()
       .text_size(12).hover((st) => st.bg(t.hover))
       .on_hover((on, cx) => this.hover(key, on, cx))
@@ -803,30 +884,14 @@ export default class GhInbox extends View {
       .when(pos != null, (el) => el.child(div().w(16).flex_none().text_size(10.5).text_color(t.dim).child(String(pos))))
       .child(div().flex_none().text_size(11).text_color(yours ? p.accent : t.dim).child(`#${i.number}`))
       .child(div().flex_1().min_w(0).truncate().text_color(yours ? t.foreground : t.muted).when(yours, (el) => el.font_medium()).child(i.title))
-      .when(pct != null && this.hovered !== key, (el) => el.child(div().flex_none().text_size(10.5).text_color(r.checks.fail ? p.bad : t.dim)
-        .child(`${pct}% · ${ago(Date.now() - r.started)}`)))
-      .when(this.hovered === key, (el) => el.child(this.linkIcons(t, key, url, startAgent)));
+      .when(pct != null, (el) => el.child(div().flex_none().text_size(10.5).text_color(r.checks.fail ? p.bad : t.dim)
+        .child(`${pct}% · ${ago(Date.now() - r.started)}`)));
   }
 
   hover(key, on, cx) {
     if (on) this.hovered = key;
     else if (this.hovered === key) this.hovered = null;
     cx.notify();
-  }
-
-  // Shown on the hovered row: start Pi on the PR, copy its link, open it.
-  linkIcons(t, key, url, startAgent) {
-    const icon = (id, glyph, tip, onClick) => div().id(`ghi-${id}-${key}`).p(2).rounded(4).flex_none().cursor_pointer()
-      .text_color(t.dim).hover((st) => st.bg(t.raised).text_color(t.foreground)).tooltip(tip)
-      .on_click((_e, cx) => { cx.stop_propagation(); onClick(cx); })
-      .child(glyph);
-    return h_flex().flex_none().gap(2).items_center()
-      .child(icon("pi", image(PI_ICON).size(13), "Start Pi on this PR", (cx) => cx.spawn(startAgent)))
-      .child(icon("copy", svg(ICON("copy")).size(13), "Copy link", (cx) => {
-        cx.write_to_clipboard(url);
-        notify({ title: "Link copied", body: url, level: "success", timeout: 2500 });
-      }))
-      .child(icon("open", svg(ICON("external")).size(13), "Open on GitHub", (cx) => cx.open_url(url)));
   }
 
   reviewView(t, cx) {
