@@ -2,6 +2,15 @@ for _, mod in pairs({
 	{ "nvim" },
 	{ "copy_mode" },
 	{ "resize" },
+	{
+		"terminal-actions",
+		{
+			{ name = "lazygit", title = "Lazygit", key = "cmd+g", command = { "/opt/homebrew/bin/lazygit" } },
+			{ name = "sabiql", title = "Sabiql", key = "cmd+s", command = { "/opt/homebrew/bin/sabiql" } },
+			{ name = "ghdash", title = "Gh Dash", key = "cmd+h", command = { "/opt/homebrew/bin/gh", "dash" } },
+			{ name = "yazi", title = "Yazi", key = "cmd+y", command = { "/opt/homebrew/bin/yazi" } },
+		},
+	},
 }) do
 	do
 		local ok, extension = pcall(require, mod[1])
@@ -10,22 +19,6 @@ for _, mod in pairs({
 		end
 	end
 end
-
-local terminal_actions = require("terminal_actions")
-
-terminal_actions.register({
-	name = "lazygit",
-	title = "Lazygit",
-	key = "cmd+g",
-	command = "/opt/homebrew/bin/lazygit",
-})
-
-terminal_actions.register({
-	name = "sabiql",
-	title = "Sabiql",
-	key = "cmd+s",
-	command = "/opt/homebrew/bin/sabiql",
-})
 
 -- >>> md-viewer: Cmd-F binding (managed by md-viewer setup; edits are replaced) >>>
 local function md_viewer_pane(block)
@@ -53,7 +46,7 @@ rex.action({
 	run = function(ctx, args)
 		if md_viewer_pane(ctx.block_id) then
 			local _, err =
-					rex.block.call("com.superlogical.terminal", "write", { block_id = ctx.block_id, data = "\27[102;9u" })
+				rex.block.call("com.superlogical.terminal", "write", { block_id = ctx.block_id, data = "\27[102;9u" })
 			if err == nil then
 				return { target = "md-viewer" }
 			end
