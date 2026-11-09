@@ -185,6 +185,15 @@
       "resizable": false
     }
   ],
+  "floating": [
+    {
+      "id": "splits-nav",
+      "content": {
+        "mod": "splits-nav"
+      },
+      "peek": 0
+    }
+  ],
   "background": "canvas",
   "terminal_padding": [
     12,
