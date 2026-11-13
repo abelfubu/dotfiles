@@ -14,7 +14,7 @@ export default class GhInboxInput extends View {
     this.selected = new Set((this.pr.labels ?? []).map((label) => label.name));
     this.existing = new Set(this.selected);
     this.at = 0;
-    this.loading = this.action === "labels";
+    this.loading = ["labels", "reviewers"].includes(this.action);
     this.error = null;
     this.handle = cx.focus_handle();
     this.top = 0;
@@ -32,7 +32,7 @@ export default class GhInboxInput extends View {
     this.input.on("blur", (_e, cx) => { this.inputFocused = false; cx.notify(); });
     this.input.focus();
     cx.timer.after(600, () => this.input.focus());
-    if (this.action === "labels") cx.spawn((cx) => this.load(cx));
+    if (["labels", "reviewers"].includes(this.action)) cx.spawn((cx) => this.load(cx));
   }
 
   async load(cx) {
@@ -40,9 +40,19 @@ export default class GhInboxInput extends View {
     this.error = null;
     cx.notify();
     try {
-      const r = await exec("gh", ["label", "list", "--repo", this.pr.repo, "--limit", "100", "--json", "name,color,description"]);
-      if (r.code !== 0) throw new Error(r.stderr.trim() || r.stdout.trim() || "Could not load labels");
-      this.labels = JSON.parse(r.stdout).sort((a, b) => a.name.localeCompare(b.name));
+      if (this.action === "reviewers") {
+        const r = await exec("gh", [
+          "api", `repos/${this.pr.repo}/collaborators?per_page=100`, "--paginate", "--jq", ".[].login",
+        ]);
+        if (r.code !== 0) throw new Error(r.stderr.trim() || "Could not load collaborators");
+        const requested = new Set(this.pr.requested ?? []);
+        const names = [...new Set(r.stdout.split(/\n/).map((name) => name.trim()).filter(Boolean))];
+        this.labels = names.filter((name) => name !== this.pr.author && !requested.has(name)).sort().map((name) => ({ name }));
+      } else {
+        const r = await exec("gh", ["label", "list", "--repo", this.pr.repo, "--limit", "100", "--json", "name,color,description"]);
+        if (r.code !== 0) throw new Error(r.stderr.trim() || r.stdout.trim() || "Could not load labels");
+        this.labels = JSON.parse(r.stdout).sort((a, b) => a.name.localeCompare(b.name));
+      }
     } catch (e) {
       this.error = String(e?.message ?? e);
     }
@@ -62,14 +72,35 @@ export default class GhInboxInput extends View {
   }
 
   newLabels() {
+    if (this.action === "reviewers") return [...this.selected];
     return [...this.selected].filter((name) => !this.existing.has(name));
   }
 
   async submit() {
     const approving = this.action === "approve";
+    const reviewing = this.action === "reviewers";
     const additions = approving ? [] : this.newLabels();
     if (!approving && additions.length === 0) {
-      notify({ title: "Select at least one new label", body: "Labels already on the PR are left unchanged.", level: "info", timeout: 3000 });
+      notify({
+        title: reviewing ? "Select at least one reviewer" : "Select at least one new label",
+        body: reviewing ? "People already reviewing the PR are left unchanged." : "Labels already on the PR are left unchanged.",
+        level: "info", timeout: 3000,
+      });
+      return;
+    }
+    if (reviewing) {
+      closeOverlay(props().overlay);
+      try {
+        const r = await exec("gh", [
+          "api", "-X", "POST", `repos/${this.pr.repo}/pulls/${this.pr.number}/requested_reviewers`,
+          ...additions.flatMap((reviewer) => ["-f", `reviewers[]=${reviewer}`]),
+        ]);
+        if (r.code !== 0) throw new Error(r.stderr.trim() || "GitHub refused the review request");
+        notify({ title: `Reviewers added to #${this.pr.number}`, body: additions.join(", "), level: "success", timeout: 5000 });
+        run("gh-inbox.refresh");
+      } catch (e) {
+        notify({ title: `Could not request reviewers for #${this.pr.number}`, body: String(e?.message ?? e), level: "error", timeout: 8000 });
+      }
       return;
     }
     const message = approving ? this.input.value().trim() : "";
@@ -104,7 +135,7 @@ export default class GhInboxInput extends View {
         .on_click(() => { this.at = i; this.toggle(label, cx); })
         .child(div().size(14).rounded(3).border_1().border_color(selected ? t.accent : t.input).bg(selected ? t.accent : t.background)
           .flex().items_center().justify_center().text_size(10).text_color(t.accent_foreground).child(selected ? "✓" : ""))
-        .child(div().size(8).rounded(4).flex_none().bg(label.color ? `#${label.color}` : t.dim))
+        .when(this.action !== "reviewers", (el) => el.child(div().size(8).rounded(4).flex_none().bg(label.color ? `#${label.color}` : t.dim)))
         .child(div().flex_1().min_w(0).truncate().text_size(12).text_color(t.foreground).child(label.name))
         .when(this.existing.has(label.name), (el) => el.child(div().text_size(9.5).text_color(t.dim).child("on PR")));
     };
@@ -119,7 +150,7 @@ export default class GhInboxInput extends View {
       }).children(shown.slice(this.top, this.top + page).map((label, offset) => row(label, this.top + offset)));
     }
     return frame.items_center().justify_center()
-      .when(this.loading, (el) => el.child(div().text_size(12).text_color(t.dim).child("Loading labels…")))
+      .when(this.loading, (el) => el.child(div().text_size(12).text_color(t.dim).child(this.action === "reviewers" ? "Loading collaborators…" : "Loading labels…")))
       .when(!this.loading && Boolean(this.error), (el) => el.gap(10)
         .child(div().px(16).text_align_center().text_size(11.5).text_color(t.blocked).child(this.error))
         .child(h_flex().id("labels-retry").h(28).px(12).items_center().rounded(4).bg(t.raised).cursor_pointer().child("Retry").on_click(() => this.load(cx))))
@@ -129,8 +160,9 @@ export default class GhInboxInput extends View {
   render(cx) {
     const t = theme();
     const approving = this.action === "approve";
-    const title = approving ? `Approve #${this.pr.number}` : `Add labels to #${this.pr.number}`;
-    const label = approving ? "Approval message (optional)" : "Filter labels";
+    const reviewing = this.action === "reviewers";
+    const title = approving ? `Approve #${this.pr.number}` : reviewing ? `Add reviewers to #${this.pr.number}` : `Add labels to #${this.pr.number}`;
+    const label = approving ? "Approval message (optional)" : reviewing ? "Filter collaborators" : "Filter labels";
     const button = (id, text, primary, action) => h_flex().id(id).h(32).px(14).items_center().rounded(6)
       .border_1().border_color(primary ? t.solid : t.input).bg(primary ? t.solid : t.raised)
       .text_color(primary ? t.solid_foreground : t.foreground).text_size(12.5).font_medium().cursor_pointer()
@@ -170,9 +202,10 @@ export default class GhInboxInput extends View {
       .when(!approving, (el) => el.child(this.labelList(t, cx)))
       .child(div().pt(8).text_size(11).text_color(t.dim).child(approving
         ? "Approves the PR, with an optional review comment."
+        : reviewing ? "↑/↓ navigate · Space select · Enter request · Current reviewers are omitted"
         : "↑/↓ navigate · Space select · Enter apply · Existing labels stay unchanged"))
       .child(h_flex().pt(18).gap(8).justify_end()
         .child(button("ghi-cancel", "Cancel", false, () => closeOverlay(props().overlay)))
-        .child(button("ghi-submit", approving ? "Approve" : `Apply${this.newLabels().length ? ` (${this.newLabels().length})` : ""}`, true, () => this.submit())));
+        .child(button("ghi-submit", approving ? "Approve" : `${reviewing ? "Request" : "Apply"}${this.newLabels().length ? ` (${this.newLabels().length})` : ""}`, true, () => this.submit())));
   }
 }

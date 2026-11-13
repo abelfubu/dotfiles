@@ -5,6 +5,7 @@
     "cmd-alt-h": "app.hide_others",
     "cmd-t": "tab.new",
     "cmd-w": "tab.close",
+    "cmd-shift-w": "pane.close",
     "ctrl-tab": "tab.next",
     "ctrl-shift-tab": "tab.prev",
     "cmd-shift-]": "tab.next",
@@ -15,16 +16,15 @@
     "cmd-[": "space.prev",
     "cmd-shift-l": "layout.switch",
     "cmd-n": "space.new",
-    "cmd-p": "mod.open:picker",
+    "cmd-p": "mod.open:picker-children",
     "cmd-shift-p": "app.palette",
-    "cmd-shift-f": "tabs-thin.focus-files",
-    "cmd-shift-g": "tabs-thin.focus-changes",
     "cmd-g": "gh-inbox.focus",
+    "cmd-alt-g": "mod.open:gitview-sidebar",
+    "cmd-alt-shift-g": "mod.open:gitview-tab",
     "cmd-shift-m": "mod.open:markdown-panel",
     "cmd-,": "app.settings",
     "cmd-d": "pane.split:right",
     "cmd-shift-d": "pane.split:down",
-    "cmd-shift-w": "pane.close",
     "cmd-shift-enter": "pane.zoom",
     "cmd-alt-left": "pane.go:left",
     "cmd-alt-right": "pane.go:right",
@@ -69,7 +69,11 @@
     "ctrl-shift-l": "splits-nav.resize-right",
     "ctrl-shift-k": "splits-nav.resize-up",
     "ctrl-shift-j": "splits-nav.resize-down",
-    "cmd-shift-s": "splits-nav.settings"
+    "cmd-shift-$": "splits-nav.settings",
+    "cmd-alt-p": "mod.open:command-float",
+    "cmd-shift-g": "command-float.lazygit",
+    "cmd-shift-y": "command-float.yazi",
+    "cmd-shift-s": "command-float.sabiql"
   },
   "mod:gh-inbox": {
     "j": "gh-inbox.next",
@@ -96,6 +100,10 @@
     "alt-backspace": "send:\u0017",
     "cmd-left": "send:\u0001",
     "cmd-right": "send:\u0005",
-    "cmd-backspace": "send:\u0015"
+    "cmd-backspace": "send:\u0015",
+    "cmd-alt-p": "mod.open:command-float",
+    "cmd-shift-g": "command-float.lazygit",
+    "cmd-shift-y": "command-float.yazi",
+    "cmd-shift-s": "command-float.sabiql"
   }
 }

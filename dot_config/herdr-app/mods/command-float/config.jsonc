@@ -1,0 +1,33 @@
+{
+  // Open the picker with Cmd+Alt+P. Set to false to disable this binding.
+  "paletteKey": "cmd-alt-p",
+  "commands": [
+    {
+      "id": "lazygit",
+      "label": "Lazygit",
+      "command": "lazygit",
+      "cwd": "repo",
+      "key": "cmd-shift-g",
+      "width": 0.9,
+      "height": 0.9,
+    },
+    {
+      "id": "yazi",
+      "label": "Yazi",
+      "command": "yazi",
+      "cwd": "focused",
+      "key": "cmd-shift-y",
+      "width": 0.8,
+      "height": 0.8,
+    },
+    {
+      "id": "sabiql",
+      "label": "SabiQL",
+      "command": "sabiql",
+      "cwd": "focused",
+      "key": "cmd-shift-s",
+      "width": 0.9,
+      "height": 0.9,
+    },
+  ],
+}

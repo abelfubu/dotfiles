@@ -24,7 +24,7 @@ local cpu = sbar.add("item", "widgets.cpu", {
 	},
 	label = {
 		string = "cpu ??%",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "Light" },
 		align = "left",
 		padding_left = 0,
 		width = settings.widgets.cpu.label_width,

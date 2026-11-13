@@ -1,0 +1,28 @@
+// GitHub Inbox sections. Comment out an entry to hide its tab.
+// Queries in one section run separately; duplicates are removed.
+{
+  "sections": [
+    {
+      "id": "mine",
+      "label": "Mine",
+      "icon": "pr",
+      "view": "mine",
+      "queries": ["author:@me"],
+    },
+    // {
+    //   "id": "review",
+    //   "label": "Review",
+    //   "icon": "eye",
+    //   "view": "review",
+    //   "queries": ["review-requested:@me -author:@me"],
+    // },
+    /* Targaryen team contributions. */
+    {
+      "id": "italy",
+      "label": "Targaryen",
+      "icon": "pr",
+      "view": "list",
+      "queries": ["author:fprod", "author:carlos-rivas-easor", "author:abel-delafuente-easor"],
+    },
+  ],
+}

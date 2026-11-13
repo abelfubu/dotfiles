@@ -26,7 +26,7 @@ return {
         DiffviewOpen = { "--imply-local" },
       },
       view = {
-        default = { layout = "diff1_inline" },
+        -- default = { layout = "diff1_inline" },
       },
       show_help_hints = false,
       hide_merge_artifacts = true,

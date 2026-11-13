@@ -109,12 +109,6 @@ function boundChord(command) {
   return DEFAULT_KEYS[command];
 }
 
-/** Move the herdr pane in a direction, unzooming first and wrapping at the
- *  layout edge. focused() is a per-turn snapshot: it still reports the old pane
- *  right after run("pane.go"), so poll until the app settles before deciding
- *  there is no neighbor. Returns whether focus ended somewhere else.
- * @param {import("gpui-kit").AsyncContext} cx @param {string} dir
- * @returns {Promise<boolean>} */
 /** Poll focused() for up to 8 frames until pred holds; focused() is a per-turn
  *  snapshot, so a pane.go/pane.focus only shows after the app settles.
  * @param {import("gpui-kit").AsyncContext} cx @param {(pane: string | undefined) => boolean} pred
@@ -128,10 +122,7 @@ async function waitFocus(cx, pred) {
   return null;
 }
 
-/** Move the herdr pane in a direction, unzooming first and wrapping at the
- *  layout edge. focused() is a per-turn snapshot: it still reports the old pane
- *  right after run("pane.go"), so poll until the app settles before deciding
- *  there is no neighbor. Returns whether focus ended somewhere else.
+/** Move the Herdr pane once, unzooming first. Do not wrap at layout edges.
  * @param {import("gpui-kit").AsyncContext} cx @param {string} dir
  * @returns {Promise<boolean>} */
 async function herdrMove(cx, dir) {
@@ -139,11 +130,8 @@ async function herdrMove(cx, dir) {
   if (!before) return false;
   const pane = panes().find((p) => p.pane === before);
   if (pane?.zoomed) run("pane.zoom");
-  const moved = (/** @type {string | undefined} */ p) => p !== before;
   run("pane.go", { direction: dir });
-  if (await waitFocus(cx, moved) !== null) return true;
-  run("pane.go", { direction: REVERSE_DIRECTIONS[dir] }); // at the edge: wrap
-  return await waitFocus(cx, moved) !== null;
+  return await waitFocus(cx, (p) => p !== before) !== null;
 }
 
 /** Ask the app whether the focused pane has a neighbour in a direction: pane.go
@@ -280,6 +268,59 @@ async function herdrResize(cx, dir, terminal, onError) {
   }
 }
 
+// Remote nvim cannot be reached through the local discovery directory or
+// localhost. Run the same one-request/one-response client on its machine;
+// arguments stay separate so no terminal id or key chord enters shell text.
+const REMOTE_NVIM_CLIENT = `
+import json, os, pathlib, socket, sys
+terminal, op, direction, keys = sys.argv[1:5]
+sent = False
+try:
+    base = os.environ.get("HERDR_APP_HOME") or os.path.expanduser("~/.config/herdr-app")
+    path = pathlib.Path(base) / "splits-nav" / ("nvim-" + terminal + ".json")
+    info = json.loads(path.read_text())
+    request = {"op": op, "dir": direction, "keys": keys, "terminal": terminal, "pid": info["pid"]}
+    with socket.create_connection(("127.0.0.1", info["port"]), timeout=8) as sock:
+        sock.settimeout(8)
+        sent = True
+        sock.sendall((json.dumps(request) + "\\n").encode())
+        data = b""
+        while b"\\n" not in data:
+            chunk = sock.recv(4096)
+            if not chunk:
+                break
+            data += chunk
+        sys.stdout.write(data.split(b"\\n", 1)[0].decode())
+except TimeoutError:
+    sys.exit(10 if sent else 1)
+except Exception:
+    sys.exit(1)
+`;
+
+/** Query nvim on a remote machine. A timeout after sending must not fall back
+ * to Herdr: nvim may still perform the queued move when it becomes responsive.
+ * @returns {Promise<{action: string} | "timeout" | null>} */
+async function askRemoteNvim(cx, machine, terminalId, dir, op, keys) {
+  const localTerminal = terminalId.startsWith(machine + "/") ? terminalId.slice(machine.length + 1) : terminalId;
+  for (let i = 0; i < 2; i++) {
+    try {
+      const out = await withBudget(exec("python3", ["-c", REMOTE_NVIM_CLIENT, localTerminal, op, dir, keys], {
+        on: machine, timeout: NVIM_TIMEOUT_MS + 2000,
+      }), NVIM_TIMEOUT_MS, cx, "remote");
+      if (out.code === 10) return "timeout";
+      if (out.code !== 0) throw new Error("remote nvim request failed");
+      const lines = out.stdout.trim().split("\n");
+      const resp = decodeResponse(lines[lines.length - 1]);
+      if (!resp) throw new Error("bad remote response");
+      if (resp.action === "stale") throw new Error("stale");
+      return resp;
+    } catch (e) {
+      if (e instanceof Error && e.message === "timeout:remote") return "timeout";
+    }
+  }
+  return null;
+}
+
 /** Ask the focused nvim's plugin to nav or resize. dir is the bare direction
  *  ("left"), command the command name ("left" or "resize-left"); exactly one
  *  must be given. Returns the decoded response, "timeout" when nvim connected
@@ -288,12 +329,13 @@ async function herdrResize(cx, dir, terminal, onError) {
  *  unreachable (no discovery file, bad payload, connect failure — after one
  *  re-read retry).
  * @param {import("gpui-kit").AsyncContext} cx @param {string} terminalId
- * @param {string} dir @param {string} [op] @param {string} [command]
+ * @param {string} dir @param {string} [op] @param {string} [command] @param {string | null} [machine]
  * @returns {Promise<{action: string} | "timeout" | "nokey" | null>} */
-async function askNvim(cx, terminalId, dir, op = "nav", command = dir) {
+async function askNvim(cx, terminalId, dir, op = "nav", command = dir, machine = null) {
   const chord = boundChord(command);
   let keys;
   try { keys = chordToLua(chord); } catch { return "nokey"; } // a cmd chord: nvim never sees it
+  if (machine) return askRemoteNvim(cx, machine, terminalId, dir, op, keys);
   const path = discoveryPath(appHome(), terminalId);
   /** @returns {Promise<{action: string}>} */
   const attempt = async () => {
@@ -459,6 +501,7 @@ export default class SplitsNav extends View {
         // double tap still reaches nvim twice. A held key while nvim is stalled
         // fills the queue; past the cap the newest press is dropped.
         const terminal = pane.terminal;
+        const machine = spaces().find((s) => s.tabs?.some((t) => t.id === pane.tab))?.machine ?? null;
         if (!this.navQueue.push(terminal, command)) continue;
         if (this.nvimDraining.has(terminal)) continue;
         this.nvimDraining.add(terminal);
@@ -473,7 +516,7 @@ export default class SplitsNav extends View {
                 this.navQueue.clear(terminal);
                 break;
               }
-              const resp = await askNvim(task, terminal, press.dir, press.op, press.command);
+              const resp = await askNvim(task, terminal, press.dir, press.op, press.command, machine);
               if (resp === "timeout") continue; // nvim stuck; the next press is fresh
               if (resp === "nokey") {
                 // The bound chord names cmd, which nvim never sees: act on the
@@ -502,14 +545,8 @@ export default class SplitsNav extends View {
               }
               this.nvimUnreachableNotified = false;
               if (resp.action === "edge") {
-                // nvim has no window that way: act on the herdr pane. A resize
-                // always falls through; a move that finds no pane neighbour
-                // either bounces inside nvim (the reference's at_edge=wrap).
-                if (press.op === "resize") {
-                  await toHerdr(task, press.op, press.dir, terminal);
-                } else if (!(await herdrMove(task, press.dir))) {
-                  await askNvim(task, terminal, press.dir, "wrap", press.command);
-                }
+                // nvim has no window that way: let Herdr handle the edge once.
+                await toHerdr(task, press.op, press.dir, terminal);
               }
               // moved / passthrough: nvim handled it.
             }

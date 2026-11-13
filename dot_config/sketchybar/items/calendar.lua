@@ -15,7 +15,7 @@ local cal = sbar.add("item", {
 		padding_left = 8,
 		padding_right = 8,
 		width = "dynamic",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "Light" },
 	},
 	position = "right",
 	update_freq = settings.widgets.calendar.update_freq,

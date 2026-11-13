@@ -25,7 +25,7 @@ for id = 1, 9 do
 	local name = "aerospace.workspace." .. id
 	local item = sbar.add("item", name, {
 		position = "center",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "Light" },
 		icon = {
 			string = tostring(id),
 			padding_left = 7,

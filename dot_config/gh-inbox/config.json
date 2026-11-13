@@ -1,0 +1,58 @@
+{
+  "sections": [
+    {
+      "id": "mine",
+      "label": "Mine",
+      "icon": "pr",
+      "view": "mine",
+      "queries": ["author:@me"]
+    },
+    {
+      "id": "italy",
+      "label": "Targaryen",
+      "icon": "pr",
+      "view": "list",
+      "queries": ["author:fprod", "author:carlos-rivas-easor", "author:@me"]
+    },
+    {
+      "id": "all",
+      "label": "Monorepo",
+      "icon": "pr",
+      "view": "list",
+      "queries": ["repo:nomoapp/nomo-server-app"]
+    }
+  ],
+  "font": "Geist Mono",
+  "repositories": {
+    "nomoapp/nomo-server-app": "~/dev/nomo-server-app"
+  },
+  "colors": {
+    "background": "#0D1117",
+    "orange": "#FFA657"
+  },
+  "shortcuts": {
+    "nextPR": ["j"],
+    "previousPR": ["k"],
+    "previousTab": ["h", "[", "cmd-["],
+    "nextTab": ["l", "]", "cmd-g", "cmd-]"],
+    "openSelected": ["enter", "cmd-enter"],
+    "actions": ["K", "o"],
+    "cancel": ["escape"],
+    "fold": ["f"],
+    "refresh": ["cmd-r", "r"],
+    "copy": ["y"],
+    "diff": ["d"],
+    "merge": ["m"],
+    "approve": ["a"],
+    "ready": ["R"],
+    "assign": ["i"],
+    "labels": ["L"],
+    "openConfig": ["cmd-shift-o"],
+    "closeWindow": ["cmd-w"],
+    "nextOption": ["down"],
+    "previousOption": ["up"],
+    "toggleOption": ["space"],
+    "submitForm": ["enter"],
+    "submitApproval": ["cmd-enter"]
+  }
+}

@@ -12,6 +12,19 @@ vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
 vim.o.clipboard = "unnamedplus"
+-- local osc52 = require "vim.ui.clipboard.osc52"
+-- vim.g.clipboard = {
+--   name = "OSC 52 (copy only)",
+--   copy = {
+--     ["+"] = osc52.copy "+",
+--     ["*"] = osc52.copy "*",
+--   },
+--   paste = {
+--     ["+"] = function() return { {}, "v" } end,
+--     ["*"] = function() return { {}, "v" } end,
+--   },
+--   cache_enabled = true,
+-- }
 vim.o.incsearch = true
 vim.o.showmode = false
 vim.opt.cmdheight = 0

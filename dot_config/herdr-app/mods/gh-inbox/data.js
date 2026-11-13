@@ -147,6 +147,24 @@ export async function searchPrs(q) {
   return prs;
 }
 
+export async function listReviewers(pr) {
+  const result = await exec("gh", [
+    "api", `repos/${pr.repo}/collaborators?per_page=100`, "--paginate", "--jq", ".[].login",
+  ]);
+  if (result.code !== 0) throw new Error(result.stderr.trim() || `gh api exited ${result.code}`);
+  return [...new Set(result.stdout.split(/\n/).map((name) => name.trim()).filter(Boolean))]
+    .filter((name) => name !== pr.author);
+}
+
+export async function requestReviewers(pr, reviewers) {
+  if (!reviewers.length) return;
+  const result = await exec("gh", [
+    "api", "-X", "POST", `repos/${pr.repo}/pulls/${pr.number}/requested_reviewers`,
+    ...reviewers.flatMap((reviewer) => ["-f", `reviewers[]=${reviewer}`]),
+  ]);
+  if (result.code !== 0) throw new Error(result.stderr.trim() || `gh api exited ${result.code}`);
+}
+
 const STACK_CHECK = "stack-depth / Stack depth";
 
 // PostHog/posthog fails this check when a stack has too many open layers, which is about

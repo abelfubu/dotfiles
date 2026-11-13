@@ -7,14 +7,14 @@ local codex = sbar.add("item", "usage.codex", {
 	position = "right",
 	icon = {
 		string = "",
-		font = { family = brand_font, style = "Regular", size = settings.font_sizes.icon_large },
+		font = { family = brand_font, style = "Light", size = settings.font_sizes.icon_large },
 		color = colors.white,
 		padding_left = 4,
 		padding_right = 4,
 	},
 	label = {
 		string = "-- · --",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "light" },
 		padding_left = 0,
 	},
 	update_freq = 60,
@@ -24,14 +24,14 @@ local copilot = sbar.add("item", "usage.copilot", {
 	position = "right",
 	icon = {
 		string = "",
-		font = { family = brand_font, style = "Regular", size = settings.font_sizes.icon_large },
+		font = { family = brand_font, style = "Light", size = settings.font_sizes.icon_large },
 		color = colors.white,
 		padding_left = 7,
 		padding_right = 4,
 	},
 	label = {
 		string = "--",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "light" },
 		padding_left = 0,
 		padding_right = 0,
 	},
@@ -41,14 +41,14 @@ local kimi = sbar.add("item", "usage.kimi", {
 	position = "right",
 	icon = {
 		string = "",
-		font = { family = brand_font, style = "Regular", size = settings.font_sizes.icon_large },
+		font = { family = brand_font, style = "Light", size = settings.font_sizes.icon_large },
 		color = colors.white,
 		padding_left = 7,
 		padding_right = 4,
 	},
 	label = {
 		string = "--",
-		font = settings.label_font,
+		font = { family = settings.label_font, style = "light" },
 		padding_left = 0,
 		padding_right = 0,
 	},
@@ -75,7 +75,7 @@ local function add_usage_popup(parent, windows)
 			background = { height = 30 },
 			icon = {
 				string = window.icon .. "  " .. window.name,
-				font = { family = brand_font, style = "Regular", size = settings.font_sizes.label_compact },
+				font = { family = brand_font, style = "Light", size = settings.font_sizes.label_compact },
 				color = colors.white,
 				width = 100,
 				align = "left",
@@ -83,7 +83,7 @@ local function add_usage_popup(parent, windows)
 			},
 			label = {
 				string = "-- · reset unavailable",
-				font = settings.label_font,
+				font = { family = settings.label_font, style = "light" },
 				color = colors.grey,
 				padding_left = 8,
 				padding_right = 12,

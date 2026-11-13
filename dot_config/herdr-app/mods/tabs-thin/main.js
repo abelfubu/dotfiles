@@ -1,6 +1,6 @@
 import { View, div, svg, image } from "gpui-kit";
 import { h_flex } from "gpui-base";
-import { spaces, panes, focused, run, openOverlay, theme, window, shared, setShared, layout, settings, nextCommand } from "herdr";
+import { spaces, panes, run, openOverlay, theme, window, shared, layout, settings } from "herdr";
 
 function find(node, id) {
   if (node?.id === id) return node;
@@ -12,28 +12,9 @@ function find(node, id) {
 }
 
 export default class Tabs extends View {
-  init(_props, cx) {
+  init(_props, _cx) {
     this.pressed = null;
     this.panels = JSON.parse(localStorage.getItem("panels") ?? "{}");
-    cx.spawn(async (cx) => {
-      for (;;) {
-        const command = await nextCommand();
-        const id = command === "focus-files" ? "files" : command === "focus-changes" ? "changes" : null;
-        if (!id) continue;
-        const root = layout(), panel = find(root, "panel"), body = find(root, "panel-body");
-        if (panel && !panel.hidden && body?.active === id) {
-          const pane = focused()?.pane;
-          setShared("workspace.panelFocus", null);
-          run("layout.hide", { id: "panel" });
-          if (pane) run("pane.focus", { pane });
-        } else {
-          run("layout.select", { stack: "panel-body", child: id });
-          run("layout.show", { id: "panel" });
-          setShared("workspace.panelFocus", { id, at: Date.now() });
-        }
-        cx.notify();
-      }
-    });
   }
 
   // The side panel is remembered per space: switching shows that space's choice

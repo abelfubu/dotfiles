@@ -3,9 +3,10 @@
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { theme, run, props, openOverlay, nextCommand, notify, focused, exec, spaces } from "herdr";
+import { theme, run, props, openOverlay, nextCommand, notify, focused, exec, spaces, shared, setShared, readTextFile, appHome } from "herdr";
 import { TRUNK_REPO, TrunkUnavailable, login, searchPrs, stacks, queue, queueItem, testRun, enqueue, dequeue } from "./data.js";
 import { startPi } from "./pi.js";
+import { parseJsonc } from "./jsonc.js";
 
 const ICON = (name) => `mods/gh-inbox/icons/${name}.svg`;
 const GH_EVERY = 60000;
@@ -27,10 +28,11 @@ async function pool(items, size, fn) {
   return out;
 }
 
-const TABS = {
-  mine: { label: "Mine", icon: "pr" },
+const VIEWS = {
+  mine: { label: "Mine", icon: "pr", queries: ["author:@me"] },
+  review: { label: "Review", icon: "eye", queries: ["review-requested:@me -author:@me"] },
   queue: { label: "Queue", icon: "queue" },
-  review: { label: "Review", icon: "eye" },
+  list: { label: "Pull requests", icon: "pr" },
 };
 
 function ago(ms) {
@@ -69,11 +71,9 @@ function stackStep(pr, p) {
 export default class GhInbox extends View {
   init(_props, cx) {
     const allowed = props()?.tabs;
-    this.tabIds = Array.isArray(allowed) && allowed.length ? allowed.filter((id) => TABS[id]) : Object.keys(TABS);
-    this.queueEnabled = this.tabIds.includes("queue");
-    const saved = JSON.parse(localStorage.getItem("order") ?? "[]");
-    this.order = [...saved.filter((id) => this.tabIds.includes(id)), ...this.tabIds.filter((id) => !saved.includes(id))];
-    this.tab = this.order.includes(localStorage.getItem("tab")) ? localStorage.getItem("tab") : this.order[0];
+    this.sections = [];
+    this.sectionItems = new Map();
+    this.configureSections(null);
     this.folded = new Set(JSON.parse(localStorage.getItem("folded") ?? '["review:teams","queue:merged"]'));
     this.known = new Set(JSON.parse(localStorage.getItem("known") ?? "[]"));
     this.notifies = props()?.notify ?? !allowed;
@@ -88,20 +88,39 @@ export default class GhInbox extends View {
     this.errors = {};
     this.fails = { gh: 0, trunk: 0 };
     this.busy = { gh: false, trunk: false };
+    this.configLoaded = false;
     this.seen = null;
     this.width = 268;
     this.handle = cx.focus_handle();
+    this.focusId = `${Date.now()}-${Math.random()}`;
+    this.hasFocus = false;
     this.selectedKey = null;
     this.actionOpen = false;
     this.actionIndex = 0;
     this.returnPane = null;
 
+    // FocusHandle has no change event; only redraw when its state actually changes.
+    cx.timer.every(150, (cx) => {
+      const hasFocus = this.handle.is_focused();
+      if (hasFocus === this.hasFocus) return;
+      this.updateFocus(hasFocus);
+      cx.notify();
+    });
     cx.timer.every(GH_EVERY, (cx) => this.refreshGh(cx));
-    if (this.queueEnabled) {
-      cx.timer.every(TRUNK_EVERY, (cx) => this.refreshTrunk(cx));
-      this.refreshTrunk(cx);
-    }
-    this.refreshGh(cx);
+    cx.timer.every(TRUNK_EVERY, (cx) => this.refreshTrunk(cx));
+    cx.spawn(async (cx) => {
+      try {
+        const text = await readTextFile(`${appHome()}/mods/gh-inbox/config.jsonc`);
+        this.configureSections(parseJsonc(text));
+        delete this.errors.config;
+      } catch (e) {
+        this.errors.config = String(e?.message ?? e);
+      }
+      this.configLoaded = true;
+      this.refreshGh(cx);
+      if (this.queueEnabled) this.refreshTrunk(cx);
+      cx.notify();
+    });
 
     cx.spawn(async (cx) => {
       for (;;) {
@@ -112,6 +131,7 @@ export default class GhInbox extends View {
           this.returnPane = focused()?.pane ?? this.returnPane;
           this.ensureSelection();
           this.handle.focus();
+          this.updateFocus(true);
         } else if (c === "next") this.move(1, cx);
         else if (c === "prev") this.move(-1, cx);
         else if (c === "tab-next") this.moveTab(1, cx);
@@ -119,6 +139,8 @@ export default class GhInbox extends View {
         else if (c === "actions") this.showActions(cx);
         else if (c === "merge") this.runAction("github-merge", cx);
         else if (c === "labels") this.runAction("labels", cx);
+        else if (c === "reviewers") this.runAction("reviewers", cx);
+        else if (c === "ready") this.runAction("ready", cx);
         else if (c === "approve") this.runAction("approve", cx);
         else if (c === "copy-url") this.runAction("copy", cx);
         else if (c === "diff") this.diffSelected(cx);
@@ -130,24 +152,71 @@ export default class GhInbox extends View {
     });
   }
 
+  configureSections(config) {
+    const allowed = props()?.tabs;
+    const fallback = (Array.isArray(allowed) && allowed.length ? allowed.filter((id) => VIEWS[id] && id !== "list") : ["mine", "queue", "review"]);
+    const source = Array.isArray(config?.sections) && config.sections.length ? config.sections : fallback;
+    const used = new Set();
+    this.sections = source.map((entry) => typeof entry === "string" ? { id: entry, view: entry } : entry).filter((section) => {
+      const view = section?.view ?? (VIEWS[section?.id] && section.id !== "list" ? section.id : "list");
+      const queries = Array.isArray(section?.queries) ? section.queries : section?.query != null ? [section.query] : VIEWS[view]?.queries ?? [];
+      if (!section || !/^[a-z][a-z0-9-]*$/.test(section.id) || used.has(section.id) || !VIEWS[view]) return false;
+      if (view !== "queue" && !queries.some((q) => typeof q === "string" && q.trim())) return false;
+      used.add(section.id);
+      return true;
+    }).map((section) => {
+      const view = section.view ?? (VIEWS[section.id] && section.id !== "list" ? section.id : "list");
+      const queries = Array.isArray(section.queries) ? section.queries : section.query != null ? [section.query] : VIEWS[view].queries ?? [];
+      return {
+        id: section.id,
+        view,
+        label: typeof section.label === "string" && section.label.trim() ? section.label : view === "list" ? section.id : VIEWS[view].label,
+        icon: typeof section.icon === "string" ? section.icon : VIEWS[view].icon,
+        queries: queries.filter((q) => typeof q === "string" && q.trim()).map((q) => q.trim()),
+      };
+    });
+    this.tabs = Object.fromEntries(this.sections.map((section) => [section.id, section]));
+    this.sectionItems = new Map(this.sections.filter((section) => section.view !== "queue").map((section) => [section.id, this.sectionItems?.get(section.id) ?? null]));
+    this.tabIds = this.sections.map((section) => section.id);
+    this.queueEnabled = this.sections.some((section) => section.view === "queue");
+    const saved = JSON.parse(localStorage.getItem("order") ?? "[]");
+    this.order = [...saved.filter((id) => this.tabIds.includes(id)), ...this.tabIds.filter((id) => !saved.includes(id))];
+    this.tab = this.order.includes(localStorage.getItem("tab")) ? localStorage.getItem("tab") : this.order[0];
+  }
+
+  updateFocus(hasFocus) {
+    this.hasFocus = hasFocus;
+    if (hasFocus) setShared("gh-inbox.keyboard-focus", this.focusId);
+    else if (shared("gh-inbox.keyboard-focus") === this.focusId) setShared("gh-inbox.keyboard-focus", null);
+  }
+
+  async close(_cx) {
+    this.updateFocus(false);
+  }
+
   refreshAll(cx) {
     this.refreshGh(cx);
     if (this.queueEnabled) this.refreshTrunk(cx);
   }
 
   refreshGh(cx) {
-    if (this.busy.gh) return;
+    if (!this.configLoaded || this.busy.gh) return;
     this.busy.gh = true;
     cx.notify();
     cx.spawn(async (cx) => {
       try {
         this.me ??= await login();
-        const [mine, reviews] = await Promise.all([searchPrs("author:@me"), searchPrs("review-requested:@me -author:@me")]);
-        // GitHub search now and then answers with nothing and no error. An empty list
-        // replaces a full one only when the next refresh agrees.
-        this.mine = this.settle("mine", mine);
-        this.reviews = this.settle("reviews", reviews);
-        for (const p of mine) if (p.repo === TRUNK_REPO) this.known.add(p.number);
+        const sections = this.sections.filter((section) => section.view !== "queue");
+        const results = await Promise.all(sections.map(async (section) => {
+          const lists = await Promise.all(section.queries.map((query) => searchPrs(query)));
+          const unique = new Map();
+          for (const pr of lists.flat()) unique.set(pr.key, pr);
+          return [...unique.values()].sort((a, b) => b.updated - a.updated);
+        }));
+        sections.forEach((section, index) => this.sectionItems.set(section.id, results[index]));
+        this.mine = this.sectionItems.get(this.sections.find((section) => section.view === "mine")?.id) ?? null;
+        this.reviews = this.sectionItems.get(this.sections.find((section) => section.view === "review")?.id) ?? null;
+        for (const p of this.mine ?? []) if (p.repo === TRUNK_REPO) this.known.add(p.number);
         localStorage.setItem("known", JSON.stringify([...this.known].slice(-200)));
         delete this.errors.gh;
         this.fails.gh = 0;
@@ -163,19 +232,8 @@ export default class GhInbox extends View {
     });
   }
 
-  settle(kind, list) {
-    this.emptyOnce ??= {};
-    const had = this[kind]?.length > 0;
-    if (list.length || !had || this.emptyOnce[kind]) {
-      this.emptyOnce[kind] = false;
-      return list;
-    }
-    this.emptyOnce[kind] = true;
-    return this[kind];
-  }
-
   refreshTrunk(cx) {
-    if (this.busy.trunk) return;
+    if (!this.configLoaded || !this.queueEnabled || this.busy.trunk) return;
     this.busy.trunk = true;
     cx.notify();
     cx.spawn(async (cx) => {
@@ -190,7 +248,7 @@ export default class GhInbox extends View {
         const numbers = [...new Set([
           ...open.map((m) => m.number),
           ...this.queue.items.filter((i) => this.known.has(i.number) && i.state !== "Merged").map((i) => i.number),
-          ...(this.tab === "queue" ? this.queue.items.filter((i) => i.state === "Testing").map((i) => i.number) : []),
+          ...(this.tabs[this.tab]?.view === "queue" ? this.queue.items.filter((i) => i.state === "Testing").map((i) => i.number) : []),
         ])];
         const details = await pool(numbers, 4, (n) => queueItem(n));
         // A lookup that failed keeps the PR's last known state instead of dropping it from the queue.
@@ -346,7 +404,7 @@ export default class GhInbox extends View {
   }
 
   openInput(action, pr) {
-    openOverlay({ mod: "gh-inbox-input", kind: "dialog", width: 440, height: action === "labels" ? 480 : 240, props: { action, pr } });
+    openOverlay({ mod: "gh-inbox-input", kind: "dialog", width: 440, height: ["labels", "reviewers"].includes(action) ? 480 : 240, props: { action, pr } });
   }
 
   confirmGithubMerge(pr) {
@@ -407,15 +465,17 @@ export default class GhInbox extends View {
     this.selectedKey = null;
     this.actionOpen = false;
     localStorage.setItem("tab", id);
-    if (id === "queue" && was !== "queue") this.refreshTrunk(cx);
+    if (this.tabs[id]?.view === "queue" && this.tabs[was]?.view !== "queue") this.refreshTrunk(cx);
     cx.notify();
   }
 
   navigationItems() {
-    if (this.tab === "review") {
-      if (!this.reviews) return [];
-      const direct = this.reviews.filter((r) => r.requested.includes(this.me));
-      const teams = this.reviews.filter((r) => !r.requested.includes(this.me));
+    const prs = this.sectionItems.get(this.tab);
+    if (this.tabs[this.tab]?.view === "queue") return [];
+    if (this.tabs[this.tab]?.view === "review") {
+      if (!prs) return [];
+      const direct = prs.filter((r) => r.requested.includes(this.me));
+      const teams = prs.filter((r) => !r.requested.includes(this.me));
       const items = [];
       for (const [id, list] of [["review:you", direct], ["review:teams", teams]]) {
         if (this.folded.has(id)) continue;
@@ -423,9 +483,9 @@ export default class GhInbox extends View {
       }
       return items;
     }
-    if (this.tab !== "mine" || !this.mine) return [];
     const items = [];
-    const groups = stacks(this.mine);
+    if (!prs) return [];
+    const groups = stacks(prs);
     for (const group of [...groups].sort((a, b) => (a.members[0].pr.repo === TRUNK_REPO ? 0 : 1) - (b.members[0].pr.repo === TRUNK_REPO ? 0 : 1))) {
       if (group.members.length > 1) {
         if (this.folded.has(`stack:${group.id}`)) continue;
@@ -580,6 +640,10 @@ export default class GhInbox extends View {
       { id: "approve", icon: "approved", label: "Approve PR…", run: () => this.openInput("approve", pr) },
       { id: "github-merge", icon: "merged", label: "Merge PR", run: () => this.confirmGithubMerge(pr) },
       { id: "labels", icon: "tag", label: "Add labels…", run: () => this.openInput("labels", pr) },
+      { id: "reviewers", icon: "eye", label: "Add reviewers…", run: () => this.openInput("reviewers", pr) },
+      ...(pr.draft ? [{ id: "ready", icon: "rocket", label: "Ready for review", run: (cx) => cx.spawn(async (cx) => {
+        await this.github(cx, pr, ["pr", "ready", String(pr.number), "--repo", pr.repo], `Marked #${pr.number} ready for review`);
+      }) }] : []),
       { id: "assign", icon: "approved", label: "Assign me", run: (cx) => cx.spawn(async (cx) => {
         await this.github(cx, pr, ["pr", "edit", String(pr.number), "--repo", pr.repo, "--add-assignee", this.me ?? "@me"], `Assigned you to #${pr.number}`);
       }) },
@@ -630,8 +694,12 @@ export default class GhInbox extends View {
 
   counts() {
     const qMine = [...(this.mineQueue?.values() ?? [])].filter((i) => i.state !== "Merged").length;
-    const direct = (this.reviews ?? []).filter((r) => r.requested.includes(this.me)).length;
-    return { mine: this.mine?.length, queue: qMine || null, review: direct || this.reviews?.length };
+    const counts = {};
+    for (const section of this.sections) {
+      const prs = this.sectionItems.get(section.id);
+      counts[section.id] = section.view === "queue" ? qMine || null : section.view === "review" ? (prs ?? []).filter((r) => r.requested.includes(this.me)).length || prs?.length : prs?.length;
+    }
+    return counts;
   }
 
   // ---- drawing ----
@@ -663,7 +731,7 @@ export default class GhInbox extends View {
           .on_mouse_up("left", (_e, cx) => this.drop(id, cx))
           .on_click((_e, cx) => this.select(id, cx))
           .tooltip("Drag to reorder")
-          .child(TABS[id].label)
+          .child(this.tabs[id].label)
           .when(n != null, (el) => el.child(div().text_size(10.5).text_color(on ? t.muted : t.dim).child(String(n))));
       }))
       .child(div().flex_1())
@@ -718,7 +786,10 @@ export default class GhInbox extends View {
     const ci = c.fail ? { icon: "fail", color: p.bad, label: `${c.fail}` } : c.running ? { icon: "spinner", spin: true, color: p.run, label: `${c.pass}/${c.total}` } : c.total ? { icon: "check", color: p.ok, label: "" } : null;
     const meta = [];
     if (review) meta.push(div().text_color(t.dim).child(`${pr.author} · ${ago(Date.now() - pr.created)}`));
-    else meta.push(s.tip ? this.link(t, `ghi-step-${pr.key}`, this.chip(t, s), s.url, s.tip) : this.chip(t, s));
+    else {
+      meta.push(div().flex_none().text_color(t.dim).child(pr.author));
+      meta.push(s.tip ? this.link(t, `ghi-step-${pr.key}`, this.chip(t, s), s.url, s.tip) : this.chip(t, s));
+    }
     if (ci && (review || !["spinner", "fail", "check"].includes(s.icon))) meta.push(c.fail ? this.link(t, `ghi-ci-${pr.key}`, this.chip(t, ci), `${pr.url}/checks`, "Open the failing checks") : this.chip(t, ci));
     if (pr.approvedBy.length && s.icon !== "check") meta.push(this.chip(t, { icon: "approved", color: p.ok, label: String(pr.approvedBy.length) }));
     if (pr.unresolved) meta.push(this.chip(t, { icon: "comment", color: p.warn, label: String(pr.unresolved) }));
@@ -778,11 +849,13 @@ export default class GhInbox extends View {
   }
 
   mineView(t, cx) {
-    if (this.errors.gh && !this.mine) return [this.errorLine(t, `gh: ${this.errors.gh}`)];
-    if (!this.mine) return [this.empty(t, "Loading your pull requests...")];
-    if (!this.mine.length) return [this.empty(t, "No open pull requests.")];
+    const prs = this.sectionItems.get(this.tab);
+    const label = this.tabs[this.tab]?.view === "mine" ? "your" : this.tabs[this.tab].label;
+    if (this.errors.gh && !prs) return [this.errorLine(t, `gh: ${this.errors.gh}`)];
+    if (!prs) return [this.empty(t, `Loading ${label} pull requests...`)];
+    if (!prs.length) return [this.empty(t, "No open pull requests.")];
     const rows = [];
-    const groups = stacks(this.mine);
+    const groups = stacks(prs);
     const p = palette(t);
     let repo = null;
     for (const g of [...groups].sort((a, b) => (a.members[0].pr.repo === TRUNK_REPO ? 0 : 1) - (b.members[0].pr.repo === TRUNK_REPO ? 0 : 1))) {
@@ -895,11 +968,12 @@ export default class GhInbox extends View {
   }
 
   reviewView(t, cx) {
-    if (this.errors.gh && !this.reviews) return [this.errorLine(t, `gh: ${this.errors.gh}`)];
-    if (!this.reviews) return [this.empty(t, "Loading review requests...")];
-    if (!this.reviews.length) return [this.empty(t, "Nothing is waiting on your review.")];
-    const direct = this.reviews.filter((r) => r.requested.includes(this.me));
-    const teams = this.reviews.filter((r) => !r.requested.includes(this.me));
+    const prs = this.sectionItems.get(this.tab);
+    if (this.errors.gh && !prs) return [this.errorLine(t, `gh: ${this.errors.gh}`)];
+    if (!prs) return [this.empty(t, "Loading review requests...")];
+    if (!prs.length) return [this.empty(t, "Nothing is waiting on your review.")];
+    const direct = prs.filter((r) => r.requested.includes(this.me));
+    const teams = prs.filter((r) => !r.requested.includes(this.me));
     const rows = [];
     for (const [id, label, list] of [["review:you", "Requested from you", direct], ["review:teams", "Your teams", teams]]) {
       if (!list.length) continue;
@@ -912,25 +986,28 @@ export default class GhInbox extends View {
   // The sidebar's rail: each tab as an icon and its count.
   rail(t, cx) {
     const counts = this.counts();
-    return v_flex().size_full().bg(t.chrome).border_t(1).border_color(t.border).items_center().pt(10).gap(8)
+    return v_flex().size_full().bg(t.chrome).items_center().pt(10).gap(8)
       .children(this.order.map((id) => v_flex().id(`ghi-rail-${id}`).items_center().gap(1).cursor_pointer()
         .text_color(id === this.tab ? t.foreground : t.dim).hover((s) => s.text_color(t.foreground))
         .on_click((_e, cx) => this.select(id, cx))
-        .tooltip(TABS[id].label)
-        .child(svg(ICON(TABS[id].icon)).size(15))
+        .tooltip(this.tabs[id].label)
+        .child(svg(ICON(this.tabs[id].icon)).size(15))
         .child(div().text_size(10).child(counts[id] != null ? String(counts[id]) : ""))));
   }
 
   render(cx) {
     const t = theme();
-    const root = (el) => el.id("ghi-root").track_focus(this.handle).on_size_change((size, cx) => {
-      if (Math.abs(size.width - this.width) < 1) return;
-      this.width = size.width;
-      cx.notify();
-    });
+    const root = (el) => el.id("ghi-root").track_focus(this.handle)
+      .border(1).border_color(this.hasFocus ? t.accent : t.border)
+      .on_size_change((size, cx) => {
+        if (Math.abs(size.width - this.width) < 1) return;
+        this.width = size.width;
+        cx.notify();
+      });
     if (this.width < 160) return root(this.rail(t, cx));
-    const body = this.actionOpen ? this.actionView(t, cx) : this.tab === "queue" ? this.queueView(t, cx) : this.tab === "review" ? this.reviewView(t, cx) : this.mineView(t, cx);
-    return root(v_flex().size_full().min_h(0).bg(t.chrome).border_t(1).border_color(t.border).text_size(13)
+    const view = this.tabs[this.tab]?.view;
+    const body = this.actionOpen ? this.actionView(t, cx) : view === "queue" ? this.queueView(t, cx) : view === "review" ? this.reviewView(t, cx) : this.mineView(t, cx);
+    return root(v_flex().size_full().min_h(0).bg(t.chrome).text_size(13)
       .on_mouse_up("left", () => { this.dragging = null; })
       .child(this.tabStrip(t, cx))
       .child(v_flex().id("ghi-list").flex_1().min_h(0).px(8).pb(8).overflow_y_scrollbar().children(body)));
