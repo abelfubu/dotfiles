@@ -1,6 +1,13 @@
 local M = {}
 
 -- Register a floating pane launcher. command defaults to name and is resolved on the shell's PATH.
+---@param actions table
+function M.setup(actions)
+	for _, action in ipairs(actions) do
+		M.register(action)
+	end
+end
+
 function M.register(tool)
 	rex.action({
 		name = tool.name,
@@ -22,6 +29,18 @@ function M.register(tool)
 				error(placement_err or (tool.name .. ": invoking pane is not in a window"), 0)
 			end
 
+			local command = {
+				"/bin/sh",
+				"-c",
+				[[cd "$1" && shift && exec "$@"]],
+				tool.name,
+				cwd,
+			}
+
+			for _, x in ipairs(tool.command) do
+				table.insert(command, x)
+			end
+
 			local layer, err = rex.session.new_layer({
 				window_id = window_id,
 				bounds = tool.bounds or { 0, 0, 1, 1 },
@@ -32,14 +51,7 @@ function M.register(tool)
 					options = {
 						cwd = cwd,
 						theme = { background = "#1e1e2e" },
-						command = {
-							"/bin/sh",
-							"-c",
-							[[cd "$1" && exec "$2"]],
-							tool.name,
-							cwd,
-							tool.command or tool.name,
-						},
+						command = command,
 					},
 				}),
 			})
