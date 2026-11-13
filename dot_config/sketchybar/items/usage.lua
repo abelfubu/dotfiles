@@ -14,7 +14,7 @@ local codex = sbar.add("item", "usage.codex", {
 	},
 	label = {
 		string = "-- · --",
-		font = { family = settings.label_font, style = "light" },
+		font = settings.label_font,
 		padding_left = 0,
 	},
 	update_freq = 60,
@@ -31,7 +31,7 @@ local copilot = sbar.add("item", "usage.copilot", {
 	},
 	label = {
 		string = "--",
-		font = { family = settings.label_font, style = "light" },
+		font = settings.label_font,
 		padding_left = 0,
 		padding_right = 0,
 	},
@@ -48,7 +48,7 @@ local kimi = sbar.add("item", "usage.kimi", {
 	},
 	label = {
 		string = "--",
-		font = { family = settings.label_font, style = "light" },
+		font = settings.label_font,
 		padding_left = 0,
 		padding_right = 0,
 	},

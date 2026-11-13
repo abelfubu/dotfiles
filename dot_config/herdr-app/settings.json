@@ -5,9 +5,10 @@
     "done": "sounds/Tink.aiff",
     "blocked": "sounds/Tink.aiff"
   },
+  "font": "Geist Mono",
   "font_size": 14.0,
   "font_ligatures": true,
-  "ui_font": "JetBrains Mono",
+  "ui_font": "Geist Mono",
   "minimum_contrast": 1.0,
   "theme": {
     "light": "paper",

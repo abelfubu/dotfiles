@@ -9,11 +9,11 @@ local ui = {
 }
 
 local sizes = {
-	icon = 13.0,
-	icon_medium = 14.0,
-	icon_large = 16.0,
+	icon = 12.0,
+	icon_medium = 13.0,
+	icon_large = 15.0,
 	label = 14.0,
-	label_compact = 13.0,
+	label_compact = 12.0,
 	label_small = 10.0,
 	app = 14.0,
 }
@@ -66,7 +66,7 @@ return {
 	font = font,
 	label_font = {
 		family = font.text,
-		style = font.style_map["Bold"],
+		style = "Light",
 		size = sizes.label_compact,
 	},
 	binaries = {
