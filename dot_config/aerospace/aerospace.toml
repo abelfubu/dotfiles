@@ -8,13 +8,13 @@ exec-on-workspace-change = [
   '/usr/bin/env PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
 ]
 
-# after-startup-command = [
-#   'exec-and-forget borders active_color=0xffffcb6b inactive_color=0x00ffcb6b width=2.5',
-# ]
+after-startup-command = [
+  'exec-and-forget borders active_color=0xff2F81F7 inactive_color=0xff23272D width=5',
+]
 
 [gaps]
-inner.horizontal = [{ monitor."Built-in" = 8 }, 40]
-inner.vertical = [{ monitor."Built-in" = 8 }, 40]
+inner.horizontal = [{ monitor."Built-in" = 8 }, 32]
+inner.vertical = [{ monitor."Built-in" = 8 }, 32]
 outer.left = [{ monitor."Built-in" = 8 }, 64]
 outer.bottom = [{ monitor."Built-in" = 8 }, 40]
 outer.top = [{ monitor."Built-in" = 8 }, 64]
@@ -82,7 +82,7 @@ backspace = ['close-all-windows-but-current', 'mode main']
 s = ['exec-and-forget screencapture -ic', 'mode main']
 v = ['exec-and-forget screencapture -iU "/tmp/screencapture.mov"', 'mode main']
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-#s = ['layout sticky tiling', 'mode main']
+# t = ['layout sticky tiling', 'mode main']
 
 h = ['join-with left', 'mode main']
 j = ['join-with down', 'mode main']
@@ -96,7 +96,7 @@ h = 'resize width -50'
 j = 'resize height +50'
 k = 'resize height -50'
 l = 'resize width +50'
-shift-h = 'resize width -750'
-shift-l = 'resize width +750'
+shift-h = ['resize width -750', 'mode main']
+shift-l = ['resize width +750', 'mode main']
 enter = 'mode main'
 esc = 'mode main'

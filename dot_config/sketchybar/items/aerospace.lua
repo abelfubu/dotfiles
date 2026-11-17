@@ -12,7 +12,7 @@ local function set_focused_workspace(focused)
 	for id, item in pairs(workspaces) do
 		local selected = tostring(id) == focused
 		item:set({
-			icon = { color = selected and colors.tokyonight_bg or colors.grey },
+			icon = { color = selected and colors.tokyonight_bg or colors.white },
 			background = {
 				drawing = true,
 				color = selected and colors.white or colors.transparent,
