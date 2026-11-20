@@ -56,7 +56,6 @@ return {
     priority = 1000,
     config = function()
       require("moksha").setup { palette = "auto" }
-      -- vim.cmd "colorscheme moksha"
     end,
   },
   {

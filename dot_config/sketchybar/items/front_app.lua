@@ -5,7 +5,7 @@ local front_app = sbar.add("item", "front_app", {
 	icon = { drawing = false },
 	label = {
 		font = {
-			family = settings.font.icons,
+			family = settings.font.text,
 			style = "Bold",
 			size = settings.font_sizes.label_compact,
 		},

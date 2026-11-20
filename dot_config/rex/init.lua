@@ -20,6 +20,8 @@ for _, mod in pairs({
 	end
 end
 
+rex.bind("cmd+z", "pane.zoom")
+
 -- >>> md-viewer: Cmd-F binding (managed by md-viewer setup; edits are replaced) >>>
 local function md_viewer_pane(block)
 	if block == nil then

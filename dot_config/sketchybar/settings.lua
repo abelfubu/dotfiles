@@ -14,8 +14,7 @@ local sizes = {
 	icon_large = 15.0,
 	label = 15.0,
 	label_compact = 13.0,
-	label_small = 10.0,
-	app = 14.0,
+	tiny = 10.0,
 }
 
 local widgets = {
@@ -60,8 +59,6 @@ return {
 
 	paddings = 3,
 	group_padding = 3,
-
-	icons = "NerdFont",
 
 	font = font,
 	label_font = {

@@ -35,6 +35,25 @@ local function map()
   end
 end
 
+-- Resize splits: Ctrl+Shift+{h,j,k,l} (requires kitty keyboard protocol / GUI).
+local function map_resize()
+  local deltas = { h = "<", j = "-", k = "+", l = ">" }
+  for key, delta in pairs(deltas) do
+    vim.keymap.set("n", "<C-S-" .. key .. ">", function()
+      vim.cmd { cmd = "wincmd", args = { delta }, count = vim.v.count1 }
+    end, { silent = true, desc = "Resize pane " .. key })
+  end
+end
+
+if vim.v.vim_did_enter == 1 then
+  map_resize()
+else
+  vim.api.nvim_create_autocmd(
+    "VimEnter",
+    { once = true, callback = map_resize }
+  )
+end
+
 if vim.v.vim_did_enter == 1 then
   map()
 else
