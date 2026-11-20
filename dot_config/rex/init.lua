@@ -1,6 +1,5 @@
 for _, mod in pairs({
 	{ "nvim" },
-	{ "copy_mode" },
 	{ "resize" },
 	{
 		"terminal-actions",
